@@ -36,7 +36,10 @@ export default function PartnerLogin() {
 
     const { error: err } = await supabase.auth.signInWithOtp({
       email: email.toLowerCase().trim(),
-      options: { shouldCreateUser: true },
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: "https://nexassist.vercel.app/partners/login",
+      },
     });
 
     if (err) {

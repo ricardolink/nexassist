@@ -39,7 +39,7 @@ export default function AuthModal({ onClose, onSuccess, mode = "client", partner
       email: email.toLowerCase().trim(),
       options: {
         shouldCreateUser: !partnerOnly,
-        emailRedirectTo: undefined,
+        emailRedirectTo: "https://nexassist.vercel.app",
       },
     });
 
