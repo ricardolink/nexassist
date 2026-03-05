@@ -120,6 +120,7 @@ function RequestModal({
   const [description, setDescription] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const isLoggedIn = () => {
@@ -204,28 +205,61 @@ function RequestModal({
 
             {/* Contact info (if not logged in) */}
             {!isLoggedIn() && (
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="flex-1">
-                  <p className="text-white/40 text-[10px] tracking-[0.25em] uppercase mb-2">Your name</p>
-                  <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="First name"
-                    required
-                    className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/40 rounded-sm px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none transition-colors"
-                  />
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex-1">
+                    <p className="text-white/40 text-[10px] tracking-[0.25em] uppercase mb-2">Your name</p>
+                    <input
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="First name"
+                      required
+                      className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/40 rounded-sm px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none transition-colors"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-white/40 text-[10px] tracking-[0.25em] uppercase mb-2">Email</p>
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@email.com"
+                      required
+                      className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/40 rounded-sm px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none transition-colors"
+                    />
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <p className="text-white/40 text-[10px] tracking-[0.25em] uppercase mb-2">Email</p>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@email.com"
-                    required
-                    className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/40 rounded-sm px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none transition-colors"
-                  />
+                <div>
+                  <p className="text-white/40 text-[10px] tracking-[0.25em] uppercase mb-2">Phone number</p>
+                  <div className="flex gap-0 border border-white/10 focus-within:border-[#C9A962]/40 rounded-sm overflow-hidden transition-colors">
+                    {/* Area code prefix */}
+                    <div className="flex items-center gap-1.5 px-3.5 border-r border-white/10 bg-white/2 shrink-0">
+                      <span className="text-white/30 text-sm">🇺🇸</span>
+                      <span className="text-white/40 text-sm font-medium">+1</span>
+                    </div>
+                    <input
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => {
+                        // Keep only digits, max 10
+                        const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+                        // Format as (XXX) XXX-XXXX
+                        let formatted = digits;
+                        if (digits.length >= 7) {
+                          formatted = `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+                        } else if (digits.length >= 4) {
+                          formatted = `(${digits.slice(0,3)}) ${digits.slice(3)}`;
+                        } else if (digits.length >= 1) {
+                          formatted = `(${digits}`;
+                        }
+                        setPhone(formatted);
+                      }}
+                      placeholder="(310) 000-0000"
+                      required
+                      className="flex-1 bg-transparent px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none"
+                    />
+                  </div>
                 </div>
               </div>
             )}
