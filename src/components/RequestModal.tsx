@@ -1,8 +1,10 @@
 "use client";
 import { useState, useRef } from "react";
 import PhoneInput from "@/components/PhoneInput";
+import AuthModal from "@/components/AuthModal";
 import { countries, defaultCountry, type Country } from "@/lib/countries";
 import { saveRequest, updateRequest, type SavedRequest } from "@/lib/requests";
+import { supabase } from "@/lib/supabase";
 
 const serviceTypes = [
   "Exotic Cars", "Private Jets", "Luxury Villas", "Superyachts",
@@ -37,6 +39,8 @@ export default function RequestModal({
       : defaultCountry
   );
   const [submitting, setSubmitting] = useState(false);
+  const [showAuth, setShowAuth] = useState(false);
+  const [pendingSubmit, setPendingSubmit] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
@@ -61,10 +65,8 @@ export default function RequestModal({
     return !!localStorage.getItem("nexassist_session");
   };
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  async function persistRequest(authedEmail?: string) {
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 800));
     const payload = {
       serviceType: selected,
       description,
@@ -72,23 +74,77 @@ export default function RequestModal({
       city,
       budget,
       photoPreview,
-      name,
-      email,
+      name: name || authedEmail?.split("@")[0] || "",
+      email: email || authedEmail || "",
       phone,
       countryDial: country.dial,
       countryFlag: country.flag,
       countryCode: country.code,
     };
+
+    // Save to localStorage
     if (editId) {
       updateRequest(editId, { ...payload, status: "pending" });
     } else {
       saveRequest(payload);
     }
+
+    // Also save to Supabase if user is logged in
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session) {
+      const dbPayload = {
+        user_id: session.user.id,
+        service_type: selected,
+        description,
+        date_needed: dateNeeded,
+        city,
+        budget,
+        phone,
+        country_dial: country.dial,
+        country_flag: country.flag,
+        client_name: payload.name,
+        client_email: payload.email,
+        status: "pending",
+      };
+      if (editId) {
+        // Try to find matching Supabase record by description+email and update
+        await supabase.from("requests").upsert(dbPayload);
+      } else {
+        await supabase.from("requests").insert(dbPayload);
+      }
+    }
+
     setSubmitting(false);
     onSuccess();
   }
 
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    // Check if logged in
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      // Show auth modal, then submit after login
+      setPendingSubmit(true);
+      setShowAuth(true);
+      return;
+    }
+    await persistRequest(session.user.email);
+  }
+
   return (
+    <>
+    {showAuth && (
+      <AuthModal
+        onClose={() => { setShowAuth(false); setPendingSubmit(false); }}
+        onSuccess={async (authedEmail) => {
+          setShowAuth(false);
+          if (pendingSubmit) {
+            setPendingSubmit(false);
+            await persistRequest(authedEmail);
+          }
+        }}
+      />
+    )}
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center">
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
 
@@ -275,5 +331,6 @@ export default function RequestModal({
         </div>
       </div>
     </div>
+  </>
   );
 }
