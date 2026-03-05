@@ -5,6 +5,8 @@ import Navbar from "@/components/Navbar";
 import RequestModal from "@/components/RequestModal";
 import {
   getRequests,
+  cancelRequest,
+  deleteRequest,
   formatDate,
   statusLabel,
   statusColor,
@@ -17,6 +19,7 @@ const FILTERS: { label: string; value: RequestStatus | "all" }[] = [
   { label: "Pending", value: "pending" },
   { label: "In Progress", value: "in-progress" },
   { label: "Completed", value: "completed" },
+  { label: "Cancelled", value: "cancelled" },
 ];
 
 // ── Share helpers ──────────────────────────────────────────
@@ -41,10 +44,12 @@ async function shareRequest(r: SavedRequest) {
 }
 
 // ── Detail Modal ───────────────────────────────────────────
-function DetailModal({ req, onClose, onRequestAgain }: {
+function DetailModal({ req, onClose, onRequestAgain, onEdit, onCancel }: {
   req: SavedRequest;
   onClose: () => void;
   onRequestAgain: () => void;
+  onEdit: () => void;
+  onCancel: () => void;
 }) {
   return (
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center">
@@ -100,16 +105,20 @@ function DetailModal({ req, onClose, onRequestAgain }: {
 
           {/* Actions */}
           <div className="flex flex-col gap-2.5">
-            <button
-              onClick={onRequestAgain}
-              className="btn-gold w-full py-3.5 rounded-sm text-[#080d18] text-[11px] tracking-[0.15em] uppercase font-bold"
-            >
+            <button onClick={onRequestAgain} className="btn-gold w-full py-3.5 rounded-sm text-[#080d18] text-[11px] tracking-[0.15em] uppercase font-bold">
               Request Again →
             </button>
-            <button
-              onClick={onClose}
-              className="w-full py-3 rounded-sm text-[11px] border border-white/10 text-white/35 hover:text-white/55 hover:border-white/20 transition-all tracking-[0.15em] uppercase"
-            >
+            {(req.status === "pending" || req.status === "in-progress") && (
+              <button onClick={onEdit} className="w-full py-3 rounded-sm text-[11px] border border-[#C9A962]/25 text-[#C9A962]/70 hover:border-[#C9A962]/50 hover:text-[#C9A962] transition-all tracking-[0.15em] uppercase">
+                Edit Request
+              </button>
+            )}
+            {(req.status === "pending" || req.status === "in-progress") && (
+              <button onClick={onCancel} className="w-full py-3 rounded-sm text-[11px] border border-red-500/20 text-red-400/50 hover:border-red-500/40 hover:text-red-400/80 transition-all tracking-[0.15em] uppercase">
+                Cancel Request
+              </button>
+            )}
+            <button onClick={onClose} className="w-full py-3 rounded-sm text-[11px] border border-white/8 text-white/25 hover:text-white/45 hover:border-white/15 transition-all tracking-[0.15em] uppercase">
               Close
             </button>
           </div>
@@ -119,11 +128,43 @@ function DetailModal({ req, onClose, onRequestAgain }: {
   );
 }
 
+// ── Confirm Cancel Modal ───────────────────────────────────
+function ConfirmCancelModal({ onConfirm, onClose }: { onConfirm: () => void; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center">
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative w-full sm:max-w-sm bg-[#080d18] border border-white/12 sm:rounded-sm overflow-hidden animate-slide-up shadow-[0_-20px_60px_rgba(0,0,0,0.7)]">
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-red-500/40 to-transparent" />
+        <div className="px-6 py-7 text-center">
+          <div className="inline-flex w-12 h-12 rounded-full border border-red-500/25 bg-red-500/8 items-center justify-center mb-4">
+            <svg className="w-5 h-5 text-red-400/70" viewBox="0 0 20 20" fill="none">
+              <path d="M10 6v4M10 14h.01" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.3" />
+            </svg>
+          </div>
+          <h3 className="font-playfair text-lg font-bold text-white mb-2">Cancel this request?</h3>
+          <p className="text-white/35 text-sm mb-7 max-w-xs mx-auto">This will mark the request as cancelled. You can still view it in your history.</p>
+          <div className="flex gap-2.5">
+            <button onClick={onClose} className="flex-1 py-3 rounded-sm text-[11px] border border-white/10 text-white/40 hover:text-white/60 hover:border-white/20 transition-all tracking-[0.15em] uppercase">
+              Keep it
+            </button>
+            <button onClick={onConfirm} className="flex-1 py-3 rounded-sm text-[11px] bg-red-500/15 border border-red-500/30 text-red-400 hover:bg-red-500/22 hover:border-red-500/50 transition-all tracking-[0.15em] uppercase font-medium">
+              Yes, cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ── Request Card ───────────────────────────────────────────
-function RequestCard({ req, onRequestAgain, onView }: {
+function RequestCard({ req, onRequestAgain, onView, onEdit, onCancel }: {
   req: SavedRequest;
   onRequestAgain: (r: SavedRequest) => void;
   onView: (r: SavedRequest) => void;
+  onEdit: (r: SavedRequest) => void;
+  onCancel: (r: SavedRequest) => void;
 }) {
   const [shareMsg, setShareMsg] = useState("");
 
@@ -211,39 +252,56 @@ function RequestCard({ req, onRequestAgain, onView }: {
         {/* Divider */}
         <div className="h-px bg-white/5 mb-4" />
 
-        {/* Actions */}
-        <div className="grid grid-cols-3 gap-2">
-          <button
-            onClick={() => onView(req)}
-            className="flex flex-col items-center gap-1.5 py-2.5 rounded-sm border border-white/8 hover:border-[#C9A962]/30 hover:bg-[#C9A962]/4 transition-all group/btn"
-          >
-            <svg className="w-4 h-4 text-white/35 group-hover/btn:text-[#C9A962]/70 transition-colors" viewBox="0 0 16 16" fill="none">
-              <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.2" />
-              <path d="M8 7v4M8 5.5v.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-            </svg>
-            <span className="text-white/30 group-hover/btn:text-white/55 text-[9px] tracking-[0.15em] uppercase transition-colors">Details</span>
-          </button>
+        {/* Actions — 2×2 grid + share full-width */}
+        <div className="flex flex-col gap-1.5">
+          <div className="grid grid-cols-2 gap-1.5">
+            {/* Details */}
+            <button onClick={() => onView(req)} className="flex items-center justify-center gap-1.5 py-2.5 rounded-sm border border-white/8 hover:border-[#C9A962]/30 hover:bg-[#C9A962]/4 transition-all group/btn">
+              <svg className="w-3.5 h-3.5 text-white/30 group-hover/btn:text-[#C9A962]/70 transition-colors" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.2" />
+                <path d="M8 7v4M8 5.5v.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              </svg>
+              <span className="text-white/30 group-hover/btn:text-white/55 text-[9px] tracking-[0.15em] uppercase transition-colors">Details</span>
+            </button>
 
-          <button
-            onClick={() => onRequestAgain(req)}
-            className="flex flex-col items-center gap-1.5 py-2.5 rounded-sm border border-white/8 hover:border-[#C9A962]/40 hover:bg-[#C9A962]/6 transition-all group/btn"
-          >
-            <svg className="w-4 h-4 text-white/35 group-hover/btn:text-[#C9A962]/70 transition-colors" viewBox="0 0 16 16" fill="none">
-              <path d="M13.5 8A5.5 5.5 0 1 1 8 2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-              <path d="M9 2h4v4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <span className="text-white/30 group-hover/btn:text-white/55 text-[9px] tracking-[0.15em] uppercase transition-colors">Again</span>
-          </button>
+            {/* Request again */}
+            <button onClick={() => onRequestAgain(req)} className="flex items-center justify-center gap-1.5 py-2.5 rounded-sm border border-white/8 hover:border-[#C9A962]/40 hover:bg-[#C9A962]/6 transition-all group/btn">
+              <svg className="w-3.5 h-3.5 text-white/30 group-hover/btn:text-[#C9A962]/70 transition-colors" viewBox="0 0 16 16" fill="none">
+                <path d="M13.5 8A5.5 5.5 0 1 1 8 2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                <path d="M9 2h4v4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span className="text-white/30 group-hover/btn:text-white/55 text-[9px] tracking-[0.15em] uppercase transition-colors">Again</span>
+            </button>
 
-          <button
-            onClick={handleShare}
-            className="flex flex-col items-center gap-1.5 py-2.5 rounded-sm border border-white/8 hover:border-[#C9A962]/40 hover:bg-[#C9A962]/6 transition-all group/btn relative"
-          >
+            {/* Edit — only if not cancelled/completed */}
+            {(req.status === "pending" || req.status === "in-progress") && (
+              <button onClick={() => onEdit(req)} className="flex items-center justify-center gap-1.5 py-2.5 rounded-sm border border-white/8 hover:border-[#C9A962]/40 hover:bg-[#C9A962]/6 transition-all group/btn">
+                <svg className="w-3.5 h-3.5 text-white/30 group-hover/btn:text-[#C9A962]/70 transition-colors" viewBox="0 0 16 16" fill="none">
+                  <path d="M11.5 2.5l2 2L5 13H3v-2L11.5 2.5z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                </svg>
+                <span className="text-white/30 group-hover/btn:text-white/55 text-[9px] tracking-[0.15em] uppercase transition-colors">Edit</span>
+              </button>
+            )}
+
+            {/* Cancel — only if not already cancelled/completed */}
+            {(req.status === "pending" || req.status === "in-progress") && (
+              <button onClick={() => onCancel(req)} className="flex items-center justify-center gap-1.5 py-2.5 rounded-sm border border-white/8 hover:border-red-500/30 hover:bg-red-500/5 transition-all group/btn">
+                <svg className="w-3.5 h-3.5 text-white/25 group-hover/btn:text-red-400/70 transition-colors" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.2" />
+                  <path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                </svg>
+                <span className="text-white/25 group-hover/btn:text-red-400/70 text-[9px] tracking-[0.15em] uppercase transition-colors">Cancel</span>
+              </button>
+            )}
+          </div>
+
+          {/* Share — full width */}
+          <button onClick={handleShare} className="flex items-center justify-center gap-1.5 py-2.5 rounded-sm border border-white/8 hover:border-[#C9A962]/40 hover:bg-[#C9A962]/6 transition-all group/btn relative w-full">
             {shareMsg ? (
-              <span className="text-[#C9A962] text-[9px] tracking-[0.15em] uppercase font-medium absolute inset-0 flex items-center justify-center">{shareMsg}</span>
+              <span className="text-[#C9A962] text-[9px] tracking-[0.15em] uppercase font-medium">{shareMsg}</span>
             ) : (
               <>
-                <svg className="w-4 h-4 text-white/35 group-hover/btn:text-[#C9A962]/70 transition-colors" viewBox="0 0 16 16" fill="none">
+                <svg className="w-3.5 h-3.5 text-white/30 group-hover/btn:text-[#C9A962]/70 transition-colors" viewBox="0 0 16 16" fill="none">
                   <circle cx="13" cy="3" r="1.8" stroke="currentColor" strokeWidth="1.1" />
                   <circle cx="13" cy="13" r="1.8" stroke="currentColor" strokeWidth="1.1" />
                   <circle cx="3" cy="8" r="1.8" stroke="currentColor" strokeWidth="1.1" />
@@ -361,7 +419,9 @@ export default function MyRequests() {
   const [shareReq, setShareReq] = useState<SavedRequest | null>(null);
   const [showRequest, setShowRequest] = useState(false);
   const [prefill, setPrefill] = useState<Partial<SavedRequest> | undefined>(undefined);
+  const [editId, setEditId] = useState<string | undefined>(undefined);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [confirmCancel, setConfirmCancel] = useState<SavedRequest | null>(null);
 
   useEffect(() => {
     setRequests(getRequests());
@@ -369,13 +429,34 @@ export default function MyRequests() {
 
   function handleRequestAgain(r: SavedRequest) {
     setPrefill(r);
+    setEditId(undefined);
     setDetail(null);
     setShowRequest(true);
   }
 
+  function handleEdit(r: SavedRequest) {
+    setPrefill(r);
+    setEditId(r.id);
+    setDetail(null);
+    setShowRequest(true);
+  }
+
+  function handleCancelConfirm(r: SavedRequest) {
+    setConfirmCancel(r);
+    setDetail(null);
+  }
+
+  function doCancel() {
+    if (!confirmCancel) return;
+    cancelRequest(confirmCancel.id);
+    setConfirmCancel(null);
+    setRequests(getRequests());
+  }
+
   function handleSuccess() {
     setShowRequest(false);
-    setShowSuccess(true);
+    setEditId(undefined);
+    setShowSuccess(editId === undefined); // only show success popup for new requests
     setRequests(getRequests());
   }
 
@@ -470,6 +551,8 @@ export default function MyRequests() {
                 req={req}
                 onView={setDetail}
                 onRequestAgain={handleRequestAgain}
+                onEdit={handleEdit}
+                onCancel={handleCancelConfirm}
               />
             ))}
           </div>
@@ -491,16 +574,25 @@ export default function MyRequests() {
           req={detail}
           onClose={() => setDetail(null)}
           onRequestAgain={() => handleRequestAgain(detail)}
+          onEdit={() => handleEdit(detail)}
+          onCancel={() => handleCancelConfirm(detail)}
         />
       )}
       {shareReq && (
         <SharePanel req={shareReq} onClose={() => setShareReq(null)} />
       )}
+      {confirmCancel && (
+        <ConfirmCancelModal
+          onConfirm={doCancel}
+          onClose={() => setConfirmCancel(null)}
+        />
+      )}
       {showRequest && (
         <RequestModal
-          onClose={() => setShowRequest(false)}
+          onClose={() => { setShowRequest(false); setEditId(undefined); }}
           onSuccess={handleSuccess}
           prefill={prefill}
+          editId={editId}
         />
       )}
       {showSuccess && (

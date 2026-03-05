@@ -1,4 +1,4 @@
-export type RequestStatus = "pending" | "in-progress" | "completed";
+export type RequestStatus = "pending" | "in-progress" | "completed" | "cancelled";
 
 export interface SavedRequest {
   id: string;
@@ -41,8 +41,25 @@ export function saveRequest(req: Omit<SavedRequest, "id" | "status" | "submitted
   return full;
 }
 
+export function updateRequest(id: string, updates: Partial<Omit<SavedRequest, "id" | "submittedAt">>): void {
+  const all = getRequests();
+  const idx = all.findIndex((r) => r.id === id);
+  if (idx === -1) return;
+  all[idx] = { ...all[idx], ...updates };
+  localStorage.setItem(KEY, JSON.stringify(all));
+}
+
+export function cancelRequest(id: string): void {
+  updateRequest(id, { status: "cancelled" });
+}
+
+export function deleteRequest(id: string): void {
+  const all = getRequests().filter((r) => r.id !== id);
+  localStorage.setItem(KEY, JSON.stringify(all));
+}
+
 export function statusLabel(s: RequestStatus) {
-  return { pending: "Pending", "in-progress": "In Progress", completed: "Completed" }[s];
+  return { pending: "Pending", "in-progress": "In Progress", completed: "Completed", cancelled: "Cancelled" }[s];
 }
 
 export function statusColor(s: RequestStatus) {
@@ -50,6 +67,7 @@ export function statusColor(s: RequestStatus) {
     pending: "text-[#C9A962] border-[#C9A962]/40 bg-[#C9A962]/8",
     "in-progress": "text-sky-400 border-sky-400/40 bg-sky-400/8",
     completed: "text-emerald-400 border-emerald-400/40 bg-emerald-400/8",
+    cancelled: "text-white/30 border-white/15 bg-white/4",
   }[s];
 }
 

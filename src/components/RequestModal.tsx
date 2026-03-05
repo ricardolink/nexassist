@@ -2,7 +2,7 @@
 import { useState, useRef } from "react";
 import PhoneInput from "@/components/PhoneInput";
 import { countries, defaultCountry, type Country } from "@/lib/countries";
-import { saveRequest, type SavedRequest } from "@/lib/requests";
+import { saveRequest, updateRequest, type SavedRequest } from "@/lib/requests";
 
 const serviceTypes = [
   "Exotic Cars", "Private Jets", "Luxury Villas", "Superyachts",
@@ -14,10 +14,12 @@ export default function RequestModal({
   onClose,
   onSuccess,
   prefill,
+  editId,
 }: {
   onClose: () => void;
   onSuccess: () => void;
   prefill?: Partial<SavedRequest>;
+  editId?: string; // if set, we're editing an existing request
 }) {
   const [selected, setSelected] = useState(prefill?.serviceType ?? "");
   const [description, setDescription] = useState(prefill?.description ?? "");
@@ -63,7 +65,7 @@ export default function RequestModal({
     e.preventDefault();
     setSubmitting(true);
     await new Promise((r) => setTimeout(r, 800));
-    saveRequest({
+    const payload = {
       serviceType: selected,
       description,
       dateNeeded,
@@ -76,7 +78,12 @@ export default function RequestModal({
       countryDial: country.dial,
       countryFlag: country.flag,
       countryCode: country.code,
-    });
+    };
+    if (editId) {
+      updateRequest(editId, { ...payload, status: "pending" });
+    } else {
+      saveRequest(payload);
+    }
     setSubmitting(false);
     onSuccess();
   }
@@ -92,10 +99,15 @@ export default function RequestModal({
           {/* Header */}
           <div className="flex items-start justify-between mb-7">
             <div>
-              <p className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase mb-1.5">Your Personal Assistant</p>
+              <p className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase mb-1.5">
+                {editId ? "Edit Request" : "Your Personal Assistant"}
+              </p>
               <h2 className="font-playfair text-2xl sm:text-3xl font-bold text-white">
-                What can we arrange<br />
-                <span className="text-gold-gradient">for you?</span>
+                {editId ? (
+                  <>Update your<br /><span className="text-gold-gradient">request.</span></>
+                ) : (
+                  <>What can we arrange<br /><span className="text-gold-gradient">for you?</span></>
+                )}
               </h2>
             </div>
             <button onClick={onClose} className="text-white/30 hover:text-white transition-colors ml-4 mt-1 text-xl leading-none" aria-label="Close">
@@ -249,6 +261,8 @@ export default function RequestModal({
                   <span className="w-3.5 h-3.5 rounded-full border border-[#080d18]/40 border-t-[#080d18] animate-spin" />
                   Sending to your assistant...
                 </span>
+              ) : editId ? (
+                "Save Changes →"
               ) : (
                 "Submit My Request →"
               )}
