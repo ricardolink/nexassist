@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-export default function Navbar() {
+export default function Navbar({ onRequestClick }: { onRequestClick?: () => void }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -76,12 +76,12 @@ export default function Navbar() {
             >
               Sign In
             </Link>
-            <Link
-              href="/dashboard"
+            <button
+              onClick={onRequestClick}
               className="btn-gold px-5 py-2.5 rounded-sm text-[10px] tracking-[0.12em] uppercase"
             >
               Submit Request
-            </Link>
+            </button>
           </div>
         </div>
 
@@ -131,13 +131,12 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
-          <Link
-            href="/dashboard"
-            className="btn-gold px-6 py-3.5 rounded-sm text-center text-[10px] tracking-[0.15em] uppercase"
-            onClick={() => setOpen(false)}
+          <button
+            onClick={() => { setOpen(false); onRequestClick?.(); }}
+            className="btn-gold px-6 py-3.5 rounded-sm text-center text-[10px] tracking-[0.15em] uppercase w-full"
           >
             Submit Request
-          </Link>
+          </button>
         </div>
       </div>
     </nav>

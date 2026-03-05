@@ -537,7 +537,7 @@ export default function Home() {
 
   return (
     <div className="bg-[#080d18] text-white min-h-screen overflow-x-hidden">
-      <Navbar />
+      <Navbar onRequestClick={openRequest} />
 
       {/* ─────────── HERO ─────────── */}
       <section className="relative min-h-screen flex flex-col justify-center px-5 sm:px-8 pt-24 pb-16 overflow-hidden">
