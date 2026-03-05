@@ -14,6 +14,13 @@ const inter = Inter({
   display: "swap",
 });
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
+};
+
 export const metadata: Metadata = {
   title: "NexAssist | Your Personal Luxury Concierge",
   description:
@@ -48,8 +55,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
-      <body className="bg-[#0A1628] text-white font-inter antialiased">
+    <html lang="en" className={`${playfair.variable} ${inter.variable}`} style={{ scrollBehavior: "auto" }}>
+      <body className="bg-[#080d18] text-white font-inter antialiased overflow-x-hidden">
         {children}
       </body>
     </html>

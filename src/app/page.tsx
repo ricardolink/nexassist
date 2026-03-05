@@ -511,6 +511,8 @@ export default function Home() {
   const accessSection = useInView(0.15);
 
   useEffect(() => {
+    // Always start at top — prevents mobile browser scroll restoration mid-page
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
     const timer = setTimeout(() => setLineWidth(100), 400);
     return () => clearTimeout(timer);
   }, []);
@@ -540,7 +542,7 @@ export default function Home() {
       <Navbar onRequestClick={openRequest} />
 
       {/* ─────────── HERO ─────────── */}
-      <section className="relative min-h-screen flex flex-col justify-center px-5 sm:px-8 pt-24 pb-16 overflow-hidden">
+      <section className="relative min-h-[100dvh] flex flex-col justify-center px-5 sm:px-8 pt-20 sm:pt-24 pb-10 sm:pb-16 overflow-hidden">
         {/* Ambient glows */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] sm:w-[900px] h-[500px] rounded-full bg-[#C9A962]/6 blur-[130px]" />
@@ -557,59 +559,62 @@ export default function Home() {
 
         <div className="relative z-10 max-w-4xl mx-auto w-full">
           {/* Eyebrow */}
-          <div className="flex items-center gap-3 mb-8 sm:mb-10 fade-up">
-            <div className="w-8 h-px bg-[#C9A962]/60" />
-            <span className="text-[#C9A962]/75 text-[9px] tracking-[0.45em] uppercase font-medium">
+          <div className="flex items-center gap-3 mb-5 sm:mb-8 fade-up">
+            <div className="w-6 h-px bg-[#C9A962]/60" />
+            <span className="text-[#C9A962]/75 text-[9px] tracking-[0.4em] uppercase font-medium">
               Exclusively Yours · 24/7
             </span>
           </div>
 
           {/* Headline */}
-          <h1 className="font-playfair font-bold leading-[1.04] mb-6 fade-up-delay-1">
-            <span className="block text-white/85 text-[11px] sm:text-sm tracking-[0.35em] uppercase font-light mb-3">
+          <h1 className="font-playfair font-bold leading-[1.04] mb-4 sm:mb-6 fade-up-delay-1">
+            <span className="block text-white/70 text-[10px] sm:text-sm tracking-[0.3em] uppercase font-light mb-2">
               For the first time,
             </span>
-            <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white">
+            <span className="block text-[2.4rem] xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white">
               the world is yours
             </span>
-            <span className="block text-4xl sm:text-6xl md:text-7xl lg:text-8xl shimmer-gold">
+            <span className="block text-[2.4rem] xs:text-4xl sm:text-6xl md:text-7xl lg:text-8xl shimmer-gold">
               to command.
             </span>
           </h1>
 
           {/* Sub */}
-          <p className="text-white/40 text-sm sm:text-base md:text-lg max-w-xl leading-relaxed mb-10 fade-up-delay-2">
-            Meet your personal assistant — always on call, exclusively for you.
-            Exotic cars, private jets, luxury villas, superyachts, designer pieces, Michelin tables.
-            Whatever you need. Whenever you need it.
+          <p className="text-white/40 text-[13px] sm:text-base md:text-lg max-w-xl leading-relaxed mb-7 sm:mb-10 fade-up-delay-2">
+            Your personal assistant — always on call, exclusively yours.
+            Exotic cars, private jets, villas, yachts, designer pieces &amp; more.
+            Whatever you need, whenever you need it.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 fade-up-delay-3">
+          <div className="flex flex-col xs:flex-row gap-2.5 sm:gap-4 fade-up-delay-3">
             <button
               onClick={openRequest}
-              className="btn-gold inline-flex items-center justify-center gap-3 px-8 py-4 rounded-sm text-[#080d18] text-[11px] tracking-[0.15em] uppercase font-bold"
+              className="btn-gold inline-flex items-center justify-center gap-2 px-7 py-3.5 sm:py-4 rounded-sm text-[#080d18] text-[11px] tracking-[0.15em] uppercase font-bold"
             >
-              Submit Your Request
-              <span className="ml-1">→</span>
+              Submit Your Request →
             </button>
-            <Link
+            <a
               href="#services"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-sm text-[11px] border border-white/12 text-white/45 hover:border-[#C9A962]/35 hover:text-white/70 transition-all tracking-[0.15em] uppercase"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("services")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 sm:py-4 rounded-sm text-[11px] border border-white/12 text-white/45 hover:border-[#C9A962]/35 hover:text-white/70 transition-all tracking-[0.15em] uppercase cursor-pointer"
             >
               Explore Services
-            </Link>
+            </a>
           </div>
 
           {/* Social proof */}
-          <div className="mt-12 sm:mt-14 flex items-center gap-5 fade-up-delay-3">
+          <div className="mt-8 sm:mt-12 flex items-center gap-4 fade-up-delay-3">
             <div className="flex -space-x-2">
               {["A", "B", "C", "D"].map((n) => (
                 <div
                   key={n}
-                  className="w-7 h-7 rounded-full bg-gradient-to-br from-[#C9A962]/30 to-[#C9A962]/10 border border-[#C9A962]/25 flex items-center justify-center"
+                  className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-[#C9A962]/30 to-[#C9A962]/10 border border-[#C9A962]/25 flex items-center justify-center"
                 >
-                  <span className="text-[#C9A962] text-[8px] font-bold">{n}</span>
+                  <span className="text-[#C9A962] text-[7px] sm:text-[8px] font-bold">{n}</span>
                 </div>
               ))}
             </div>
