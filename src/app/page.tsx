@@ -576,7 +576,7 @@ export default function Home() {
             </p>
           </div>
           <Link
-            href="/partner/onboarding"
+            href="/partners/apply"
             className="shrink-0 border border-[#C9A962]/30 text-[#C9A962]/70 hover:text-[#C9A962] hover:border-[#C9A962]/60 px-8 py-3.5 rounded-sm text-[10px] tracking-[0.15em] uppercase transition-all duration-300"
           >
             Apply as a Partner →

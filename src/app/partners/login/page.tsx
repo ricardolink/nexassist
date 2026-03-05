@@ -3,13 +3,19 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
+type EmailStep = "email" | "checking" | "code";
+type GateState = "ok" | "pending" | "rejected" | "not_found";
+
 export default function PartnerLogin() {
-  const [step, setStep] = useState<"email" | "code">("email");
+  const [step, setStep] = useState<EmailStep>("email");
+  const [gate, setGate] = useState<GateState>("ok");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [checking, setChecking] = useState(true);
+  // Application data, used to populate profile on first login
+  const [appData, setAppData] = useState<{ company: string } | null>(null);
 
   // Redirect if already logged in as partner
   useEffect(() => {
@@ -29,13 +35,43 @@ export default function PartnerLogin() {
     });
   }, []);
 
-  async function sendCode(e: React.FormEvent) {
+  // Step 1: Check if email is approved, then send OTP
+  async function handleEmailSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-    setLoading(true);
+    setStep("checking");
 
+    const normalEmail = email.toLowerCase().trim();
+
+    // Check partner_applications table
+    const { data: app } = await supabase
+      .from("partner_applications")
+      .select("status, company")
+      .eq("email", normalEmail)
+      .maybeSingle();
+
+    if (!app) {
+      setGate("not_found");
+      setStep("email");
+      return;
+    }
+
+    if (app.status === "pending") {
+      setGate("pending");
+      setStep("email");
+      return;
+    }
+
+    if (app.status === "rejected") {
+      setGate("rejected");
+      setStep("email");
+      return;
+    }
+
+    // status === "approved" → send OTP
+    setAppData({ company: app.company });
     const { error: err } = await supabase.auth.signInWithOtp({
-      email: email.toLowerCase().trim(),
+      email: normalEmail,
       options: {
         shouldCreateUser: true,
         emailRedirectTo: "https://nexassist.vercel.app/partners/login",
@@ -44,13 +80,15 @@ export default function PartnerLogin() {
 
     if (err) {
       setError(err.message);
+      setStep("email");
     } else {
+      setGate("ok");
       setStep("code");
     }
-    setLoading(false);
   }
 
-  async function verifyCode(e: React.FormEvent) {
+  // Step 2: Verify OTP code
+  async function handleCodeSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     setLoading(true);
@@ -67,13 +105,14 @@ export default function PartnerLogin() {
       return;
     }
 
-    // Upsert profile as partner
+    // Upsert profile as partner with company from application
     await supabase.from("profiles").upsert(
       {
         id: data.user!.id,
         email: data.user!.email!,
         name: data.user!.email!.split("@")[0],
         role: "partner",
+        company_name: appData?.company || null,
       },
       { onConflict: "id" }
     );
@@ -117,9 +156,9 @@ export default function PartnerLogin() {
           <div className="h-px w-full bg-gradient-to-r from-transparent via-[#C9A962]/60 to-transparent" />
 
           <div className="px-7 py-9">
-            {step === "email" ? (
+            {/* ── EMAIL STEP ── */}
+            {(step === "email" || step === "checking") && (
               <>
-                {/* Icon */}
                 <div className="flex justify-center mb-7">
                   <div className="w-14 h-14 rounded-full border border-[#C9A962]/25 bg-[#C9A962]/6 flex items-center justify-center">
                     <svg className="w-6 h-6 text-[#C9A962]/60" viewBox="0 0 24 24" fill="none">
@@ -130,25 +169,19 @@ export default function PartnerLogin() {
                   </div>
                 </div>
 
-                <p className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase text-center mb-2">
-                  Partner Login
-                </p>
-                <h1 className="font-playfair text-2xl font-bold text-white text-center mb-2">
-                  Welcome back.
-                </h1>
+                <p className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase text-center mb-2">Partner Login</p>
+                <h1 className="font-playfair text-2xl font-bold text-white text-center mb-2">Welcome back.</h1>
                 <p className="text-white/30 text-sm text-center mb-8 leading-relaxed">
-                  Enter your partner email to receive a confirmation code.
+                  Enter the email you used when you applied.
                 </p>
 
-                <form onSubmit={sendCode} className="flex flex-col gap-4">
+                <form onSubmit={handleEmailSubmit} className="flex flex-col gap-4">
                   <div>
-                    <label className="text-white/35 text-[9px] tracking-[0.3em] uppercase block mb-2">
-                      Partner email
-                    </label>
+                    <label className="text-white/35 text-[9px] tracking-[0.3em] uppercase block mb-2">Partner email</label>
                     <input
                       type="email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      onChange={(e) => { setEmail(e.target.value); setGate("ok"); setError(""); }}
                       placeholder="your@company.com"
                       required
                       autoFocus
@@ -156,56 +189,81 @@ export default function PartnerLogin() {
                     />
                   </div>
 
+                  {/* Gate messages */}
+                  {gate === "not_found" && (
+                    <div className="bg-amber-500/6 border border-amber-500/20 rounded-sm px-3 py-3">
+                      <p className="text-amber-400/80 text-xs leading-relaxed mb-2">
+                        No partner application found for this email.
+                      </p>
+                      <Link href="/partners/apply" className="text-[#C9A962]/70 hover:text-[#C9A962] text-xs underline underline-offset-2 transition-colors">
+                        Apply to become a partner →
+                      </Link>
+                    </div>
+                  )}
+                  {gate === "pending" && (
+                    <div className="bg-amber-500/6 border border-amber-500/20 rounded-sm px-3 py-3">
+                      <div className="flex items-center gap-2 mb-1">
+                        <svg className="w-3.5 h-3.5 text-amber-400/70 shrink-0" viewBox="0 0 14 14" fill="none">
+                          <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.2"/>
+                          <path d="M7 4v3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                          <circle cx="7" cy="10" r="0.5" fill="currentColor"/>
+                        </svg>
+                        <p className="text-amber-400/80 text-xs font-medium">Application under review</p>
+                      </div>
+                      <p className="text-white/30 text-[11px] leading-relaxed pl-5">
+                        Your application is still being reviewed. We'll contact you at this email within 48 hours once approved.
+                      </p>
+                    </div>
+                  )}
+                  {gate === "rejected" && (
+                    <div className="bg-red-500/6 border border-red-500/20 rounded-sm px-3 py-3">
+                      <p className="text-red-400/75 text-xs leading-relaxed">
+                        Unfortunately your application was not approved. If you think this is a mistake, please contact us.
+                      </p>
+                    </div>
+                  )}
                   {error && (
                     <div className="flex items-start gap-2 bg-red-500/8 border border-red-500/20 rounded-sm px-3 py-2.5">
-                      <svg className="w-3.5 h-3.5 text-red-400/70 mt-0.5 shrink-0" viewBox="0 0 14 14" fill="none">
-                        <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.2" />
-                        <path d="M7 4.5v3M7 9.5v.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-                      </svg>
                       <p className="text-red-400/80 text-xs leading-relaxed">{error}</p>
                     </div>
                   )}
 
                   <button
                     type="submit"
-                    disabled={loading || !email}
+                    disabled={step === "checking" || !email || gate === "rejected"}
                     className="btn-gold w-full py-4 rounded-sm text-[#080d18] text-xs tracking-[0.15em] uppercase font-bold disabled:opacity-40 mt-1"
                   >
-                    {loading ? (
+                    {step === "checking" ? (
                       <span className="flex items-center justify-center gap-2">
                         <span className="w-3.5 h-3.5 rounded-full border border-[#080d18]/50 border-t-[#080d18] animate-spin" />
-                        Sending code...
+                        Checking...
                       </span>
-                    ) : (
-                      "Send Confirmation Code →"
-                    )}
+                    ) : "Continue →"}
                   </button>
                 </form>
               </>
-            ) : (
+            )}
+
+            {/* ── CODE STEP ── */}
+            {step === "code" && (
               <>
-                {/* Email icon */}
                 <div className="flex justify-center mb-7">
                   <div className="w-14 h-14 rounded-full border border-[#C9A962]/25 bg-[#C9A962]/6 flex items-center justify-center relative">
                     <div className="absolute inset-0 rounded-full bg-[#C9A962]/6 animate-ping-slow" />
-                    <svg className="w-6 h-6 text-[#C9A962]/60" viewBox="0 0 24 24" fill="none">
+                    <svg className="w-6 h-6 text-[#C9A962]/60 relative" viewBox="0 0 24 24" fill="none">
                       <path d="M3 8l7.89 5.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
                     </svg>
                   </div>
                 </div>
 
-                <p className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase text-center mb-2">
-                  Check your inbox
-                </p>
-                <h1 className="font-playfair text-2xl font-bold text-white text-center mb-2">
-                  Enter the code
-                </h1>
+                <p className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase text-center mb-2">Check your inbox</p>
+                <h1 className="font-playfair text-2xl font-bold text-white text-center mb-2">Enter the code</h1>
                 <p className="text-white/30 text-sm text-center mb-7 leading-relaxed">
                   We sent a 6-digit code to<br />
                   <span className="text-white/55">{email}</span>
                 </p>
 
-                <form onSubmit={verifyCode} className="flex flex-col gap-4">
+                <form onSubmit={handleCodeSubmit} className="flex flex-col gap-4">
                   <input
                     type="text"
                     inputMode="numeric"
@@ -221,10 +279,6 @@ export default function PartnerLogin() {
 
                   {error && (
                     <div className="flex items-start gap-2 bg-red-500/8 border border-red-500/20 rounded-sm px-3 py-2.5">
-                      <svg className="w-3.5 h-3.5 text-red-400/70 mt-0.5 shrink-0" viewBox="0 0 14 14" fill="none">
-                        <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.2" />
-                        <path d="M7 4.5v3M7 9.5v.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
-                      </svg>
                       <p className="text-red-400/80 text-xs leading-relaxed">{error}</p>
                     </div>
                   )}
@@ -239,9 +293,7 @@ export default function PartnerLogin() {
                         <span className="w-3.5 h-3.5 rounded-full border border-[#080d18]/50 border-t-[#080d18] animate-spin" />
                         Verifying...
                       </span>
-                    ) : (
-                      "Confirm & Enter Dashboard →"
-                    )}
+                    ) : "Confirm & Enter Dashboard →"}
                   </button>
 
                   <button
@@ -257,10 +309,9 @@ export default function PartnerLogin() {
           </div>
         </div>
 
-        {/* Bottom link */}
         <p className="mt-6 text-white/20 text-xs text-center">
           Not a partner yet?{" "}
-          <Link href="/partner/onboarding" className="text-[#C9A962]/45 hover:text-[#C9A962] transition-colors">
+          <Link href="/partners/apply" className="text-[#C9A962]/45 hover:text-[#C9A962] transition-colors">
             Apply here →
           </Link>
         </p>
