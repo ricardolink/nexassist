@@ -67,6 +67,7 @@ export default function Navbar({ onRequestClick }: { onRequestClick?: () => void
           <div className="flex items-center gap-7 text-[10px] tracking-[0.2em] uppercase text-white/50">
             <Link href="#services" className="hover:text-[#C9A962] transition-colors">Services</Link>
             <Link href="#how-it-works" className="hover:text-[#C9A962] transition-colors">How It Works</Link>
+            <Link href="/my-requests" className="hover:text-[#C9A962] transition-colors">My Requests</Link>
             <Link href="/partner" className="hover:text-[#C9A962] transition-colors">Partners</Link>
           </div>
           <div className="flex items-center gap-4 ml-2">
@@ -119,6 +120,7 @@ export default function Navbar({ onRequestClick }: { onRequestClick?: () => void
           {[
             { href: "#services", label: "Services" },
             { href: "#how-it-works", label: "How It Works" },
+            { href: "/my-requests", label: "My Requests" },
             { href: "/partner", label: "Partners" },
             { href: "/login", label: "Sign In" },
           ].map(({ href, label }) => (
