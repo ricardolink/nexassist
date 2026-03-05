@@ -120,11 +120,34 @@ function RequestModal({
 }) {
   const [selected, setSelected] = useState("");
   const [description, setDescription] = useState("");
+  const [dateNeeded, setDateNeeded] = useState("");
+  const [city, setCity] = useState("");
+  const [budget, setBudget] = useState("");
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState<Country>(defaultCountry);
   const [submitting, setSubmitting] = useState(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
+
+  function handlePhotoFile(file: File | null) {
+    if (!file) return;
+    setPhoto(file);
+    const reader = new FileReader();
+    reader.onload = (e) => setPhotoPreview(e.target?.result as string);
+    reader.readAsDataURL(file);
+  }
+
+  function removePhoto() {
+    setPhoto(null);
+    setPhotoPreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    if (cameraInputRef.current) cameraInputRef.current.value = "";
+  }
 
   const isLoggedIn = () => {
     if (typeof window === "undefined") return false;
@@ -204,6 +227,129 @@ function RequestModal({
                 rows={3}
                 className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/40 rounded-sm px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none resize-none transition-colors"
               />
+            </div>
+
+            {/* Date · City · Budget row */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {/* Date needed */}
+              <div>
+                <p className="text-white/40 text-[10px] tracking-[0.25em] uppercase mb-2">Date needed</p>
+                <input
+                  type="date"
+                  value={dateNeeded}
+                  onChange={(e) => setDateNeeded(e.target.value)}
+                  min={new Date().toISOString().split("T")[0]}
+                  className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/40 rounded-sm px-4 py-3 text-sm text-white/80 focus:outline-none transition-colors appearance-none [color-scheme:dark]"
+                />
+              </div>
+
+              {/* City */}
+              <div>
+                <p className="text-white/40 text-[10px] tracking-[0.25em] uppercase mb-2">City</p>
+                <input
+                  type="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="Beverly Hills"
+                  className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/40 rounded-sm px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none transition-colors"
+                />
+              </div>
+
+              {/* Budget */}
+              <div>
+                <p className="text-white/40 text-[10px] tracking-[0.25em] uppercase mb-2">Your budget</p>
+                <div className="flex border border-white/10 focus-within:border-[#C9A962]/40 rounded-sm overflow-hidden transition-colors">
+                  <span className="flex items-center px-3 border-r border-white/10 bg-white/2 text-white/35 text-sm font-medium">
+                    $
+                  </span>
+                  <input
+                    type="text"
+                    value={budget}
+                    onChange={(e) => {
+                      // Allow digits, commas, dots
+                      const cleaned = e.target.value.replace(/[^0-9.,]/g, "");
+                      setBudget(cleaned);
+                    }}
+                    placeholder="25,000"
+                    className="flex-1 bg-transparent px-3 py-3 text-sm text-white placeholder-white/22 focus:outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Photo upload — optional */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-white/40 text-[10px] tracking-[0.25em] uppercase">
+                  Reference photo
+                </p>
+                <span className="text-white/22 text-[9px] tracking-wider uppercase">Optional</span>
+              </div>
+
+              {photoPreview ? (
+                /* Preview */
+                <div className="relative rounded-sm overflow-hidden border border-[#C9A962]/20 group">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={photoPreview}
+                    alt="Preview"
+                    className="w-full h-36 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <button
+                      type="button"
+                      onClick={removePhoto}
+                      className="bg-[#080d18]/90 border border-white/20 text-white/70 hover:text-white text-xs tracking-widest uppercase px-4 py-2 rounded-sm transition-colors"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                  <div className="absolute bottom-2 right-2 bg-[#080d18]/80 border border-[#C9A962]/20 text-[#C9A962] text-[9px] tracking-wider uppercase px-2 py-1 rounded-sm">
+                    {photo?.name?.slice(0, 20) ?? "Photo"}
+                  </div>
+                </div>
+              ) : (
+                /* Upload zone */
+                <div className="grid grid-cols-2 gap-2">
+                  {/* Upload from gallery */}
+                  <label className="flex flex-col items-center justify-center gap-2 border border-dashed border-white/12 hover:border-[#C9A962]/35 rounded-sm py-5 cursor-pointer transition-all group">
+                    <svg className="w-5 h-5 text-white/25 group-hover:text-[#C9A962]/60 transition-colors" viewBox="0 0 24 24" fill="none">
+                      <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.4"/>
+                      <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="1.4"/>
+                      <path d="M21 15L16 10L5 21" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    <span className="text-white/30 group-hover:text-white/55 text-[10px] tracking-[0.15em] uppercase transition-colors">
+                      Upload photo
+                    </span>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handlePhotoFile(e.target.files?.[0] ?? null)}
+                    />
+                  </label>
+
+                  {/* Take a photo (camera) */}
+                  <label className="flex flex-col items-center justify-center gap-2 border border-dashed border-white/12 hover:border-[#C9A962]/35 rounded-sm py-5 cursor-pointer transition-all group">
+                    <svg className="w-5 h-5 text-white/25 group-hover:text-[#C9A962]/60 transition-colors" viewBox="0 0 24 24" fill="none">
+                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+                      <circle cx="12" cy="13" r="4" stroke="currentColor" strokeWidth="1.4"/>
+                    </svg>
+                    <span className="text-white/30 group-hover:text-white/55 text-[10px] tracking-[0.15em] uppercase transition-colors">
+                      Take photo
+                    </span>
+                    <input
+                      ref={cameraInputRef}
+                      type="file"
+                      accept="image/*"
+                      capture="environment"
+                      className="hidden"
+                      onChange={(e) => handlePhotoFile(e.target.files?.[0] ?? null)}
+                    />
+                  </label>
+                </div>
+              )}
             </div>
 
             {/* Contact info (if not logged in) */}
