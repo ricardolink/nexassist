@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #080d18; font-family: 'Georgia', serif; }
+
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,169,98,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,169,98,0.05) 1px, transparent 1px);
+    background-size: 90px 90px;
+  }
+
+  .glow {
+    position: absolute;
+    width: 900px; height: 900px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(201,169,98,0.08) 0%, transparent 60%);
+  }
+
+  .diamond-bg {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 640px; height: 640px;
+  }
+
+  .wrap {
+    position: relative; z-index: 2;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 80px;
+    text-align: center;
+  }
+
+  .logo-wrap { margin-bottom: 44px; }
+  .logo-wrap svg { width: 80px; height: 80px; }
+
+  .eyebrow {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.65em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.5);
+    margin-bottom: 32px;
+  }
+
+  .headline {
+    font-size: 80px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 28px;
+  }
+
+  .headline .gold { color: #C9A962; }
+
+  .sub {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 60px;
+    letter-spacing: 0.03em;
+  }
+
+  .cta-button {
+    background: #C9A962;
+    color: #080d18;
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    padding: 22px 64px;
+    margin-bottom: 28px;
+  }
+
+  .cta-sub {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+    margin-bottom: 64px;
+  }
+
+  .divider { width: 64px; height: 1px; background: rgba(201,169,98,0.25); margin: 0 auto 32px; }
+
+  .stats {
+    display: flex; gap: 64px;
+  }
+
+  .stat { text-align: center; }
+
+  .stat-num {
+    font-size: 36px;
+    font-weight: 700;
+    color: #C9A962;
+    letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="glow"></div>
+<div class="wrap">
+  <div class="logo-wrap">
+    <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="0.9" stroke-opacity="0.85"/>
+      <polygon points="18,7 31,18 18,29 5,18" stroke="#C9A962" stroke-width="0.45" stroke-opacity="0.3"/>
+      <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"/>
+    </svg>
+  </div>
+  <div class="eyebrow">Your personal luxury concierge</div>
+  <div class="headline">Send one<br><span class="gold">message.</span></div>
+  <div class="sub">Describe what you need. We'll handle everything — sourcing, verifying, arranging. You just show up and enjoy. No membership. No fees. No stress.</div>
+  <div class="cta-button">Try NexAssist Free</div>
+  <div class="cta-sub">usenexassist.com · Available 24/7</div>
+  <div class="divider"></div>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">To join</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Available</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">&lt;2h</div>
+      <div class="stat-label">Avg response</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #080d18; font-family: 'Georgia', serif; }
+
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,169,98,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,169,98,0.05) 1px, transparent 1px);
+    background-size: 90px 90px;
+  }
+
+  .glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(201,169,98,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .wrap {
+    position: relative; z-index: 2;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 80px;
+  }
+
+  .logo-wrap {
+    margin-bottom: 52px;
+  }
+
+  svg.logo { width: 96px; height: 96px; }
+
+  .eyebrow {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.55em;
+    color: rgba(201,169,98,0.6);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+
+  .headline {
+    font-size: 88px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    text-align: center;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+
+  .headline .gold { color: #C9A962; }
+
+  .sub {
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+    color: rgba(255,255,255,0.35);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 32px;
+  }
+
+  .divider {
+    width: 64px; height: 1px;
+    background: rgba(201,169,98,0.35);
+    margin: 36px auto;
+  }
+
+  .services {
+    display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin-top: 8px;
+  }
+
+  .service-pill {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    border: 1px solid rgba(201,169,98,0.2);
+    padding: 8px 20px;
+    border-radius: 2px;
+  }
+
+  .domain {
+    position: absolute;
+    bottom: 52px;
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.35em;
+    color: rgba(201,169,98,0.4);
+    text-transform: lowercase;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="glow"></div>
+<div class="wrap">
+  <div class="logo-wrap">
+    <svg class="logo" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="0.9" stroke-opacity="0.85"/>
+      <polygon points="18,7 31,18 18,29 5,18" stroke="#C9A962" stroke-width="0.45" stroke-opacity="0.3"/>
+      <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"/>
+    </svg>
+  </div>
+  <div class="eyebrow">Introducing</div>
+  <div class="headline">Luxury,<br><span class="gold">on demand.</span></div>
+  <div class="sub">Private Jets · Exotic Cars · Yachts · Villas</div>
+  <div class="divider"></div>
+  <div class="services">
+    <div class="service-pill">Anywhere</div>
+    <div class="service-pill">Anytime</div>
+    <div class="service-pill">Free</div>
+  </div>
+</div>
+<div class="domain">usenexassist.com</div>
+</body>
+</html>

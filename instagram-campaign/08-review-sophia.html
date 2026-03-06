@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #080d18; font-family: 'Georgia', serif; }
+
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,169,98,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,169,98,0.04) 1px, transparent 1px);
+    background-size: 90px 90px;
+  }
+
+  .accent-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, transparent, #C9A962 30%, #C9A962 70%, transparent);
+  }
+
+  .wrap {
+    position: relative; z-index: 2;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 80px 100px;
+  }
+
+  .top-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    width: 100%; margin-bottom: 48px;
+  }
+
+  .service-tag {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.7);
+    border: 1px solid rgba(201,169,98,0.2);
+    padding: 10px 20px;
+  }
+
+  .stars {
+    display: flex; gap: 6px;
+  }
+  .star { color: #C9A962; font-size: 20px; }
+
+  .quote {
+    font-size: 36px;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.45;
+    margin-bottom: 56px;
+    letter-spacing: 0.01em;
+    text-align: left;
+    align-self: flex-start;
+    position: relative;
+    padding-left: 32px;
+    border-left: 1px solid rgba(201,169,98,0.25);
+  }
+
+  .quote em { font-style: normal; color: #C9A962; }
+
+  .reviewer {
+    display: flex; align-items: center; gap: 28px; align-self: flex-start; width: 100%;
+  }
+
+  .avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, #1e1528, #0d1020);
+    border: 1px solid rgba(201,169,98,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 700; color: #C9A962;
+    font-family: 'Arial', sans-serif;
+    flex-shrink: 0;
+  }
+
+  .reviewer-info {}
+  .reviewer-name {
+    font-size: 22px; font-weight: 600; color: #fff;
+    letter-spacing: 0.03em; margin-bottom: 4px;
+  }
+  .reviewer-meta {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px; color: rgba(255,255,255,0.3); letter-spacing: 0.1em;
+  }
+
+  .bottom-note {
+    position: absolute;
+    bottom: 52px;
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.45em;
+    color: rgba(201,169,98,0.35);
+    text-transform: uppercase;
+    z-index: 3;
+  }
+
+  .brand { position: absolute; top: 52px; right: 64px; z-index: 3; }
+  .brand svg { width: 40px; height: 40px; }
+
+  .verified {
+    position: absolute; top: 52px; left: 64px;
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.45);
+    display: flex; align-items: center; gap: 10px;
+    z-index: 3;
+  }
+  .verified-dot { width: 5px; height: 5px; border-radius: 50%; background: #C9A962; }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="accent-bar"></div>
+<div class="verified"><div class="verified-dot"></div>Verified Review</div>
+<div class="brand">
+  <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="0.9" stroke-opacity="0.85"/>
+    <polygon points="18,7 31,18 18,29 5,18" stroke="#C9A962" stroke-width="0.45" stroke-opacity="0.3"/>
+    <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"/>
+  </svg>
+</div>
+<div class="wrap">
+  <div class="top-row">
+    <div class="service-tag">Lamborghini Revuelto · LA</div>
+    <div class="stars">
+      <div class="star">★</div><div class="star">★</div><div class="star">★</div><div class="star">★</div><div class="star">★</div>
+    </div>
+  </div>
+  <div class="quote">
+    "I run a content studio in West Hollywood. We needed a <em>Lamborghini Revuelto</em> for a shoot with less than 24 hours' notice. I texted NexAssist at midnight — they had a confirmed car for us by <em>7AM the next morning.</em> No other service has ever done that."
+  </div>
+  <div class="reviewer">
+    <div class="avatar">S</div>
+    <div class="reviewer-info">
+      <div class="reviewer-name">Sophia R.</div>
+      <div class="reviewer-meta">West Hollywood, CA &nbsp;·&nbsp; Content Producer</div>
+    </div>
+  </div>
+</div>
+<div class="bottom-note">usenexassist.com</div>
+</body>
+</html>

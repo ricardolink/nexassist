@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #080d18; font-family: 'Georgia', serif; }
+
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,169,98,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,169,98,0.04) 1px, transparent 1px);
+    background-size: 90px 90px;
+  }
+
+  .wrap {
+    position: relative; z-index: 2;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 80px;
+  }
+
+  .three-words {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    margin-bottom: 64px;
+  }
+
+  .word-row {
+    display: flex; align-items: center; gap: 32px;
+  }
+
+  .word {
+    font-size: 100px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .word.gold { color: #C9A962; }
+
+  .separator {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    color: rgba(201,169,98,0.3);
+    letter-spacing: 0.4em;
+  }
+
+  .dot-sep {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: rgba(201,169,98,0.3);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    width: 100%;
+    margin-bottom: 56px;
+  }
+
+  .service-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    padding: 24px 28px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+
+  .service-icon {
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+
+  .service-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.05em;
+  }
+
+  .service-ex {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.05em;
+  }
+
+  .tagline {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.5);
+    text-align: center;
+  }
+
+  .brand { position: absolute; top: 52px; right: 64px; z-index: 3; }
+  .brand svg { width: 40px; height: 40px; }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="brand">
+  <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="0.9" stroke-opacity="0.85"/>
+    <polygon points="18,7 31,18 18,29 5,18" stroke="#C9A962" stroke-width="0.45" stroke-opacity="0.3"/>
+    <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"/>
+  </svg>
+</div>
+<div class="wrap">
+  <div class="three-words">
+    <div class="word">Anything.</div>
+    <div class="word gold">Anywhere.</div>
+    <div class="word">Anytime.</div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🏎️</div>
+      <div class="service-name">Exotic Cars</div>
+      <div class="service-ex">Revuelto · 488 · Urus</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">✈️</div>
+      <div class="service-name">Private Jets</div>
+      <div class="service-ex">Domestic · International</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🛥️</div>
+      <div class="service-name">Yachts</div>
+      <div class="service-ex">Day charter · Weekend</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏡</div>
+      <div class="service-name">Luxury Villas</div>
+      <div class="service-ex">Staffed · Fully private</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚘</div>
+      <div class="service-name">Chauffeur</div>
+      <div class="service-ex">SUV · Sedan · 24/7</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">💼</div>
+      <div class="service-name">Designer Bags</div>
+      <div class="service-ex">Hermès · Chanel · LV</div>
+    </div>
+  </div>
+  <div class="tagline">usenexassist.com · Free to use</div>
+</div>
+</body>
+</html>

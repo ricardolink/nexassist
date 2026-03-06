@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #080d18; font-family: 'Georgia', serif; }
+
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,169,98,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,169,98,0.04) 1px, transparent 1px);
+    background-size: 90px 90px;
+  }
+
+  .wrap {
+    position: relative; z-index: 2;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 96px 100px;
+  }
+
+  .eyebrow {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.65em;
+    color: rgba(201,169,98,0.6);
+    text-transform: uppercase;
+    margin-bottom: 36px;
+    display: flex; align-items: center; gap: 16px;
+  }
+
+  .line { width: 40px; height: 1px; background: rgba(201,169,98,0.3); }
+
+  .headline {
+    font-size: 76px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.05;
+    margin-bottom: 52px;
+    letter-spacing: -0.01em;
+  }
+
+  .headline em { font-style: normal; color: #C9A962; }
+
+  .steps {
+    display: flex; flex-direction: column; gap: 0;
+    margin-bottom: 56px;
+  }
+
+  .step {
+    display: flex; align-items: flex-start; gap: 28px;
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .step:first-child { border-top: 1px solid rgba(255,255,255,0.05); }
+
+  .step-num {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: rgba(201,169,98,0.4);
+    min-width: 32px;
+    margin-top: 3px;
+  }
+
+  .step-content {}
+
+  .step-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  .step-desc {
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid rgba(201,169,98,0.25);
+    padding: 14px 28px;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: #C9A962;
+  }
+
+  .badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #C9A962;
+  }
+
+  .brand { position: absolute; top: 52px; right: 64px; z-index: 3; }
+  .brand svg { width: 40px; height: 40px; }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="brand">
+  <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="0.9" stroke-opacity="0.85"/>
+    <polygon points="18,7 31,18 18,29 5,18" stroke="#C9A962" stroke-width="0.45" stroke-opacity="0.3"/>
+    <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"/>
+  </svg>
+</div>
+<div class="wrap">
+  <div class="eyebrow"><div class="line"></div>Certified Partners</div>
+  <div class="headline">Every partner.<br><em>Hand-picked.</em></div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">Verified operators only</div>
+        <div class="step-desc">Every fleet, villa, jet and yacht on our network is vetted for legitimacy, insurance, and quality before we work with them.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">No sketchy middlemen</div>
+        <div class="step-desc">We work directly with operators — no unverified resellers, no bait-and-switch. What you see is what you get.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">Your experience, protected</div>
+        <div class="step-desc">If anything goes wrong, we handle it. You're not on your own after you book.</div>
+      </div>
+    </div>
+  </div>
+  <div class="badge"><div class="badge-dot"></div>NexAssist Certified Partner Network</div>
+</div>
+</body>
+</html>

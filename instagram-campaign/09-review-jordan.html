@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #080d18; font-family: 'Georgia', serif; }
+
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,169,98,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,169,98,0.04) 1px, transparent 1px);
+    background-size: 90px 90px;
+  }
+
+  .glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    bottom: -100px; right: -100px;
+    background: radial-gradient(ellipse, rgba(201,169,98,0.05) 0%, transparent 70%);
+  }
+
+  .wrap {
+    position: relative; z-index: 2;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 80px 100px;
+    gap: 0;
+  }
+
+  .car-model {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.7em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.5);
+    margin-bottom: 24px;
+    align-self: flex-start;
+  }
+
+  .big-headline {
+    font-size: 60px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 44px;
+    align-self: flex-start;
+    letter-spacing: -0.01em;
+  }
+
+  .big-headline em { font-style: normal; color: #C9A962; }
+
+  .quote-block {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-left: 2px solid rgba(201,169,98,0.5);
+    padding: 36px 40px;
+    margin-bottom: 40px;
+    width: 100%;
+  }
+
+  .quote-text {
+    font-size: 24px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.55;
+    letter-spacing: 0.02em;
+    margin-bottom: 24px;
+  }
+
+  .quote-text em { font-style: normal; color: #C9A962; }
+
+  .stars {
+    display: flex; gap: 6px;
+  }
+  .star { color: #C9A962; font-size: 18px; }
+
+  .reviewer-row {
+    display: flex; align-items: center; gap: 24px; width: 100%;
+  }
+
+  .avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, #0f1e30, #081018);
+    border: 1px solid rgba(201,169,98,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; font-weight: 700; color: #C9A962;
+    font-family: 'Arial', sans-serif;
+    flex-shrink: 0;
+  }
+
+  .reviewer-info {}
+  .reviewer-name { font-size: 20px; font-weight: 600; color: #fff; letter-spacing: 0.03em; margin-bottom: 4px; }
+  .reviewer-meta { font-family: 'Arial', sans-serif; font-size: 13px; color: rgba(255,255,255,0.3); letter-spacing: 0.08em; }
+
+  .request-badge {
+    margin-left: auto;
+    text-align: right;
+  }
+
+  .badge-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase;
+    color: rgba(201,169,98,0.4); margin-bottom: 4px;
+  }
+
+  .badge-value {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px; color: rgba(255,255,255,0.5); letter-spacing: 0.05em;
+  }
+
+  .brand { position: absolute; top: 52px; right: 64px; z-index: 3; }
+  .brand svg { width: 40px; height: 40px; }
+
+  .verified {
+    position: absolute; top: 52px; left: 64px;
+    font-family: 'Arial', sans-serif;
+    font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase;
+    color: rgba(201,169,98,0.45);
+    display: flex; align-items: center; gap: 10px; z-index: 3;
+  }
+  .verified-dot { width: 5px; height: 5px; border-radius: 50%; background: #C9A962; }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="glow"></div>
+<div class="verified"><div class="verified-dot"></div>Verified Review</div>
+<div class="brand">
+  <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="0.9" stroke-opacity="0.85"/>
+    <polygon points="18,7 31,18 18,29 5,18" stroke="#C9A962" stroke-width="0.45" stroke-opacity="0.3"/>
+    <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"/>
+  </svg>
+</div>
+<div class="wrap">
+  <div class="car-model">Lamborghini Revuelto · Malibu</div>
+  <div class="big-headline">One text.<br><em>One Revuelto.</em><br>Done.</div>
+  <div class="quote-block">
+    <div class="quote-text">
+      "Tried to rent a Revuelto for a weekend in Malibu through two different sites — both said <em>unavailable</em>. Sent NexAssist a message on a Thursday. They had me in a <em>Lamborghini Revuelto by Saturday morning.</em> Honestly felt like magic."
+    </div>
+    <div class="stars">
+      <div class="star">★</div><div class="star">★</div><div class="star">★</div><div class="star">★</div><div class="star">★</div>
+    </div>
+  </div>
+  <div class="reviewer-row">
+    <div class="avatar">J</div>
+    <div class="reviewer-info">
+      <div class="reviewer-name">Jordan K.</div>
+      <div class="reviewer-meta">Malibu, CA &nbsp;·&nbsp; Entrepreneur</div>
+    </div>
+    <div class="request-badge">
+      <div class="badge-label">Response time</div>
+      <div class="badge-value">Under 2 hours</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
