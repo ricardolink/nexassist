@@ -5,20 +5,20 @@ import { supabase } from "@/lib/supabase";
 const ADMIN_PASSWORD = "nexadmin2024";
 
 const SERVICE_CATEGORIES = [
-  "Exotic Cars", "Private Jets", "Luxury Villas", "Superyachts",
-  "Fine Watches", "Designer Bags", "Fine Dining", "VIP Events",
+  "Exotic Cars", "Chauffeur Services", "Car Sales", "Private Jets",
+  "Luxury Villas", "Superyachts", "Fine Watches", "Designer Bags",
   "Luxury Travel", "Custom Experiences",
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
   "Exotic Cars":        "#f59e0b",
+  "Chauffeur Services": "#fb923c",
+  "Car Sales":          "#e879f9",
   "Private Jets":       "#38bdf8",
   "Luxury Villas":      "#34d399",
   "Superyachts":        "#60a5fa",
   "Fine Watches":       "#a78bfa",
   "Designer Bags":      "#f472b6",
-  "Fine Dining":        "#fb923c",
-  "VIP Events":         "#e879f9",
   "Luxury Travel":      "#2dd4bf",
   "Custom Experiences": "#C9A962",
 };

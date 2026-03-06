@@ -3,12 +3,12 @@ import { useState } from "react";
 import Link from "next/link";
 
 const serviceTypes = [
-  "Private Jet Charter",
   "Exotic Car Rental",
+  "Chauffeur Services",
+  "Car Sales",
+  "Private Jet Charter",
   "Luxury Villa",
   "Yacht Charter",
-  "VIP Event Access",
-  "Fine Dining Reservation",
   "Helicopter Charter",
   "Luxury Hotel Suite",
   "Supercar Experience",
@@ -32,8 +32,8 @@ const recommendations = [
   { icon: "🚗", title: "Exotic Cars", desc: "Ferrari, Lambo, Rolls & more", tag: "Trending" },
   { icon: "🏡", title: "Luxury Villas", desc: "Staffed estates, 80+ countries", tag: "New" },
   { icon: "⛵", title: "Yacht Charters", desc: "Mediterranean specialists", tag: "" },
-  { icon: "🎭", title: "VIP Events", desc: "Front-row access, globally", tag: "" },
-  { icon: "🍽️", title: "Fine Dining", desc: "Michelin-starred bookings", tag: "" },
+  { icon: "🚘", title: "Chauffeur Services", desc: "Door-to-door, discreet", tag: "" },
+  { icon: "🏎️", title: "Car Sales", desc: "Acquire the extraordinary", tag: "" },
 ];
 
 const mockRequests = [

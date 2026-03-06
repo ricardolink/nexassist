@@ -336,7 +336,7 @@ export default function PartnerDashboard() {
   const [activeOffer, setActiveOffer] = useState<ClientRequest | null>(null);
   const [filter, setFilter] = useState("All");
 
-  const serviceFilters = ["All", "Exotic Cars", "Private Jets", "Luxury Villas", "Superyachts", "Fine Watches", "Designer Bags", "Fine Dining", "VIP Events", "Luxury Travel"];
+  const serviceFilters = ["All", "Exotic Cars", "Chauffeur Services", "Car Sales", "Private Jets", "Luxury Villas", "Superyachts", "Fine Watches", "Designer Bags", "Luxury Travel"];
 
   useEffect(() => {
     async function init() {

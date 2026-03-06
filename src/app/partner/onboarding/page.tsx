@@ -5,9 +5,9 @@ import Link from "next/link";
 const steps = ["Business Info", "Services", "Coverage", "Review"];
 
 const serviceOptions = [
-  "Exotic Car Rental", "Private Jet Charter", "Luxury Villa Rental",
-  "Yacht Charter", "VIP Event Access", "Fine Dining Reservations",
-  "Helicopter Charter", "Luxury Hotel Bookings",
+  "Exotic Car Rental", "Chauffeur Services", "Car Sales",
+  "Private Jet Charter", "Luxury Villa Rental",
+  "Yacht Charter", "Helicopter Charter", "Luxury Hotel Bookings",
 ];
 
 export default function OnboardingPage() {

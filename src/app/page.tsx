@@ -16,6 +16,18 @@ const services = [
     wide: true,
   },
   {
+    title: "Chauffeur Services",
+    sub: "Door-to-door. Discreet. On demand.",
+    photo: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=85",
+    wide: false,
+  },
+  {
+    title: "Car Sales",
+    sub: "Acquire the extraordinary.",
+    photo: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=85",
+    wide: false,
+  },
+  {
     title: "Private Jets",
     sub: "Your schedule. Your route.",
     photo: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=600&q=85",
@@ -46,18 +58,6 @@ const services = [
     wide: false,
   },
   {
-    title: "Fine Dining",
-    sub: "Tables that don't exist. Until now.",
-    photo: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=85",
-    wide: false,
-  },
-  {
-    title: "VIP Events",
-    sub: "Front row. Always.",
-    photo: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=85",
-    wide: false,
-  },
-  {
     title: "Luxury Travel",
     sub: "Five-star. Everywhere.",
     photo: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=85",
@@ -66,8 +66,8 @@ const services = [
 ];
 
 const serviceTypes = [
-  "Exotic Cars", "Private Jets", "Luxury Villas", "Superyachts",
-  "Fine Watches", "Designer Bags", "Fine Dining", "VIP Events",
+  "Exotic Cars", "Chauffeur Services", "Car Sales", "Private Jets",
+  "Luxury Villas", "Superyachts", "Fine Watches", "Designer Bags",
   "Luxury Travel", "Other",
 ];
 
