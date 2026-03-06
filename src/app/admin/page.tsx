@@ -32,7 +32,7 @@ interface Application {
 }
 interface Request {
   id: string; service_type: string; description: string; city: string;
-  date_needed: string; budget: string; client_name: string; status: string; created_at: string;
+  date_needed: string; budget: string; client_name: string; client_email: string; status: string; created_at: string;
 }
 interface Offer {
   id: string; request_id: string; partner_email: string; partner_company: string;
@@ -96,7 +96,7 @@ export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [pw, setPw] = useState("");
   const [pwError, setPwError] = useState(false);
-  const [tab, setTab] = useState<"overview" | "applications" | "partners" | "requests">("overview");
+  const [tab, setTab] = useState<"overview" | "clients" | "applications" | "partners" | "requests">("overview");
 
   // Data
   const [applications, setApplications] = useState<Application[]>([]);
@@ -142,6 +142,80 @@ export default function AdminPage() {
     if (!error) setApplications((prev) => prev.map((a) => a.id === app.id ? { ...a, status } : a));
     setSaving(null);
   }
+
+  // ── Client analytics ──────────────────────────────────────────────────
+  const uniqueClientEmails = [...new Set(requests.map((r) => r.client_email).filter(Boolean))];
+  const totalClients = uniqueClientEmails.length;
+
+  // Budget helpers
+  const parseBudget = (b: string) => { const n = parseFloat((b || "").replace(/[^0-9.]/g, "")); return isNaN(n) ? 0 : n; };
+  const reqsWithBudget = requests.filter((r) => parseBudget(r.budget) > 0);
+  const totalPipeline  = reqsWithBudget.reduce((s, r) => s + parseBudget(r.budget), 0);
+  const avgBudget      = reqsWithBudget.length > 0 ? totalPipeline / reqsWithBudget.length : 0;
+
+  // Monthly trend — last 6 months
+  const now = new Date();
+  const monthlyData = Array.from({ length: 6 }, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - (5 - i), 1);
+    const yr = d.getFullYear(), mo = d.getMonth();
+    const monthReqs = requests.filter((r) => { const rd = new Date(r.created_at); return rd.getFullYear() === yr && rd.getMonth() === mo; });
+    const newClients = uniqueClientEmails.filter((email) => {
+      const first = requests.filter((r) => r.client_email === email).sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime())[0];
+      if (!first) return false;
+      const fd = new Date(first.created_at);
+      return fd.getFullYear() === yr && fd.getMonth() === mo;
+    }).length;
+    return { label: d.toLocaleDateString("en-US", { month: "short" }), requests: monthReqs.length, newClients };
+  });
+  const thisMonthData = monthlyData[5];
+  const lastMonthData = monthlyData[4];
+  const momGrowth = lastMonthData.newClients > 0
+    ? Math.round(((thisMonthData.newClients - lastMonthData.newClients) / lastMonthData.newClients) * 100)
+    : thisMonthData.newClients > 0 ? 100 : 0;
+  const momReqGrowth = lastMonthData.requests > 0
+    ? Math.round(((thisMonthData.requests - lastMonthData.requests) / lastMonthData.requests) * 100)
+    : thisMonthData.requests > 0 ? 100 : 0;
+
+  // Returning clients
+  const returningClients = uniqueClientEmails.filter((e) => requests.filter((r) => r.client_email === e).length > 1).length;
+  const retentionRate = totalClients > 0 ? Math.round((returningClients / totalClients) * 100) : 0;
+
+  // Top cities
+  const cityMap: Record<string, number> = {};
+  requests.forEach((r) => { if (r.city) cityMap[r.city] = (cityMap[r.city] || 0) + 1; });
+  const topCities = Object.entries(cityMap).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  const maxCityCount = topCities[0]?.[1] || 1;
+
+  // Budget range distribution
+  const budgetRanges = [
+    { label: "Under $1K",    min: 0,     max: 1000   },
+    { label: "$1K – $5K",    min: 1000,  max: 5000   },
+    { label: "$5K – $20K",   min: 5000,  max: 20000  },
+    { label: "$20K – $50K",  min: 20000, max: 50000  },
+    { label: "$50K+",        min: 50000, max: Infinity },
+  ].map((range) => ({
+    ...range,
+    count: reqsWithBudget.filter((r) => { const b = parseBudget(r.budget); return b >= range.min && b < range.max; }).length,
+  }));
+  const maxBudgetCount = Math.max(...budgetRanges.map((r) => r.count), 1);
+
+  // Per-client stats
+  const clientStats = uniqueClientEmails.map((email) => {
+    const cr = requests.filter((r) => r.client_email === email);
+    const budgets = cr.filter((r) => parseBudget(r.budget) > 0).map((r) => parseBudget(r.budget));
+    const lastReq = cr.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
+    return {
+      email,
+      name: lastReq?.client_name || email,
+      requestCount: cr.length,
+      totalBudget: budgets.reduce((s, b) => s + b, 0),
+      lastActivity: lastReq?.created_at || "",
+      categories: [...new Set(cr.map((r) => r.service_type).filter(Boolean))],
+    };
+  }).sort((a, b) => b.requestCount - a.requestCount);
+
+  // Max monthly bar heights
+  const maxMonthlyReqs = Math.max(...monthlyData.map((m) => m.requests), 1);
 
   // ── Derived analytics ─────────────────────────────────────────────────
   const approvedPartners = applications.filter((a) => a.status === "approved");
@@ -234,6 +308,7 @@ export default function AdminPage() {
         <div className="max-w-7xl mx-auto flex gap-0 overflow-x-auto scrollbar-hide">
           {([
             { id: "overview",     label: "Overview" },
+            { id: "clients",      label: `Clients · ${totalClients}` },
             { id: "applications", label: `Applications${pendingApps.length > 0 ? ` · ${pendingApps.length}` : ""}` },
             { id: "partners",     label: `Partners · ${approvedPartners.length}` },
             { id: "requests",     label: `Requests · ${requests.length}` },
@@ -403,6 +478,256 @@ export default function AdminPage() {
                 </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* ════════════════════════════════════════
+            TAB: CLIENTS
+        ════════════════════════════════════════ */}
+        {tab === "clients" && (
+          <div className="space-y-8">
+
+            {/* KPI Row 1 */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <StatCard label="Total Clients"     value={totalClients}   sub={`${returningClients} returning`}              color="#C9A962"  />
+              <StatCard label="New This Month"    value={thisMonthData.newClients} sub={momGrowth >= 0 ? `+${momGrowth}% vs last month` : `${momGrowth}% vs last month`} color={momGrowth >= 0 ? "#34d399" : "#f87171"} />
+              <StatCard label="Retention Rate"    value={`${retentionRate}%`} sub={`${returningClients} made 2+ requests`}   color="#a78bfa"  />
+              <StatCard label="Requests / Client" value={totalClients > 0 ? (requests.length / totalClients).toFixed(1) : "0"} sub="Average per client" color="#38bdf8" />
+            </div>
+
+            {/* KPI Row 2 — financial */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <StatCard label="Pipeline Value"    value={totalPipeline > 0 ? `$${totalPipeline >= 1000000 ? (totalPipeline/1000000).toFixed(1)+"M" : totalPipeline >= 1000 ? (totalPipeline/1000).toFixed(0)+"K" : totalPipeline.toFixed(0)}` : "—"} sub="Sum of all stated budgets"  color="#f59e0b" />
+              <StatCard label="Avg Budget / Req"  value={avgBudget > 0 ? `$${avgBudget >= 1000 ? (avgBudget/1000).toFixed(1)+"K" : avgBudget.toFixed(0)}` : "—"} sub={`From ${reqsWithBudget.length} requests with budgets`} color="#fb923c" />
+              <StatCard label="Requests This Mo." value={thisMonthData.requests} sub={momReqGrowth >= 0 ? `+${momReqGrowth}% vs last month` : `${momReqGrowth}% vs last month`} color={momReqGrowth >= 0 ? "#34d399" : "#f87171"} />
+              <StatCard label="Completion Rate"   value={requests.length > 0 ? `${Math.round((requests.filter(r=>r.status==="completed").length/requests.length)*100)}%` : "—"} sub={`${requests.filter(r=>r.status==="completed").length} of ${requests.length} fulfilled`} color="#2dd4bf" />
+            </div>
+
+            {/* Monthly trend + Budget distribution */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+              {/* Monthly bar chart */}
+              <div className="bg-[#0c1222] border border-white/8 rounded-sm p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <p className="text-white/25 text-[9px] tracking-[0.35em] uppercase mb-1">Growth</p>
+                    <h3 className="text-white font-medium text-sm">Request Volume — Last 6 Months</h3>
+                  </div>
+                </div>
+                <div className="flex items-end gap-2 h-32">
+                  {monthlyData.map((m, i) => {
+                    const h = maxMonthlyReqs > 0 ? Math.max(4, (m.requests / maxMonthlyReqs) * 100) : 4;
+                    const isThisMonth = i === 5;
+                    return (
+                      <div key={m.label} className="flex-1 flex flex-col items-center gap-1">
+                        <span className="text-white/30 text-[9px] font-mono">{m.requests > 0 ? m.requests : ""}</span>
+                        <div className="w-full relative flex justify-center">
+                          <div
+                            className="w-full rounded-t-sm transition-all duration-700"
+                            style={{
+                              height: `${h * 0.8}px`,
+                              minHeight: "4px",
+                              backgroundColor: isThisMonth ? "#C9A962" : "#C9A962" + "30",
+                              boxShadow: isThisMonth ? "0 0 8px #C9A96240" : "none",
+                            }}
+                          />
+                        </div>
+                        <span className={`text-[9px] ${isThisMonth ? "text-[#C9A962]" : "text-white/25"}`}>{m.label}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="flex items-center gap-4 mt-4 pt-4 border-t border-white/6">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-sm bg-[#C9A962]" />
+                    <span className="text-white/30 text-[10px]">This month</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-sm bg-[#C9A962]/30" />
+                    <span className="text-white/30 text-[10px]">Past months</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Budget distribution */}
+              <div className="bg-[#0c1222] border border-white/8 rounded-sm p-6">
+                <div className="mb-5">
+                  <p className="text-white/25 text-[9px] tracking-[0.35em] uppercase mb-1">Spend Profile</p>
+                  <h3 className="text-white font-medium text-sm">Budget Distribution</h3>
+                </div>
+                <div className="space-y-3">
+                  {budgetRanges.map((range) => {
+                    const pct = maxBudgetCount > 0 ? Math.max(range.count > 0 ? 4 : 0, (range.count / maxBudgetCount) * 100) : 0;
+                    const pctOfTotal = reqsWithBudget.length > 0 ? Math.round((range.count / reqsWithBudget.length) * 100) : 0;
+                    return (
+                      <div key={range.label} className="flex items-center gap-3">
+                        <div className="w-24 shrink-0 text-right">
+                          <span className="text-white/40 text-[10px]">{range.label}</span>
+                        </div>
+                        <div className="flex-1 h-5 bg-white/4 rounded-sm overflow-hidden">
+                          <div className="h-full rounded-sm transition-all duration-700 flex items-center justify-end pr-2"
+                            style={{ width: `${pct}%`, backgroundColor: "#C9A96235", borderRight: range.count > 0 ? "2px solid #C9A962" : "none" }} />
+                        </div>
+                        <div className="w-14 text-right shrink-0">
+                          <span className="text-[#C9A962] font-mono text-xs">{range.count}</span>
+                          {pctOfTotal > 0 && <span className="text-white/20 text-[9px] ml-1">({pctOfTotal}%)</span>}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                {reqsWithBudget.length === 0 && (
+                  <p className="text-white/20 text-sm text-center py-6">No budget data yet</p>
+                )}
+              </div>
+            </div>
+
+            {/* Geographic + Category preferences */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+              {/* Top cities */}
+              <div className="bg-[#0c1222] border border-white/8 rounded-sm p-6">
+                <div className="mb-5">
+                  <p className="text-white/25 text-[9px] tracking-[0.35em] uppercase mb-1">Geographic</p>
+                  <h3 className="text-white font-medium text-sm">Top Client Cities</h3>
+                </div>
+                {topCities.length === 0 ? (
+                  <p className="text-white/20 text-sm text-center py-6">No city data yet</p>
+                ) : (
+                  <div className="space-y-3">
+                    {topCities.map(([city, count], i) => (
+                      <div key={city} className="flex items-center gap-3">
+                        <span className="text-white/15 text-[10px] font-mono w-4 shrink-0">#{i+1}</span>
+                        <div className="w-28 shrink-0">
+                          <span className="text-white/50 text-xs truncate block">{city}</span>
+                        </div>
+                        <div className="flex-1 h-4 bg-white/4 rounded-sm overflow-hidden">
+                          <div className="h-full rounded-sm" style={{ width: `${(count/maxCityCount)*100}%`, background: "linear-gradient(to right, #C9A96230, #C9A96260)" }} />
+                        </div>
+                        <span className="text-[#C9A962] font-mono text-xs w-5 text-right shrink-0">{count}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Category preferences */}
+              <div className="bg-[#0c1222] border border-white/8 rounded-sm p-6">
+                <div className="mb-5">
+                  <p className="text-white/25 text-[9px] tracking-[0.35em] uppercase mb-1">Demand</p>
+                  <h3 className="text-white font-medium text-sm">What Clients Want Most</h3>
+                </div>
+                {requests.length === 0 ? (
+                  <p className="text-white/20 text-sm text-center py-6">No requests yet</p>
+                ) : (
+                  <div className="space-y-3">
+                    {SERVICE_CATEGORIES.map((cat) => {
+                      const count = requests.filter((r) => r.service_type === cat).length;
+                      const pct = Math.round((count / requests.length) * 100);
+                      if (count === 0) return null;
+                      return (
+                        <div key={cat} className="flex items-center gap-3">
+                          <div className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: CATEGORY_COLORS[cat] }} />
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-white/50 text-[10px] truncate">{cat}</span>
+                              <span className="text-white/25 text-[9px] ml-2 shrink-0">{pct}%</span>
+                            </div>
+                            <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                              <div className="h-full rounded-full transition-all duration-700" style={{ width: `${pct}%`, backgroundColor: CATEGORY_COLORS[cat] + "70" }} />
+                            </div>
+                          </div>
+                          <span className="font-mono text-xs shrink-0 w-5 text-right" style={{ color: CATEGORY_COLORS[cat] }}>{count}</span>
+                        </div>
+                      );
+                    }).filter(Boolean)}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Top clients table */}
+            <div className="bg-[#0c1222] border border-white/8 rounded-sm overflow-hidden">
+              <div className="px-5 py-4 border-b border-white/6 flex items-center justify-between">
+                <div>
+                  <h3 className="text-white font-medium text-sm">Top Clients</h3>
+                  <p className="text-white/25 text-xs mt-0.5">Ranked by number of requests</p>
+                </div>
+                <span className="text-white/20 text-xs">{totalClients} total</span>
+              </div>
+              {clientStats.length === 0 ? (
+                <p className="text-white/20 text-sm text-center py-12">No client data yet</p>
+              ) : (
+                <div className="divide-y divide-white/4">
+                  {clientStats.slice(0, 15).map((c, i) => (
+                    <div key={c.email} className="px-5 py-3.5 flex items-center gap-4">
+                      <span className="text-white/15 text-[10px] font-mono w-5 shrink-0">#{i + 1}</span>
+                      <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 text-white/40 text-xs font-bold">
+                        {c.name?.[0]?.toUpperCase() || "?"}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white/75 text-sm font-medium truncate">{c.name}</p>
+                        <p className="text-white/25 text-xs truncate">{c.email}</p>
+                        {c.categories.length > 0 && (
+                          <div className="flex gap-1 mt-1 flex-wrap">
+                            {c.categories.slice(0, 3).map((cat) => (
+                              <span key={cat} className="text-[8px] px-1.5 py-0.5 rounded-sm border" style={{ color: (CATEGORY_COLORS[cat] || "#C9A962") + "99", borderColor: (CATEGORY_COLORS[cat] || "#C9A962") + "30", backgroundColor: (CATEGORY_COLORS[cat] || "#C9A962") + "0d" }}>
+                                {cat}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <div className="hidden sm:flex items-center gap-6 shrink-0">
+                        <div className="text-center">
+                          <p className="text-white font-bold text-lg">{c.requestCount}</p>
+                          <p className="text-white/20 text-[9px] uppercase tracking-wider">Requests</p>
+                        </div>
+                        <div className="text-center">
+                          <p className="text-[#C9A962] font-bold text-sm">{c.totalBudget > 0 ? `$${c.totalBudget >= 1000 ? (c.totalBudget/1000).toFixed(0)+"K" : c.totalBudget}` : "—"}</p>
+                          <p className="text-white/20 text-[9px] uppercase tracking-wider">Budget</p>
+                        </div>
+                        <div className="text-center hidden lg:block">
+                          <p className="text-white/40 text-sm">{c.lastActivity ? timeAgo(c.lastActivity) : "—"}</p>
+                          <p className="text-white/20 text-[9px] uppercase tracking-wider">Last seen</p>
+                        </div>
+                      </div>
+                      {i === 0 && <span className="text-[8px] tracking-widest uppercase text-[#C9A962]/50 border border-[#C9A962]/20 px-2 py-0.5 rounded-sm shrink-0 hidden sm:block">Top</span>}
+                      {c.requestCount >= 2 && i > 0 && <span className="text-[8px] tracking-widest uppercase text-purple-400/50 border border-purple-400/20 px-2 py-0.5 rounded-sm shrink-0 hidden sm:block">VIP</span>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Insight callout */}
+            {totalClients > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="bg-[#0c1222] border border-[#C9A962]/12 rounded-sm p-5">
+                  <p className="text-[#C9A962] text-[9px] tracking-[0.3em] uppercase mb-2">Insight</p>
+                  <p className="text-white/55 text-sm leading-relaxed">
+                    <span className="text-white font-medium">{retentionRate}%</span> of clients come back for a second request — {retentionRate >= 30 ? "strong retention for a luxury concierge." : "focus on post-fulfillment follow-up to improve retention."}
+                  </p>
+                </div>
+                <div className="bg-[#0c1222] border border-[#C9A962]/12 rounded-sm p-5">
+                  <p className="text-[#C9A962] text-[9px] tracking-[0.3em] uppercase mb-2">Insight</p>
+                  <p className="text-white/55 text-sm leading-relaxed">
+                    {reqByCategory.filter(r => r.count > 0)[0] ? (
+                      <><span className="text-white font-medium">{reqByCategory.filter(r => r.count > 0)[0].cat}</span> is your highest-demand category — prioritize onboarding more partners here.</>
+                    ) : "No requests yet — run your first campaign to generate data."}
+                  </p>
+                </div>
+                <div className="bg-[#0c1222] border border-[#C9A962]/12 rounded-sm p-5">
+                  <p className="text-[#C9A962] text-[9px] tracking-[0.3em] uppercase mb-2">Insight</p>
+                  <p className="text-white/55 text-sm leading-relaxed">
+                    {avgBudget > 0 ? (
+                      <><span className="text-white font-medium">${avgBudget >= 1000 ? (avgBudget/1000).toFixed(1)+"K" : avgBudget.toFixed(0)}</span> average budget confirms a high-value client base. Consider a minimum budget threshold for future requests.</>
+                    ) : "Add budget data to unlock financial insights."}
+                  </p>
+                </div>
+              </div>
+            )}
+
           </div>
         )}
 
