@@ -240,7 +240,7 @@ function OfferPanel({ req, partnerEmail, partnerCompany, onSent, onClose }: {
 // ─── Request Card ─────────────────────────────────────────
 function RequestCard({ req, onOffer }: { req: ClientRequest; onOffer: (r: ClientRequest) => void }) {
   const serviceColors: Record<string, string> = {
-    "Exotic Cars": "text-amber-400/70 border-amber-400/25 bg-amber-400/6",
+    "Exotic Car Rental": "text-amber-400/70 border-amber-400/25 bg-amber-400/6",
     "Private Jets": "text-sky-400/70 border-sky-400/25 bg-sky-400/6",
     "Luxury Villas": "text-emerald-400/70 border-emerald-400/25 bg-emerald-400/6",
     "Superyachts": "text-blue-400/70 border-blue-400/25 bg-blue-400/6",
@@ -336,7 +336,7 @@ export default function PartnerDashboard() {
   const [activeOffer, setActiveOffer] = useState<ClientRequest | null>(null);
   const [filter, setFilter] = useState("All");
 
-  const serviceFilters = ["All", "Exotic Cars", "Chauffeur Services", "Car Sales", "Private Jets", "Luxury Villas", "Superyachts", "Fine Watches", "Designer Bags", "Luxury Travel"];
+  const serviceFilters = ["All", "Exotic Car Rental", "Chauffeur Services", "Car Sales", "Private Jets", "Luxury Villas", "Superyachts", "Fine Watches", "Designer Bags", "Luxury Travel"];
 
   useEffect(() => {
     async function init() {

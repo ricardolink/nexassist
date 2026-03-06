@@ -10,7 +10,7 @@ import { type SavedRequest } from "@/lib/requests";
 ───────────────────────────────────────── */
 const services = [
   {
-    title: "Exotic Cars",
+    title: "Exotic Car Rental",
     sub: "Ferrari · Lamborghini · Rolls-Royce",
     photo: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=900&q=85",
     wide: true,
@@ -66,7 +66,7 @@ const services = [
 ];
 
 const serviceTypes = [
-  "Exotic Cars", "Chauffeur Services", "Car Sales", "Private Jets",
+  "Exotic Car Rental", "Chauffeur Services", "Car Sales", "Private Jets",
   "Luxury Villas", "Superyachts", "Fine Watches", "Designer Bags",
   "Luxury Travel", "Other",
 ];

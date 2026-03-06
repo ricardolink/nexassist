@@ -4,7 +4,7 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 const SERVICES = [
-  "Exotic Cars",
+  "Exotic Car Rental",
   "Chauffeur Services",
   "Car Sales",
   "Private Jets",

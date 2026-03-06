@@ -7,7 +7,7 @@ import { saveRequest, updateRequest, type SavedRequest } from "@/lib/requests";
 import { supabase } from "@/lib/supabase";
 
 const serviceTypes = [
-  "Exotic Cars", "Chauffeur Services", "Car Sales", "Private Jets",
+  "Exotic Car Rental", "Chauffeur Services", "Car Sales", "Private Jets",
   "Luxury Villas", "Superyachts", "Fine Watches", "Designer Bags",
   "Luxury Travel", "Other",
 ];

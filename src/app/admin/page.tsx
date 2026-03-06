@@ -5,13 +5,13 @@ import { supabase } from "@/lib/supabase";
 const ADMIN_PASSWORD = "nexadmin2024";
 
 const SERVICE_CATEGORIES = [
-  "Exotic Cars", "Chauffeur Services", "Car Sales", "Private Jets",
+  "Exotic Car Rental", "Chauffeur Services", "Car Sales", "Private Jets",
   "Luxury Villas", "Superyachts", "Fine Watches", "Designer Bags",
   "Luxury Travel", "Custom Experiences",
 ];
 
 const CATEGORY_COLORS: Record<string, string> = {
-  "Exotic Cars":        "#f59e0b",
+  "Exotic Car Rental":        "#f59e0b",
   "Chauffeur Services": "#fb923c",
   "Car Sales":          "#e879f9",
   "Private Jets":       "#38bdf8",

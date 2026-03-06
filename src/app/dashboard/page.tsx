@@ -29,7 +29,7 @@ const guestCounts = ["Just me", "2 guests", "3–5 guests", "6–10 guests", "10
 
 const recommendations = [
   { icon: "✈️", title: "Private Aviation", desc: "500+ aircraft on standby", tag: "Popular" },
-  { icon: "🚗", title: "Exotic Cars", desc: "Ferrari, Lambo, Rolls & more", tag: "Trending" },
+  { icon: "🚗", title: "Exotic Car Rental", desc: "Ferrari, Lambo, Rolls & more", tag: "Trending" },
   { icon: "🏡", title: "Luxury Villas", desc: "Staffed estates, 80+ countries", tag: "New" },
   { icon: "⛵", title: "Yacht Charters", desc: "Mediterranean specialists", tag: "" },
   { icon: "🚘", title: "Chauffeur Services", desc: "Door-to-door, discreet", tag: "" },
