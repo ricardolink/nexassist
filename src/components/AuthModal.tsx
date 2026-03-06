@@ -157,11 +157,13 @@ export default function AuthModal({ onClose, onSuccess, mode = "client", partner
               <form onSubmit={verifyCode} className="flex flex-col gap-4">
                 <input
                   type="text"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                  maxLength={6}
+                  inputMode="text"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck={false}
+                  maxLength={8}
                   value={code}
-                  onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  onChange={(e) => setCode(e.target.value.trim().slice(0, 8))}
                   placeholder="000000"
                   required
                   autoFocus
@@ -170,7 +172,7 @@ export default function AuthModal({ onClose, onSuccess, mode = "client", partner
                 {error && <p className="text-red-400/80 text-xs text-center leading-relaxed">{error}</p>}
                 <button
                   type="submit"
-                  disabled={loading || code.length < 6}
+                  disabled={loading || code.length < 6 || code.length > 8}
                   className="btn-gold w-full py-4 rounded-sm text-[#080d18] text-xs tracking-[0.15em] uppercase font-bold disabled:opacity-40"
                 >
                   {loading ? (

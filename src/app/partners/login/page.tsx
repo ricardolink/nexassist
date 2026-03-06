@@ -266,12 +266,14 @@ export default function PartnerLogin() {
                 <form onSubmit={handleCodeSubmit} className="flex flex-col gap-4">
                   <input
                     type="text"
-                    inputMode="numeric"
-                    pattern="[0-9]*"
-                    maxLength={6}
+                    inputMode="text"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    spellCheck={false}
+                    maxLength={8}
                     value={code}
-                    onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                    placeholder="000000"
+                    onChange={(e) => setCode(e.target.value.trim().slice(0, 8))}
+                    placeholder="······"
                     required
                     autoFocus
                     className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/45 rounded-sm px-4 py-4 text-2xl text-white placeholder-white/20 focus:outline-none text-center tracking-[0.6em] font-mono transition-colors"
@@ -285,7 +287,7 @@ export default function PartnerLogin() {
 
                   <button
                     type="submit"
-                    disabled={loading || code.length < 6}
+                    disabled={loading || code.length < 6 || code.length > 8}
                     className="btn-gold w-full py-4 rounded-sm text-[#080d18] text-xs tracking-[0.15em] uppercase font-bold disabled:opacity-40"
                   >
                     {loading ? (
