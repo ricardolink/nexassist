@@ -46,7 +46,6 @@ export default function AdminPage() {
   const [noteInput, setNoteInput] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [emailStatus, setEmailStatus] = useState<Record<string, "sending" | "sent" | "failed">>({});
 
   const loadApplications = useCallback(async () => {
     setLoading(true);
@@ -98,23 +97,7 @@ export default function AdminPage() {
         )
       );
 
-      // Send welcome email when approving
-      if (status === "approved") {
-        setEmailStatus((prev) => ({ ...prev, [app.id]: "sending" }));
-        try {
-          const res = await fetch("/api/partner-approved", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: app.email, name: app.name, company: app.company }),
-          });
-          setEmailStatus((prev) => ({
-            ...prev,
-            [app.id]: res.ok ? "sent" : "failed",
-          }));
-        } catch {
-          setEmailStatus((prev) => ({ ...prev, [app.id]: "failed" }));
-        }
-      }
+
     }
     setSaving(null);
   }
@@ -355,39 +338,7 @@ export default function AdminPage() {
                             Revoke
                           </button>
                         </div>
-                        {/* Email status */}
-                        {emailStatus[app.id] === "sending" && (
-                          <div className="flex items-center gap-1.5 text-white/30 text-[10px]">
-                            <span className="w-2.5 h-2.5 rounded-full border border-white/30 border-t-white/60 animate-spin" />
-                            Sending welcome email...
-                          </div>
-                        )}
-                        {emailStatus[app.id] === "sent" && (
-                          <div className="flex items-center gap-1.5 text-emerald-400/50 text-[10px]">
-                            <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none"><path d="M2 6l2.5 2.5L10 3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
-                            Welcome email sent to {app.email}
-                          </div>
-                        )}
-                        {emailStatus[app.id] === "failed" && (
-                          <div className="flex items-center gap-2 text-amber-400/50 text-[10px]">
-                            <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1"/><path d="M6 3.5v3M6 8v.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/></svg>
-                            Email not sent (RESEND_API_KEY not configured) — notify partner manually
-                            <button
-                              onClick={async () => {
-                                setEmailStatus((prev) => ({ ...prev, [app.id]: "sending" }));
-                                const res = await fetch("/api/partner-approved", {
-                                  method: "POST",
-                                  headers: { "Content-Type": "application/json" },
-                                  body: JSON.stringify({ email: app.email, name: app.name, company: app.company }),
-                                });
-                                setEmailStatus((prev) => ({ ...prev, [app.id]: res.ok ? "sent" : "failed" }));
-                              }}
-                              className="text-[#C9A962]/40 hover:text-[#C9A962]/70 underline transition-colors ml-1"
-                            >
-                              Retry
-                            </button>
-                          </div>
-                        )}
+
                       </div>
                     )}
 
