@@ -110,6 +110,10 @@ export default function AdminPage() {
   const [saving, setSaving] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<string | null>(null);
 
+  // Clients UI
+  const [clientSearch, setClientSearch] = useState("");
+  const [expandedClient, setExpandedClient] = useState<string | null>(null);
+
   const loadAll = useCallback(async () => {
     setLoading(true);
     const [appsRes, reqsRes, offersRes] = await Promise.all([
@@ -727,6 +731,173 @@ export default function AdminPage() {
                 </div>
               </div>
             )}
+
+            {/* ── Full Client List with Orders ── */}
+            <div className="bg-[#0c1222] border border-white/8 rounded-sm overflow-hidden">
+              {/* Header + search */}
+              <div className="px-5 py-4 border-b border-white/6 flex flex-col sm:flex-row sm:items-center gap-3">
+                <div className="flex-1">
+                  <h3 className="text-white font-medium text-sm">Client Directory</h3>
+                  <p className="text-white/25 text-xs mt-0.5">All clients with full order history — click to expand</p>
+                </div>
+                <input
+                  type="text"
+                  value={clientSearch}
+                  onChange={(e) => setClientSearch(e.target.value)}
+                  placeholder="Search by name or email…"
+                  className="bg-white/3 border border-white/10 focus:border-[#C9A962]/40 rounded-sm px-3 py-2 text-xs text-white placeholder-white/20 focus:outline-none w-full sm:w-56 transition-colors"
+                />
+              </div>
+
+              {clientStats.length === 0 ? (
+                <p className="text-white/20 text-sm text-center py-12">No clients yet</p>
+              ) : (
+                <div className="divide-y divide-white/4">
+                  {clientStats
+                    .filter((c) =>
+                      !clientSearch ||
+                      c.name.toLowerCase().includes(clientSearch.toLowerCase()) ||
+                      c.email.toLowerCase().includes(clientSearch.toLowerCase())
+                    )
+                    .map((c, i) => {
+                      const clientReqs = requests
+                        .filter((r) => r.client_email === c.email)
+                        .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+                      const isOpen = expandedClient === c.email;
+
+                      return (
+                        <div key={c.email}>
+                          {/* Client row */}
+                          <div
+                            className="px-5 py-4 flex items-center gap-4 cursor-pointer hover:bg-white/2 transition-colors"
+                            onClick={() => setExpandedClient(isOpen ? null : c.email)}
+                          >
+                            <span className="text-white/15 text-[10px] font-mono w-5 shrink-0">#{i + 1}</span>
+                            <div className="w-9 h-9 rounded-full bg-[#C9A962]/10 border border-[#C9A962]/20 flex items-center justify-center shrink-0 text-[#C9A962] font-bold text-sm">
+                              {c.name?.[0]?.toUpperCase() || "?"}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <p className="text-white/80 text-sm font-medium">{c.name}</p>
+                                {c.requestCount >= 2 && (
+                                  <span className="text-[8px] tracking-[0.15em] uppercase border border-purple-400/25 text-purple-400/60 bg-purple-400/6 rounded-sm px-1.5 py-0.5">VIP</span>
+                                )}
+                              </div>
+                              <p className="text-white/25 text-xs truncate">{c.email}</p>
+                            </div>
+
+                            {/* Summary stats — desktop */}
+                            <div className="hidden md:flex items-center gap-6 shrink-0">
+                              <div className="text-center min-w-[48px]">
+                                <p className="text-white font-bold text-base">{c.requestCount}</p>
+                                <p className="text-white/20 text-[9px] uppercase tracking-wider">Orders</p>
+                              </div>
+                              <div className="text-center min-w-[56px]">
+                                <p className="text-[#C9A962] font-bold text-sm">
+                                  {c.totalBudget > 0 ? `$${c.totalBudget >= 1000 ? (c.totalBudget / 1000).toFixed(0) + "K" : c.totalBudget}` : "—"}
+                                </p>
+                                <p className="text-white/20 text-[9px] uppercase tracking-wider">Budget</p>
+                              </div>
+                              <div className="text-center min-w-[56px]">
+                                <p className="text-white/40 text-sm">{c.lastActivity ? timeAgo(c.lastActivity) : "—"}</p>
+                                <p className="text-white/20 text-[9px] uppercase tracking-wider">Last order</p>
+                              </div>
+                            </div>
+
+                            {/* Chevron */}
+                            <svg className={`w-3.5 h-3.5 text-white/20 shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} viewBox="0 0 14 14" fill="none">
+                              <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                            </svg>
+                          </div>
+
+                          {/* Expanded: order list */}
+                          {isOpen && (
+                            <div className="border-t border-white/5 bg-[#080d18]/40">
+                              <div className="px-5 py-3 flex items-center gap-2">
+                                <div className="w-5 shrink-0" />
+                                <div className="w-9 shrink-0" />
+                                <p className="text-white/25 text-[9px] tracking-[0.35em] uppercase">
+                                  {c.requestCount} {c.requestCount === 1 ? "order" : "orders"} · {c.email}
+                                </p>
+                              </div>
+                              <div className="divide-y divide-white/3">
+                                {clientReqs.map((req, ri) => {
+                                  const reqOffers = offers.filter((o) => o.request_id === req.id);
+                                  const acceptedOffer = reqOffers.find((o) => o.status === "accepted");
+                                  return (
+                                    <div key={req.id} className="px-5 py-4 flex items-start gap-4">
+                                      {/* Order number */}
+                                      <div className="w-5 shrink-0" />
+                                      <div className="w-9 shrink-0 flex items-center justify-center">
+                                        <span className="text-white/15 text-[10px] font-mono">#{ri + 1}</span>
+                                      </div>
+
+                                      {/* Order details */}
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                                          {req.service_type && (
+                                            <span className="text-[8px] tracking-[0.15em] uppercase border rounded-sm px-1.5 py-0.5" style={{ color: (CATEGORY_COLORS[req.service_type] || "#C9A962") + "bb", borderColor: (CATEGORY_COLORS[req.service_type] || "#C9A962") + "35", backgroundColor: (CATEGORY_COLORS[req.service_type] || "#C9A962") + "10" }}>
+                                              {req.service_type}
+                                            </span>
+                                          )}
+                                          <span className={`text-[8px] tracking-[0.15em] uppercase border rounded-sm px-1.5 py-0.5 ${
+                                            req.status === "completed" ? "text-emerald-400/70 border-emerald-400/25 bg-emerald-400/6" :
+                                            req.status === "matched"   ? "text-[#C9A962]/70 border-[#C9A962]/25 bg-[#C9A962]/6" :
+                                            req.status === "cancelled" ? "text-red-400/60 border-red-400/20 bg-red-400/5" :
+                                            "text-white/30 border-white/10 bg-white/3"
+                                          }`}>
+                                            {req.status || "pending"}
+                                          </span>
+                                          <span className="text-white/20 text-[10px]">{timeAgo(req.created_at)}</span>
+                                        </div>
+
+                                        <p className="text-white/60 text-xs leading-relaxed mb-2 line-clamp-2">
+                                          {req.description || "No description provided"}
+                                        </p>
+
+                                        {/* Meta grid */}
+                                        <div className="flex flex-wrap gap-x-4 gap-y-1">
+                                          {req.city && (
+                                            <span className="flex items-center gap-1 text-white/30 text-[10px]">
+                                              <svg className="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><path d="M5 1a2.5 2.5 0 0 1 2.5 2.5c0 2-2.5 5.5-2.5 5.5S2.5 5.5 2.5 3.5A2.5 2.5 0 0 1 5 1z" stroke="currentColor" strokeWidth="0.8"/><circle cx="5" cy="3.5" r="0.8" fill="currentColor"/></svg>
+                                              {req.city}
+                                            </span>
+                                          )}
+                                          {req.date_needed && (
+                                            <span className="flex items-center gap-1 text-white/30 text-[10px]">
+                                              <svg className="w-2.5 h-2.5" viewBox="0 0 10 10" fill="none"><rect x="0.5" y="1.5" width="9" height="8" rx="1" stroke="currentColor" strokeWidth="0.8"/><path d="M0.5 4h9M3 0.5v2M7 0.5v2" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round"/></svg>
+                                              {new Date(req.date_needed).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                                            </span>
+                                          )}
+                                          {req.budget && (
+                                            <span className="text-[#C9A962]/50 text-[10px] font-medium">
+                                              ${req.budget}
+                                            </span>
+                                          )}
+                                        </div>
+
+                                        {/* Offers summary */}
+                                        {reqOffers.length > 0 && (
+                                          <div className="mt-2.5 flex flex-wrap gap-1.5">
+                                            <span className="text-white/20 text-[9px]">{reqOffers.length} {reqOffers.length === 1 ? "offer" : "offers"} received</span>
+                                            {acceptedOffer && (
+                                              <span className="text-emerald-400/60 text-[9px]">· Matched with {acceptedOffer.partner_company || acceptedOffer.partner_email}{acceptedOffer.price ? ` at $${acceptedOffer.price}` : ""}</span>
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                </div>
+              )}
+            </div>
 
           </div>
         )}
