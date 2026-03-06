@@ -75,7 +75,7 @@ const steps = [
   {
     num: "01",
     title: "Tell your assistant",
-    desc: "A message. A voice note. Whatever feels natural. Your assistant listens.",
+    desc: "Send a message. Describe what you need. Your assistant listens.",
   },
   {
     num: "02",
