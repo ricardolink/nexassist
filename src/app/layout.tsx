@@ -39,13 +39,15 @@ export const metadata: Metadata = {
     description:
       "Premium concierge services for the discerning few. Private jets, exotic cars, luxury villas and more.",
     type: "website",
-    url: "https://nexassist.com",
+    url: "https://usenexassist.com",
     siteName: "NexAssist",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "NexAssist — Your Personal Luxury Concierge" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "NexAssist | Your Personal Luxury Concierge",
     description: "Premium concierge services for the discerning few.",
+    images: ["/opengraph-image"],
   },
 };
 
