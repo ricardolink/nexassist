@@ -514,7 +514,7 @@ export default function Home() {
             </div>
           </div>
           <p className="mt-6 text-white/18 text-[9px] tracking-[0.25em] uppercase">
-            iOS & Android · Launching soon · Members get early access
+            iOS & Android · Coming soon
           </p>
         </div>
       </section>
