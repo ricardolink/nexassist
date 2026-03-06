@@ -18,13 +18,13 @@ const services = [
   {
     title: "Chauffeur Services",
     sub: "Door-to-door. Discreet. On demand.",
-    photo: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=600&q=85",
+    photo: "https://images.unsplash.com/photo-1684208551877-6595c34bf759?w=600&q=85",
     wide: false,
   },
   {
     title: "Car Sales",
     sub: "Acquire the extraordinary.",
-    photo: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=85",
+    photo: "https://images.unsplash.com/photo-1706894490183-eb08b4f7aa39?w=600&q=85",
     wide: false,
   },
   {
