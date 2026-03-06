@@ -114,6 +114,27 @@ export default function RequestModal({
       }
     }
 
+    // Notify Rick via email (fire and forget — don't block the user)
+    if (!editId) {
+      fetch("/api/notify-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          serviceType: selected,
+          description,
+          dateNeeded,
+          city,
+          budget,
+          name: payload.name,
+          email: payload.email,
+          phone,
+          countryDial: country.dial,
+          countryFlag: country.flag,
+          photoPreview,
+        }),
+      }).catch(() => {}); // silent fail — don't interrupt the user experience
+    }
+
     setSubmitting(false);
     onSuccess();
   }
