@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Block admin and internal routes
+Disallow: /admin
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /partners/dashboard
+
+Sitemap: https://usenexassist.com/sitemap.xml
