@@ -32,7 +32,9 @@ interface Application {
 }
 interface Request {
   id: string; service_type: string; description: string; city: string;
-  date_needed: string; budget: string; client_name: string; client_email: string; status: string; created_at: string;
+  date_needed: string; budget: string; client_name: string; client_email: string;
+  phone: string | null; country_name: string | null; photo_url: string | null;
+  status: string; created_at: string;
 }
 interface Offer {
   id: string; request_id: string; partner_email: string; partner_company: string;
@@ -114,6 +116,10 @@ export default function AdminPage() {
   const [clientSearch, setClientSearch] = useState("");
   const [expandedClient, setExpandedClient] = useState<string | null>(null);
 
+  // Requests UI
+  const [expandedRequest, setExpandedRequest] = useState<string | null>(null);
+  const [updatingReq, setUpdatingReq] = useState<string | null>(null);
+
   const loadAll = useCallback(async () => {
     setLoading(true);
     const [appsRes, reqsRes, offersRes] = await Promise.all([
@@ -136,6 +142,13 @@ export default function AdminPage() {
     e.preventDefault();
     if (pw === ADMIN_PASSWORD) { sessionStorage.setItem("nex_admin", "1"); setAuthed(true); }
     else { setPwError(true); setTimeout(() => setPwError(false), 1500); }
+  }
+
+  async function updateRequestStatus(req: Request, status: string) {
+    setUpdatingReq(req.id);
+    const { error } = await supabase.from("requests").update({ status }).eq("id", req.id);
+    if (!error) setRequests((prev) => prev.map((r) => r.id === req.id ? { ...r, status } : r));
+    setUpdatingReq(null);
   }
 
   async function updateStatus(app: Application, status: "approved" | "rejected") {
@@ -1100,16 +1113,19 @@ export default function AdminPage() {
           <div className="space-y-4">
             {/* Status summary */}
             <div className="grid grid-cols-3 gap-3 mb-2">
-              <StatCard label="Open"      value={pendingReqs}   sub="Awaiting partner offers"   color="#f59e0b" />
-              <StatCard label="Matched"   value={matchedReqs}   sub="Offer sent, in progress"   color="#C9A962" />
-              <StatCard label="Completed" value={completedReqs} sub="Successfully fulfilled"     color="#34d399" />
+              <StatCard label="Open"        value={pendingReqs}   sub="Awaiting fulfillment"       color="#f59e0b" />
+              <StatCard label="In Progress" value={matchedReqs}   sub="Being handled"              color="#C9A962" />
+              <StatCard label="Completed"   value={completedReqs} sub="Successfully fulfilled"     color="#34d399" />
             </div>
 
             {/* Requests list */}
             <div className="bg-[#0c1222] border border-white/8 rounded-sm overflow-hidden">
-              <div className="px-5 py-4 border-b border-white/6">
-                <h3 className="text-white font-medium text-sm">All Client Requests</h3>
-                <p className="text-white/25 text-xs mt-0.5">Most recent first</p>
+              <div className="px-5 py-4 border-b border-white/6 flex items-center justify-between">
+                <div>
+                  <h3 className="text-white font-medium text-sm">All Client Requests</h3>
+                  <p className="text-white/25 text-xs mt-0.5">Most recent first · click to expand</p>
+                </div>
+                <span className="text-white/20 text-xs">{requests.length} total</span>
               </div>
               {requests.length === 0 ? (
                 <p className="text-white/20 text-sm text-center py-12">No requests yet</p>
@@ -1117,30 +1133,173 @@ export default function AdminPage() {
                 <div className="divide-y divide-white/4">
                   {requests.map((r) => {
                     const reqOffers = offers.filter((o) => o.request_id === r.id);
+                    const isOpen = expandedRequest === r.id;
+                    const statusColor =
+                      r.status === "completed" ? "text-emerald-400/70 border-emerald-400/25 bg-emerald-400/6" :
+                      r.status === "matched" || r.status === "in_progress" ? "text-[#C9A962]/70 border-[#C9A962]/25 bg-[#C9A962]/6" :
+                      r.status === "cancelled" ? "text-red-400/60 border-red-400/20 bg-red-400/5" :
+                      "text-white/30 border-white/10 bg-white/3";
                     return (
-                      <div key={r.id} className="px-5 py-4 flex items-start gap-4">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1 flex-wrap">
-                            <span className="text-[8px] tracking-[0.15em] uppercase border rounded-sm px-1.5 py-0.5" style={{ color: (CATEGORY_COLORS[r.service_type] || "#C9A962") + "aa", borderColor: (CATEGORY_COLORS[r.service_type] || "#C9A962") + "35", backgroundColor: (CATEGORY_COLORS[r.service_type] || "#C9A962") + "10" }}>
-                              {r.service_type || "Uncategorised"}
-                            </span>
-                            <span className="text-white/20 text-[10px]">{timeAgo(r.created_at)}</span>
-                            {r.city && <span className="text-white/20 text-[10px]">· {r.city}</span>}
+                      <div key={r.id} className="overflow-hidden">
+                        {/* Row — click to expand */}
+                        <div
+                          className="px-5 py-4 flex items-start gap-4 cursor-pointer hover:bg-white/[0.015] transition-colors"
+                          onClick={() => setExpandedRequest(isOpen ? null : r.id)}
+                        >
+                          {/* Left: category + info */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1 flex-wrap">
+                              <span className="text-[8px] tracking-[0.15em] uppercase border rounded-sm px-1.5 py-0.5" style={{ color: (CATEGORY_COLORS[r.service_type] || "#C9A962") + "aa", borderColor: (CATEGORY_COLORS[r.service_type] || "#C9A962") + "35", backgroundColor: (CATEGORY_COLORS[r.service_type] || "#C9A962") + "10" }}>
+                                {r.service_type || "Uncategorised"}
+                              </span>
+                              <span className="text-white/20 text-[10px]">{timeAgo(r.created_at)}</span>
+                              {r.city && <span className="text-white/20 text-[10px]">· {r.city}</span>}
+                            </div>
+                            <p className="text-white/70 text-sm font-medium">{r.client_name || "Unknown"}</p>
+                            <p className="text-white/35 text-xs truncate">{r.client_email}</p>
+                            <p className="text-white/55 text-xs leading-snug mt-1 line-clamp-1">{r.description || "No description"}</p>
                           </div>
-                          <p className="text-white/65 text-sm leading-snug line-clamp-2">{r.description || "No description"}</p>
-                          {r.budget && <p className="text-[#C9A962]/50 text-[10px] mt-1">Budget: ${r.budget}</p>}
+
+                          {/* Right: status + chevron */}
+                          <div className="shrink-0 text-right flex flex-col items-end gap-1.5">
+                            <span className={`text-[8px] tracking-[0.15em] uppercase border rounded-sm px-2 py-0.5 ${statusColor}`}>
+                              {r.status}
+                            </span>
+                            {r.budget && <p className="text-[#C9A962]/50 text-[10px]">${r.budget}</p>}
+                            {reqOffers.length > 0 && (
+                              <p className="text-white/20 text-[9px]">{reqOffers.length} {reqOffers.length === 1 ? "offer" : "offers"}</p>
+                            )}
+                            <svg className={`w-3.5 h-3.5 text-white/20 transition-transform duration-200 mt-0.5 ${isOpen ? "rotate-180" : ""}`} viewBox="0 0 14 14" fill="none">
+                              <path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                            </svg>
+                          </div>
                         </div>
-                        <div className="shrink-0 text-right">
-                          <span className={`text-[8px] tracking-[0.15em] uppercase border rounded-sm px-2 py-0.5 block mb-1 ${
-                            r.status === "completed" ? "text-emerald-400/70 border-emerald-400/25 bg-emerald-400/6" :
-                            r.status === "matched"   ? "text-[#C9A962]/70 border-[#C9A962]/25 bg-[#C9A962]/6" :
-                            "text-white/30 border-white/10"}`}>
-                            {r.status}
-                          </span>
-                          {reqOffers.length > 0 && (
-                            <p className="text-white/20 text-[9px]">{reqOffers.length} {reqOffers.length === 1 ? "offer" : "offers"}</p>
-                          )}
-                        </div>
+
+                        {/* Expanded detail panel */}
+                        {isOpen && (
+                          <div className="border-t border-white/6 bg-[#080d18]/50 px-5 py-5 space-y-5">
+
+                            {/* Client contact */}
+                            <div>
+                              <p className="text-white/25 text-[9px] tracking-[0.35em] uppercase mb-3">Client Contact</p>
+                              <div className="flex flex-wrap gap-3">
+                                <div className="flex items-center gap-2 bg-white/3 border border-white/8 rounded-sm px-4 py-2.5">
+                                  <svg className="w-3.5 h-3.5 text-white/25 shrink-0" viewBox="0 0 14 14" fill="none">
+                                    <circle cx="7" cy="4.5" r="2.5" stroke="currentColor" strokeWidth="1"/>
+                                    <path d="M1.5 12.5c0-2.485 2.462-4.5 5.5-4.5s5.5 2.015 5.5 4.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+                                  </svg>
+                                  <span className="text-white/70 text-sm font-medium">{r.client_name || "—"}</span>
+                                </div>
+                                <a href={`mailto:${r.client_email}`} className="flex items-center gap-2 bg-white/3 border border-white/8 hover:border-[#C9A962]/30 rounded-sm px-4 py-2.5 transition-colors group">
+                                  <svg className="w-3.5 h-3.5 text-white/25 group-hover:text-[#C9A962]/50 shrink-0" viewBox="0 0 14 14" fill="none">
+                                    <rect x="1" y="3" width="12" height="8" rx="1.5" stroke="currentColor" strokeWidth="1"/>
+                                    <path d="M1 4l6 4 6-4" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+                                  </svg>
+                                  <span className="text-white/55 group-hover:text-white/80 text-sm transition-colors">{r.client_email}</span>
+                                </a>
+                                {r.phone && (
+                                  <a href={`tel:${r.phone}`} className="flex items-center gap-2 bg-white/3 border border-white/8 hover:border-[#C9A962]/30 rounded-sm px-4 py-2.5 transition-colors group">
+                                    <svg className="w-3.5 h-3.5 text-white/25 group-hover:text-[#C9A962]/50 shrink-0" viewBox="0 0 14 14" fill="none">
+                                      <path d="M3 1.5h3l1 3-1.5 1A9 9 0 0 0 9.5 9L10.5 7.5l3 1v3A1.5 1.5 0 0 1 12 13C5.925 13 1 8.075 1 2A1.5 1.5 0 0 1 2.5 .5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
+                                    </svg>
+                                    <span className="text-white/55 group-hover:text-white/80 text-sm transition-colors">{r.phone}</span>
+                                  </a>
+                                )}
+                              </div>
+                            </div>
+
+                            {/* Request details */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                              <div>
+                                <p className="text-white/25 text-[9px] tracking-[0.35em] uppercase mb-2">Request Details</p>
+                                <p className="text-white/60 text-sm leading-relaxed">{r.description || "No description provided."}</p>
+                                <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
+                                  {r.date_needed && (
+                                    <span className="flex items-center gap-1 text-white/30 text-[11px]">
+                                      <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none"><rect x="0.5" y="2" width="11" height="9.5" rx="1" stroke="currentColor" strokeWidth="0.9"/><path d="M0.5 5h11M3.5 0.5v2.5M8.5 0.5v2.5" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round"/></svg>
+                                      {r.date_needed ? new Date(r.date_needed).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) : "—"}
+                                    </span>
+                                  )}
+                                  {r.city && (
+                                    <span className="flex items-center gap-1 text-white/30 text-[11px]">
+                                      <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none"><path d="M6 1a3.5 3.5 0 0 1 3.5 3.5c0 2.5-3.5 6.5-3.5 6.5S2.5 7 2.5 4.5A3.5 3.5 0 0 1 6 1z" stroke="currentColor" strokeWidth="0.9"/><circle cx="6" cy="4.5" r="1" fill="currentColor"/></svg>
+                                      {r.city}{r.country_name ? `, ${r.country_name}` : ""}
+                                    </span>
+                                  )}
+                                  {r.budget && (
+                                    <span className="text-[#C9A962]/60 text-[11px] font-medium">Budget: ${r.budget}</span>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Photo if exists */}
+                              {r.photo_url && (
+                                <div>
+                                  <p className="text-white/25 text-[9px] tracking-[0.35em] uppercase mb-2">Attached Photo</p>
+                                  <a href={r.photo_url} target="_blank" rel="noopener noreferrer">
+                                    <img src={r.photo_url} alt="Request photo" className="rounded-sm w-full max-w-[200px] object-cover border border-white/10 hover:border-[#C9A962]/30 transition-colors" style={{ maxHeight: 140 }} />
+                                  </a>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Partner offers on this request */}
+                            {reqOffers.length > 0 && (
+                              <div>
+                                <p className="text-white/25 text-[9px] tracking-[0.35em] uppercase mb-2">Partner Offers ({reqOffers.length})</p>
+                                <div className="space-y-2">
+                                  {reqOffers.map((o) => (
+                                    <div key={o.id} className="flex items-center gap-3 bg-white/2 border border-white/6 rounded-sm px-4 py-2.5">
+                                      <div className="w-7 h-7 rounded-full bg-[#C9A962]/10 border border-[#C9A962]/20 flex items-center justify-center text-[#C9A962] text-[10px] font-bold shrink-0">
+                                        {o.partner_company?.[0]?.toUpperCase() || "?"}
+                                      </div>
+                                      <div className="flex-1 min-w-0">
+                                        <p className="text-white/65 text-xs font-medium">{o.partner_company || o.partner_email}</p>
+                                        <p className="text-white/25 text-[10px]">{o.price ? `$${o.price}` : "No price"} · {timeAgo(o.created_at)}</p>
+                                      </div>
+                                      <span className={`text-[8px] tracking-[0.15em] uppercase border rounded-sm px-2 py-0.5 shrink-0 ${
+                                        o.status === "accepted" ? "text-emerald-400/70 border-emerald-400/25 bg-emerald-400/6" :
+                                        o.status === "declined" ? "text-red-400/60 border-red-400/20 bg-red-400/5" :
+                                        "text-amber-400/70 border-amber-400/25 bg-amber-400/6"}`}>
+                                        {o.status}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Status controls */}
+                            <div>
+                              <p className="text-white/25 text-[9px] tracking-[0.35em] uppercase mb-3">Update Status</p>
+                              <div className="flex flex-wrap gap-2">
+                                {[
+                                  { value: "pending",     label: "Pending",     cls: "border-white/15 text-white/40 hover:border-white/30 hover:text-white/60" },
+                                  { value: "in_progress", label: "In Progress", cls: "border-[#C9A962]/30 text-[#C9A962]/60 hover:border-[#C9A962]/60 hover:text-[#C9A962]" },
+                                  { value: "completed",   label: "Completed",   cls: "border-emerald-500/30 text-emerald-400/60 hover:border-emerald-500/60 hover:text-emerald-400" },
+                                  { value: "cancelled",   label: "Cancelled",   cls: "border-red-500/20 text-red-400/40 hover:border-red-500/40 hover:text-red-400/70" },
+                                ].map((s) => (
+                                  <button
+                                    key={s.value}
+                                    onClick={() => updateRequestStatus(r, s.value)}
+                                    disabled={updatingReq === r.id || r.status === s.value}
+                                    className={`px-4 py-2 rounded-sm text-[10px] tracking-[0.2em] uppercase border transition-all disabled:opacity-30 ${
+                                      r.status === s.value
+                                        ? s.value === "pending"     ? "bg-white/5 border-white/20 text-white/50" :
+                                          s.value === "in_progress" ? "bg-[#C9A962]/10 border-[#C9A962]/40 text-[#C9A962]" :
+                                          s.value === "completed"   ? "bg-emerald-500/10 border-emerald-500/40 text-emerald-400" :
+                                          "bg-red-500/8 border-red-500/30 text-red-400/70"
+                                        : `bg-transparent ${s.cls}`
+                                    }`}
+                                  >
+                                    {updatingReq === r.id ? "..." : r.status === s.value ? `✓ ${s.label}` : s.label}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+
+                          </div>
+                        )}
                       </div>
                     );
                   })}

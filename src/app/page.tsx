@@ -12,7 +12,7 @@ const services = [
   {
     title: "Exotic Car Rental",
     sub: "Ferrari · Lamborghini · Rolls-Royce",
-    photo: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=900&q=85",
+    photo: "https://images.unsplash.com/photo-1612825173281-9a193378527e?w=900&q=85",
     wide: true,
   },
   {
@@ -161,8 +161,7 @@ function SuccessModal({
             <span className="text-gold-gradient">on it.</span>
           </h2>
           <p className="text-white/40 text-sm leading-relaxed max-w-xs mx-auto mb-8">
-            We&apos;re reviewing your request right now. Expect to hear from your personal concierge
-            within the next few minutes.
+            We&apos;re reviewing your request right now. You&apos;ll receive a <span className="text-white/60">text message</span> from your personal concierge with updates — usually within a few minutes.
           </p>
 
           {/* Divider */}
