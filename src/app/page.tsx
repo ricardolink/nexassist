@@ -14,54 +14,63 @@ const services = [
     sub: "Ferrari · Lamborghini · Rolls-Royce",
     photo: "https://images.unsplash.com/photo-1612825173281-9a193378527e?w=900&q=85",
     wide: true,
+    href: "/exotic-car-rental-los-angeles",
   },
   {
     title: "Chauffeur Services",
     sub: "Door-to-door. Discreet. On demand.",
     photo: "https://images.unsplash.com/photo-1684208551877-6595c34bf759?w=600&q=85",
     wide: false,
+    href: "/chauffeur-service-los-angeles",
   },
   {
     title: "Car Sales",
     sub: "Acquire the extraordinary.",
     photo: "https://images.unsplash.com/photo-1706894490183-eb08b4f7aa39?w=600&q=85",
     wide: false,
+    href: "/car-sales-los-angeles",
   },
   {
     title: "Private Jets",
     sub: "Your schedule. Your route.",
     photo: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=600&q=85",
     wide: false,
+    href: "/private-jet-charter-los-angeles",
   },
   {
     title: "Luxury Villas",
     sub: "Fully staffed. Perfectly curated.",
     photo: "https://images.unsplash.com/photo-1613977257363-707ba9348227?w=700&q=85",
     wide: false,
+    href: "/luxury-villa-rental-los-angeles",
   },
   {
     title: "Superyachts",
     sub: "Mediterranean · Caribbean · Pacific",
     photo: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=900&q=85",
     wide: true,
+    href: "/yacht-charter-los-angeles",
   },
   {
     title: "Fine Watches",
     sub: "Rolex · Patek Philippe · AP",
     photo: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&q=85",
     wide: false,
+    href: "/luxury-watches-los-angeles",
   },
   {
     title: "Designer Bags",
     sub: "Hermès · Chanel · Louis Vuitton",
     photo: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=85",
     wide: false,
+    href: "/designer-bags-los-angeles",
   },
   {
     title: "Luxury Travel",
     sub: "Five-star. Everywhere.",
     photo: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=85",
     wide: false,
+    href: "/luxury-travel-los-angeles",
   },
 ];
 
@@ -382,9 +391,8 @@ export default function Home() {
           {/* Mobile: single column stacked */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 sm:gap-2">
             {services.map((s, i) => (
-              <button
+              <div
                 key={s.title}
-                onClick={() => openRequest()}
                 className={`service-card relative overflow-hidden group text-left ${
                   i === 0
                     ? "lg:col-span-2 h-[52vw] sm:h-[300px] lg:h-[360px]"
@@ -393,6 +401,8 @@ export default function Home() {
                     : "h-[52vw] sm:h-[240px] lg:h-[280px]"
                 }`}
               >
+                {/* Clickable area → SEO landing page */}
+                <Link href={s.href} className="absolute inset-0 z-10" aria-label={`Learn more about ${s.title}`} />
                 {/* Photo */}
                 <div
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
@@ -404,7 +414,7 @@ export default function Home() {
                 {/* Top border on hover */}
                 <div className="absolute top-0 left-0 right-0 h-px bg-[#C9A962]/0 group-hover:bg-[#C9A962]/50 transition-all duration-300" />
                 {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
+                <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 z-20">
                   <div className="w-5 h-px bg-[#C9A962]/50 mb-2.5 group-hover:w-8 transition-all duration-300" />
                   <h3 className="font-playfair text-lg sm:text-xl font-bold text-white mb-0.5 group-hover:text-[#C9A962] transition-colors duration-300">
                     {s.title}
@@ -412,12 +422,17 @@ export default function Home() {
                   <p className="text-white/40 text-[10px] sm:text-xs tracking-wide group-hover:text-white/60 transition-colors duration-300">
                     {s.sub}
                   </p>
-                  <div className="mt-3 flex items-center gap-1.5 text-[#C9A962]/0 group-hover:text-[#C9A962]/75 transition-all duration-300 text-[10px] tracking-[0.15em] uppercase">
-                    <span>Request</span>
-                    <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+                  <div className="mt-3 flex items-center gap-3">
+                    <button
+                      onClick={(e) => { e.preventDefault(); e.stopPropagation(); openRequest(); }}
+                      className="relative z-30 flex items-center gap-1.5 text-[#C9A962]/0 group-hover:text-[#C9A962]/90 transition-all duration-300 text-[10px] tracking-[0.15em] uppercase bg-[#080d18]/60 group-hover:bg-[#C9A962]/12 border border-transparent group-hover:border-[#C9A962]/30 rounded-sm px-3 py-1.5"
+                    >
+                      <span>Request</span>
+                      <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+                    </button>
                   </div>
                 </div>
-              </button>
+              </div>
             ))}
           </div>
         </div>

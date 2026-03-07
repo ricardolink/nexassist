@@ -4,6 +4,18 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import RequestModal from "@/components/RequestModal";
 
+const ALL_SERVICES = [
+  { label: "Exotic Car Rental",   href: "/exotic-car-rental-los-angeles",   icon: "🏎️" },
+  { label: "Chauffeur Service",   href: "/chauffeur-service-los-angeles",    icon: "🎩" },
+  { label: "Private Jets",        href: "/private-jet-charter-los-angeles",  icon: "✈️" },
+  { label: "Yacht Charter",       href: "/yacht-charter-los-angeles",        icon: "⚓" },
+  { label: "Luxury Villas",       href: "/luxury-villa-rental-los-angeles",  icon: "🏡" },
+  { label: "Car Sales",           href: "/car-sales-los-angeles",            icon: "🔑" },
+  { label: "Fine Watches",        href: "/luxury-watches-los-angeles",       icon: "⌚" },
+  { label: "Designer Bags",       href: "/designer-bags-los-angeles",        icon: "👜" },
+  { label: "Luxury Travel",       href: "/luxury-travel-los-angeles",        icon: "🌍" },
+];
+
 export interface ServiceItem {
   name: string;
   sub?: string;
@@ -254,7 +266,36 @@ export default function ServiceLandingPage({ cfg }: { cfg: ServiceLandingConfig 
         </div>
       </section>
 
-      <div className="border-t border-white/6 py-8 px-4 text-center">
+      {/* ── Internal service links — SEO silo ── */}
+      <section className="border-t border-white/6 bg-[#080d18] py-14 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <p className="text-center text-[#C9A962] text-[9px] tracking-[0.45em] uppercase mb-2">NexAssist Services</p>
+          <h2 className="text-center font-playfair text-xl sm:text-2xl font-bold text-white mb-8">
+            Every Luxury Service. One Concierge.
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+            {ALL_SERVICES.filter((s) => s.href !== `/${cfg.slug}`).map((s) => (
+              <Link
+                key={s.href}
+                href={s.href}
+                className="flex flex-col items-center gap-2 border border-white/8 hover:border-[#C9A962]/30 bg-[#0c1222] hover:bg-[#C9A962]/5 rounded-sm px-3 py-4 transition-all group text-center"
+              >
+                <span className="text-xl">{s.icon}</span>
+                <span className="text-white/50 group-hover:text-white/80 text-[10px] tracking-[0.1em] leading-snug transition-colors">{s.label}</span>
+              </Link>
+            ))}
+            <Link
+              href="/"
+              className="flex flex-col items-center gap-2 border border-[#C9A962]/15 hover:border-[#C9A962]/40 bg-[#C9A962]/5 rounded-sm px-3 py-4 transition-all group text-center"
+            >
+              <span className="text-xl">✦</span>
+              <span className="text-[#C9A962]/60 group-hover:text-[#C9A962] text-[10px] tracking-[0.1em] leading-snug transition-colors">All Services</span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <div className="border-t border-white/6 py-6 px-4 text-center">
         <Link href="/" className="text-white/25 hover:text-[#C9A962] text-[10px] tracking-[0.2em] uppercase transition-colors">
           ← Back to NexAssist
         </Link>
