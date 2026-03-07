@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import RequestModal from "@/components/RequestModal";
+import { supabase } from "@/lib/supabase";
 import {
   getRequests,
   cancelRequest,
@@ -411,8 +412,99 @@ function SharePanel({ req, onClose }: { req: SavedRequest; onClose: () => void }
   );
 }
 
+// ── Inline Sign-In Gate ────────────────────────────────────
+function SignInGate({ onAuthed }: { onAuthed: (email: string) => void }) {
+  const [step, setStep] = useState<"email" | "code">("email");
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function sendCode(e: React.FormEvent) {
+    e.preventDefault();
+    setError(""); setLoading(true);
+    const { error: err } = await supabase.auth.signInWithOtp({
+      email: email.toLowerCase().trim(),
+      options: { shouldCreateUser: true, emailRedirectTo: "https://usenexassist.com/my-requests" },
+    });
+    if (err) setError(err.message);
+    else setStep("code");
+    setLoading(false);
+  }
+
+  async function verifyCode(e: React.FormEvent) {
+    e.preventDefault();
+    setError(""); setLoading(true);
+    const { data, error: err } = await supabase.auth.verifyOtp({
+      email: email.toLowerCase().trim(),
+      token: code.trim(),
+      type: "email",
+    });
+    if (err || !data.session) setError("Invalid or expired code. Try again.");
+    else onAuthed(email.toLowerCase().trim());
+    setLoading(false);
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-[60vh] px-5 text-center">
+      {/* Icon */}
+      <div className="w-16 h-16 rounded-full border border-[#C9A962]/25 flex items-center justify-center mb-6 relative">
+        <div className="absolute inset-0 rounded-full bg-[#C9A962]/5 blur-sm" />
+        <svg className="w-7 h-7 text-[#C9A962]/50" viewBox="0 0 24 24" fill="none">
+          <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+        </svg>
+      </div>
+
+      <p className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase mb-2">My Requests</p>
+      <h2 className="font-playfair text-2xl sm:text-3xl font-bold text-white mb-2">
+        {step === "email" ? "Sign in to view your requests" : "Check your email"}
+      </h2>
+      <p className="text-white/35 text-sm max-w-xs mb-8">
+        {step === "email"
+          ? "Enter the email you used when submitting your request."
+          : `We sent a 6-digit code to ${email}. Enter it below.`}
+      </p>
+
+      {/* Form */}
+      {step === "email" ? (
+        <form onSubmit={sendCode} className="w-full max-w-sm space-y-3">
+          <input
+            type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+            placeholder="your@email.com" required autoFocus
+            className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/50 rounded-sm px-4 py-3.5 text-sm text-white placeholder-white/20 focus:outline-none transition-colors text-center"
+          />
+          {error && <p className="text-red-400/70 text-xs">{error}</p>}
+          <button type="submit" disabled={loading}
+            className="btn-gold w-full py-4 rounded-sm text-[#080d18] text-xs tracking-[0.15em] uppercase font-bold disabled:opacity-50">
+            {loading ? "Sending code…" : "Send Code →"}
+          </button>
+        </form>
+      ) : (
+        <form onSubmit={verifyCode} className="w-full max-w-sm space-y-3">
+          <input
+            type="text" value={code} onChange={(e) => setCode(e.target.value)}
+            placeholder="000000" maxLength={6} required autoFocus inputMode="numeric"
+            className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/50 rounded-sm px-4 py-3.5 text-sm text-white placeholder-white/20 focus:outline-none transition-colors text-center tracking-[0.5em] font-mono text-lg"
+          />
+          {error && <p className="text-red-400/70 text-xs">{error}</p>}
+          <button type="submit" disabled={loading}
+            className="btn-gold w-full py-4 rounded-sm text-[#080d18] text-xs tracking-[0.15em] uppercase font-bold disabled:opacity-50">
+            {loading ? "Verifying…" : "Verify →"}
+          </button>
+          <button type="button" onClick={() => { setStep("email"); setCode(""); setError(""); }}
+            className="w-full py-2 text-white/25 hover:text-white/50 text-xs tracking-wider uppercase transition-colors">
+            ← Use a different email
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
+
 // ── Main Page ──────────────────────────────────────────────
 export default function MyRequests() {
+  const [authChecked, setAuthChecked] = useState(false);
+  const [authedEmail, setAuthedEmail] = useState<string | null>(null);
   const [requests, setRequests] = useState<SavedRequest[]>([]);
   const [filter, setFilter] = useState<RequestStatus | "all">("all");
   const [detail, setDetail] = useState<SavedRequest | null>(null);
@@ -423,9 +515,54 @@ export default function MyRequests() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [confirmCancel, setConfirmCancel] = useState<SavedRequest | null>(null);
 
+  // Check Supabase session on mount
   useEffect(() => {
-    setRequests(getRequests());
+    supabase.auth.getSession().then(({ data }) => {
+      const email = data.session?.user?.email ?? null;
+      setAuthedEmail(email);
+      setAuthChecked(true);
+      if (email) loadRequests(email);
+    });
   }, []);
+
+  async function loadRequests(email: string) {
+    // Load from Supabase first
+    const { data } = await supabase
+      .from("requests")
+      .select("*")
+      .eq("client_email", email)
+      .order("created_at", { ascending: false });
+
+    if (data && data.length > 0) {
+      // Map Supabase rows to SavedRequest shape
+      const mapped: SavedRequest[] = data.map((r) => ({
+        id: r.id,
+        serviceType: r.service_type ?? "",
+        description: r.description ?? "",
+        city: r.city ?? "",
+        dateNeeded: r.date_needed ?? "",
+        budget: r.budget ?? "",
+        name: r.client_name ?? "",
+        email: r.client_email ?? "",
+        phone: r.phone ?? "",
+        countryDial: r.country_dial ?? "",
+        countryFlag: r.country_flag ?? "",
+        countryCode: r.country_code ?? "",
+        status: (r.status === "in_progress" ? "in-progress" : r.status) as RequestStatus ?? "pending",
+        submittedAt: r.created_at ?? new Date().toISOString(),
+        photoPreview: r.photo_url ?? null,
+      }));
+      setRequests(mapped);
+    } else {
+      // Fallback to localStorage
+      setRequests(getRequests().filter((r) => r.email === email));
+    }
+  }
+
+  function handleAuthed(email: string) {
+    setAuthedEmail(email);
+    loadRequests(email);
+  }
 
   function handleRequestAgain(r: SavedRequest) {
     setPrefill(r);
@@ -462,11 +599,28 @@ export default function MyRequests() {
 
   const filtered = filter === "all" ? requests : requests.filter((r) => r.status === filter);
 
+  // Loading state while checking session
+  if (!authChecked) {
+    return (
+      <div className="bg-[#080d18] min-h-screen flex items-center justify-center">
+        <div className="w-6 h-6 rounded-full border border-[#C9A962]/30 border-t-[#C9A962] animate-spin" />
+      </div>
+    );
+  }
+
   return (
     <div className="bg-[#080d18] text-white min-h-screen overflow-x-hidden">
       <Navbar />
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-20">
+      {/* ── Auth gate — shown only if not signed in ── */}
+      {!authedEmail ? (
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-20">
+          <SignInGate onAuthed={handleAuthed} />
+        </div>
+      ) : null}
+
+      {/* ── Requests content — shown only when authed ── */}
+      {authedEmail && <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-20">
         {/* Header */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
@@ -557,16 +711,16 @@ export default function MyRequests() {
             ))}
           </div>
         )}
-      </div>
+      </div>}
 
       {/* Back to home */}
-      <div className="border-t border-[#C9A962]/08 py-8 px-4 sm:px-6">
+      {authedEmail && <div className="border-t border-[#C9A962]/08 py-8 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           <Link href="/" className="text-white/25 hover:text-[#C9A962] text-[10px] tracking-[0.2em] uppercase transition-colors flex items-center gap-2">
             ← Back to NexAssist
           </Link>
         </div>
-      </div>
+      </div>}
 
       {/* Modals */}
       {detail && (
