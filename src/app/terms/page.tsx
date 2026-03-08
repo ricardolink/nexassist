@@ -121,14 +121,11 @@ export default function TermsPage() {
             <section>
               <h2 className="font-playfair text-xl font-bold text-white/85 mb-3">8. Contact</h2>
               <p>
-                For questions about these Terms, please contact us at{" "}
-                <a href="mailto:nexassist@yahoo.com" className="text-[#C9A962] hover:text-[#C9A962]/80 transition-colors">
-                  nexassist@yahoo.com
-                </a>{" "}
-                or visit our{" "}
+                For questions about these Terms, please visit our{" "}
                 <Link href="/contact" className="text-[#C9A962] hover:text-[#C9A962]/80 transition-colors">
                   Contact page
-                </Link>.
+                </Link>{" "}
+                and we will get back to you promptly.
               </p>
             </section>
 

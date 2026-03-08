@@ -109,14 +109,11 @@ export default function PrivacyPage() {
             <section>
               <h2 className="font-playfair text-xl font-bold text-white/85 mb-3">6. Contact Us</h2>
               <p>
-                If you have any questions about this Privacy Policy or how your data is handled, please contact us at{" "}
-                <a href="mailto:nexassist@yahoo.com" className="text-[#C9A962] hover:text-[#C9A962]/80 transition-colors">
-                  nexassist@yahoo.com
-                </a>{" "}
-                or visit our{" "}
+                If you have any questions about this Privacy Policy or how your data is handled, please visit our{" "}
                 <Link href="/contact" className="text-[#C9A962] hover:text-[#C9A962]/80 transition-colors">
                   Contact page
-                </Link>.
+                </Link>{" "}
+                and we will get back to you promptly.
               </p>
             </section>
 
