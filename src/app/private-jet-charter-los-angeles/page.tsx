@@ -18,7 +18,7 @@ const cfg: ServiceLandingConfig = {
       name: "Light Jet",
       sub: "Phenom 300 · Citation CJ4 · Learjet 75",
       tags: ["Up to 8 pax", "Vegas · SF · Phoenix", "Short Range"],
-      img: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?w=800&q=80",
+      img: "https://plus.unsplash.com/premium_photo-1674343088347-08316eff97a8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixlib=rb-4.1.0&q=80&w=800",
       color: "#60a5fa",
     },
     {
@@ -32,14 +32,14 @@ const cfg: ServiceLandingConfig = {
       name: "Super Midsize",
       sub: "Challenger 350 · Citation X · Falcon 2000",
       tags: ["Up to 10 pax", "NYC · Miami nonstop", "Full galley"],
-      img: "https://images.unsplash.com/photo-1517400508447-f8dd518b86db?w=800&q=80",
+      img: "https://plus.unsplash.com/premium_photo-1755736605126-9c749949cf12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixlib=rb-4.1.0&q=80&w=800",
       color: "#f59e0b",
     },
     {
       name: "Heavy Jet",
       sub: "Gulfstream G550 · Falcon 7X · Global 6000",
       tags: ["Up to 14 pax", "Transatlantic", "Bedroom suites"],
-      img: "https://images.unsplash.com/photo-1583400690509-c4aa9d6e1186?w=800&q=80",
+      img: "https://plus.unsplash.com/premium_photo-1754214179012-f69f3d15f6c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixlib=rb-4.1.0&q=80&w=800",
       color: "#34d399",
     },
     {
