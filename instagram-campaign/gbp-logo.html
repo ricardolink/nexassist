@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 720px; height: 720px;
+    background: #080d18;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Georgia', serif;
+    overflow: hidden;
+  }
+
+  .bg-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(201,169,98,0.08) 0%, transparent 65%);
+  }
+
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,169,98,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,169,98,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .corner { position: absolute; width: 40px; height: 40px; }
+  .corner.tl { top: 32px; left: 32px; border-top: 1px solid rgba(201,169,98,0.3); border-left: 1px solid rgba(201,169,98,0.3); }
+  .corner.tr { top: 32px; right: 32px; border-top: 1px solid rgba(201,169,98,0.3); border-right: 1px solid rgba(201,169,98,0.3); }
+  .corner.bl { bottom: 32px; left: 32px; border-bottom: 1px solid rgba(201,169,98,0.3); border-left: 1px solid rgba(201,169,98,0.3); }
+  .corner.br { bottom: 32px; right: 32px; border-bottom: 1px solid rgba(201,169,98,0.3); border-right: 1px solid rgba(201,169,98,0.3); }
+
+  .center {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; gap: 28px;
+  }
+
+  .diamond-wrap {
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+
+  .diamond-glow {
+    position: absolute;
+    width: 200px; height: 200px;
+    background: radial-gradient(ellipse, rgba(201,169,98,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .wordmark {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+
+  .name {
+    font-family: 'Georgia', serif;
+    font-size: 52px; font-weight: bold;
+    color: #fff; letter-spacing: 0.08em;
+  }
+  .name span { color: #C9A962; }
+
+  .tagline {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px; letter-spacing: 0.5em; text-transform: uppercase;
+    color: rgba(201,169,98,0.55);
+  }
+
+  .divider {
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, #C9A962, transparent);
+  }
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<div class="grid"></div>
+<div class="corner tl"></div>
+<div class="corner tr"></div>
+<div class="corner bl"></div>
+<div class="corner br"></div>
+
+<div class="center">
+  <div class="diamond-wrap">
+    <div class="diamond-glow"></div>
+    <svg width="160" height="160" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.9"/>
+      <polygon points="18,5.5 31,18 18,30.5 5,18" stroke="#C9A962" stroke-width="0.35" stroke-opacity="0.35"/>
+      <polygon points="18,9.5 27.5,18 18,26.5 8.5,18" stroke="#C9A962" stroke-width="0.2" stroke-opacity="0.18"/>
+      <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="miter"/>
+    </svg>
+  </div>
+
+  <div class="wordmark">
+    <div class="divider"></div>
+    <div class="name">Nex<span>Assist</span></div>
+    <div class="tagline">Personal Luxury Concierge</div>
+    <div class="divider"></div>
+  </div>
+</div>
+</body>
+</html>
