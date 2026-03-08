@@ -600,7 +600,7 @@ export default function Home() {
 
       {/* ─────────── FOOTER ─────────── */}
       <footer className="border-t border-[#C9A962]/10 py-10 sm:py-12 px-5 sm:px-8">
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-5">
+        <div className="max-w-5xl mx-auto flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
           <div className="flex items-center gap-3">
             <svg viewBox="0 0 36 36" fill="none" className="w-7 h-7">
               <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" strokeWidth="0.9" strokeOpacity="0.6" />
@@ -610,16 +610,19 @@ export default function Home() {
               Nex<span className="text-[#C9A962]">Assist</span>
             </span>
           </div>
-          <p className="text-white/18 text-[9px] tracking-[0.35em] uppercase">
+          <p className="text-white/18 text-[9px] tracking-[0.35em] uppercase order-last sm:order-none">
             © {new Date().getFullYear()} NexAssist · Personal Concierge
           </p>
-          <div className="flex gap-6 text-[9px] tracking-[0.2em] uppercase text-white/22">
-            {["Privacy", "Terms", "Contact"].map((l) => (
-              <Link key={l} href={`/${l.toLowerCase()}`} className="hover:text-[#C9A962] transition-colors">
-                {l}
-              </Link>
-            ))}
-          </div>
+          <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[9px] tracking-[0.2em] uppercase text-white/22">
+            <Link href="/privacy" className="hover:text-[#C9A962] transition-colors">Privacy</Link>
+            <Link href="/terms" className="hover:text-[#C9A962] transition-colors">Terms</Link>
+            <Link href="/contact" className="hover:text-[#C9A962] transition-colors">Contact</Link>
+            <Link href="/faqs" className="hover:text-[#C9A962] transition-colors">FAQs</Link>
+            <Link href="/blog" className="hover:text-[#C9A962] transition-colors flex items-center gap-1.5">
+              Blog
+              <span className="text-[#C9A962]/35 text-[7px] tracking-[0.15em] normal-case">(soon)</span>
+            </Link>
+          </nav>
         </div>
       </footer>
 
