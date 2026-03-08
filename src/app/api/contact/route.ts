@@ -54,7 +54,7 @@ export async function POST(req: Request) {
 
     await resend.emails.send({
       from: "NexAssist <onboarding@resend.dev>",
-      to: "nexassist@yahoo.com",
+      to: "ricardolink@gmail.com",
       replyTo: email,
       subject: `Contact Form: ${subject || "New Message"} — ${name}`,
       html: htmlBody,
