@@ -23,7 +23,7 @@ const cfg: ServiceLandingConfig = {
     {
       name: "Lamborghini",
       tags: ["Huracán EVO", "Urus Performante", "Revuelto"],
-      img: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&q=80",
+      img: "/cars/huracan.jpg",
       color: "#f59e0b",
     },
     {
@@ -35,13 +35,13 @@ const cfg: ServiceLandingConfig = {
     {
       name: "McLaren",
       tags: ["720S", "Artura", "GT", "765LT"],
-      img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+      img: "/cars/mclaren.png",
       color: "#f97316",
     },
     {
       name: "Bentley",
       tags: ["Continental GT", "Bentayga", "Flying Spur"],
-      img: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?w=800&q=80",
+      img: "/cars/bentley.jpg",
       color: "#34d399",
     },
     {
@@ -53,7 +53,7 @@ const cfg: ServiceLandingConfig = {
     {
       name: "BMW",
       tags: ["M8 Competition", "M5 CS", "XM Label", "i7 M70"],
-      img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80",
+      img: "/cars/bmw-x6m.png",
       color: "#3b82f6",
     },
     {
@@ -65,7 +65,7 @@ const cfg: ServiceLandingConfig = {
     {
       name: "Land Rover",
       tags: ["Range Rover SV", "Defender 110", "Range Rover Sport"],
-      img: "https://images.unsplash.com/photo-1606016159991-dfe4f2746ad5?w=800&q=80",
+      img: "/cars/land-rover.jpg",
       color: "#10b981",
     },
   ],
