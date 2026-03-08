@@ -25,7 +25,7 @@ const cfg: ServiceLandingConfig = {
       name: "Lamborghini",
       sub: "Urus · Huracán · Revuelto",
       tags: ["New & CPO", "Custom Spec", "Nationwide"],
-      img: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=800&q=80",
+      img: "/cars/huracan.jpg",
       color: "#f59e0b",
     },
     {
@@ -53,7 +53,7 @@ const cfg: ServiceLandingConfig = {
       name: "BMW M",
       sub: "M8 Competition · XM · M5 CS",
       tags: ["Custom Order", "New", "CPO"],
-      img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800&q=80",
+      img: "/cars/bmw-x6m.png",
       color: "#3b82f6",
     },
   ],
