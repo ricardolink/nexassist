@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #080d18;
+  font-family: 'Inter', Arial, sans-serif;
+  color: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.slide {
+  width: 1122px;
+  height: 794px;
+  position: relative;
+  overflow: hidden;
+  background: #080d18;
+  page-break-after: always;
+  break-after: page;
+}
+
+/* ── SHARED ── */
+.gold { color: #C9A962; }
+.accent-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #C9A962, rgba(201,169,98,0.3) 60%, transparent); }
+.accent-left { position: absolute; top: 0; bottom: 0; left: 0; width: 3px; background: linear-gradient(180deg, #C9A962 0%, rgba(201,169,98,0.15) 60%, transparent); }
+.grid-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(201,169,98,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(201,169,98,0.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.c-tl { position: absolute; top: 22px; left: 22px; width: 32px; height: 32px; border-top: 1px solid rgba(201,169,98,0.4); border-left: 1px solid rgba(201,169,98,0.4); }
+.c-tr { position: absolute; top: 22px; right: 22px; width: 32px; height: 32px; border-top: 1px solid rgba(201,169,98,0.18); border-right: 1px solid rgba(201,169,98,0.18); }
+.c-bl { position: absolute; bottom: 22px; left: 22px; width: 32px; height: 32px; border-bottom: 1px solid rgba(201,169,98,0.18); border-left: 1px solid rgba(201,169,98,0.18); }
+.c-br { position: absolute; bottom: 22px; right: 22px; width: 32px; height: 32px; border-bottom: 1px solid rgba(201,169,98,0.18); border-right: 1px solid rgba(201,169,98,0.18); }
+.slide-num { position: absolute; bottom: 36px; right: 60px; font-size: 11px; letter-spacing: 0.3em; color: rgba(201,169,98,0.3); }
+.brand-mark { position: absolute; bottom: 32px; left: 60px; display: flex; align-items: center; gap: 8px; }
+.brand-mark svg { width: 22px; height: 22px; }
+.brand-mark span { font-size: 10px; letter-spacing: 0.35em; color: rgba(201,169,98,0.4); text-transform: uppercase; }
+.slide-eyebrow { font-size: 10px; letter-spacing: 0.55em; text-transform: uppercase; color: rgba(201,169,98,0.6); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.slide-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: #C9A962; opacity: 0.5; }
+.slide-title { font-family: 'Playfair Display', Georgia, serif; font-size: 40px; font-weight: 700; line-height: 1.15; }
+.slide-title em { font-style: normal; color: #C9A962; }
+.slide-divider { width: 40px; height: 1.5px; background: #C9A962; margin-top: 18px; opacity: 0.6; }
+
+/* ── LOGO SVG ── */
+.logo-svg { display: block; }
+
+/* ══════════════════════════════════════
+   SLIDE 1 — COVER
+══════════════════════════════════════ */
+.s1-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #080d18 0%, #0d1628 50%, #080d18 100%);
+}
+.s1-glow {
+  position: absolute; top: -200px; right: -200px;
+  width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,169,98,0.07) 0%, transparent 70%);
+}
+.s1-glow2 {
+  position: absolute; bottom: -150px; left: -100px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,169,98,0.04) 0%, transparent 70%);
+}
+.s1-content { position: absolute; top: 50%; left: 72px; transform: translateY(-50%); }
+.s1-year-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  border: 1px solid rgba(201,169,98,0.2); padding: 8px 18px;
+  margin-bottom: 36px; background: rgba(201,169,98,0.05);
+}
+.s1-year-badge span { font-size: 10px; letter-spacing: 0.5em; text-transform: uppercase; color: rgba(201,169,98,0.7); }
+.s1-brand { font-family: 'Playfair Display', Georgia, serif; font-size: 68px; font-weight: 900; line-height: 1; }
+.s1-brand em { font-style: normal; color: #C9A962; }
+.s1-divider { width: 60px; height: 2px; background: #C9A962; margin: 24px 0; opacity: 0.6; }
+.s1-doc-title { font-family: 'Playfair Display', Georgia, serif; font-size: 28px; font-weight: 400; color: rgba(255,255,255,0.7); line-height: 1.3; }
+.s1-doc-sub { font-size: 13px; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); margin-top: 12px; }
+
+.s1-right { position: absolute; right: 72px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 20px; }
+.s1-stat { text-align: right; }
+.s1-stat-num { font-family: 'Playfair Display', Georgia, serif; font-size: 44px; font-weight: 900; color: #C9A962; line-height: 1; }
+.s1-stat-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 4px; }
+.s1-stat-divider { width: 100%; height: 1px; background: rgba(201,169,98,0.12); margin: 2px 0; }
+
+/* ══════════════════════════════════════
+   SLIDE 2 — PHASE 1 SUMMARY
+══════════════════════════════════════ */
+.s2-header { position: absolute; top: 58px; left: 72px; right: 72px; }
+.s2-body { position: absolute; top: 195px; left: 72px; right: 72px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.done-card {
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(201,169,98,0.1);
+  padding: 20px 22px; position: relative; overflow: hidden;
+}
+.done-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #C9A962, transparent); opacity: 0.4; }
+.done-card-label { font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(201,169,98,0.6); margin-bottom: 10px; }
+.done-card-title { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 8px; }
+.done-card-detail { font-size: 12px; color: rgba(255,255,255,0.38); line-height: 1.6; }
+.done-card-count { position: absolute; top: 18px; right: 20px; font-family: 'Playfair Display', Georgia, serif; font-size: 32px; font-weight: 900; color: rgba(201,169,98,0.15); }
+
+.s2-status { position: absolute; bottom: 60px; left: 72px; right: 72px; display: flex; align-items: center; gap: 16px; background: rgba(201,169,98,0.06); border: 1px solid rgba(201,169,98,0.18); padding: 16px 24px; }
+.s2-status-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; flex-shrink: 0; box-shadow: 0 0 8px rgba(74,222,128,0.5); }
+.s2-status-text { font-size: 13px; color: rgba(255,255,255,0.55); }
+.s2-status-text strong { color: rgba(255,255,255,0.85); }
+
+/* ══════════════════════════════════════
+   SLIDE 3 — PRE-PHASE 2 CHECKLIST
+══════════════════════════════════════ */
+.s3-header { position: absolute; top: 58px; left: 72px; right: 72px; }
+.s3-body { position: absolute; top: 195px; left: 72px; right: 72px; display: flex; gap: 32px; }
+.s3-col { flex: 1; }
+
+.checklist-group { margin-bottom: 24px; }
+.checklist-group-title { font-size: 9px; letter-spacing: 0.45em; text-transform: uppercase; color: rgba(201,169,98,0.5); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(201,169,98,0.1); }
+
+.check-item { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.check-item:last-child { border-bottom: none; }
+.check-icon { width: 22px; height: 22px; border-radius: 2px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; margin-top: 1px; }
+.check-icon.done { background: rgba(74,222,128,0.15); border: 1px solid rgba(74,222,128,0.3); color: #4ade80; }
+.check-icon.urgent { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.25); color: #f87171; }
+.check-icon.important { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.25); color: #fbbf24; }
+.check-text { flex: 1; }
+.check-title { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85); margin-bottom: 3px; }
+.check-desc { font-size: 11.5px; color: rgba(255,255,255,0.35); line-height: 1.5; }
+
+.s3-tip { position: absolute; bottom: 60px; left: 72px; right: 72px; font-family: 'Playfair Display', Georgia, serif; font-size: 16px; font-style: italic; color: rgba(255,255,255,0.35); border-top: 1px solid rgba(201,169,98,0.1); padding-top: 16px; }
+.s3-tip em { font-style: normal; color: rgba(201,169,98,0.7); }
+
+/* ══════════════════════════════════════
+   SLIDE 4 — PHASE 2
+══════════════════════════════════════ */
+.s4-header { position: absolute; top: 58px; left: 72px; right: 72px; }
+.s4-body { position: absolute; top: 195px; left: 72px; right: 72px; display: flex; gap: 36px; }
+.s4-left { flex: 1.1; }
+.s4-right { flex: 0.9; }
+
+.phase-intro { font-size: 15px; color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 24px; }
+.phase-intro strong { color: rgba(255,255,255,0.85); }
+
+.cities-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+.city-chip { padding: 9px 14px; background: rgba(255,255,255,0.02); border: 1px solid rgba(201,169,98,0.12); font-size: 12px; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 8px; }
+.city-chip::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: #C9A962; opacity: 0.6; flex-shrink: 0; }
+
+.services-list { }
+.services-list-title { font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(201,169,98,0.5); margin-bottom: 10px; }
+.service-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12.5px; color: rgba(255,255,255,0.5); }
+.service-row:last-child { border: none; }
+.service-row::before { content: '→'; color: #C9A962; opacity: 0.6; font-size: 11px; }
+
+.phase-result { margin-top: 20px; padding: 16px 18px; background: rgba(201,169,98,0.06); border: 1px solid rgba(201,169,98,0.18); }
+.phase-result-num { font-family: 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 900; color: #C9A962; line-height: 1; }
+.phase-result-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 4px; }
+
+/* ══════════════════════════════════════
+   SLIDE 5 — PHASE 3
+══════════════════════════════════════ */
+.s5-header { position: absolute; top: 58px; left: 72px; right: 72px; }
+.s5-body { position: absolute; top: 195px; left: 72px; right: 72px; display: flex; gap: 36px; }
+.s5-left { flex: 1; }
+.s5-right { flex: 1; }
+
+.expansion-card { padding: 20px 22px; background: rgba(255,255,255,0.02); border: 1px solid rgba(201,169,98,0.1); margin-bottom: 14px; position: relative; overflow: hidden; }
+.expansion-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, #C9A962, transparent); opacity: 0.35; }
+.exp-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 6px; }
+.exp-detail { font-size: 12px; color: rgba(255,255,255,0.38); line-height: 1.6; }
+.exp-badge { display: inline-block; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; background: rgba(201,169,98,0.1); color: #C9A962; padding: 3px 10px; margin-top: 8px; }
+
+.page-math { text-align: center; padding: 24px 20px; background: rgba(201,169,98,0.04); border: 1px solid rgba(201,169,98,0.15); }
+.math-line { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; }
+.math-num { font-family: 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 900; color: #C9A962; }
+.math-op { font-size: 20px; color: rgba(255,255,255,0.2); }
+.math-label { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+.math-result { font-family: 'Playfair Display', Georgia, serif; font-size: 52px; font-weight: 900; color: #C9A962; line-height: 1; margin: 8px 0 4px; }
+.math-result-label { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+
+/* ══════════════════════════════════════
+   SLIDE 6 — TIMELINE / SCHEDULE
+══════════════════════════════════════ */
+.s6-header { position: absolute; top: 58px; left: 72px; right: 72px; }
+.s6-body { position: absolute; top: 185px; left: 72px; right: 72px; }
+
+.timeline { position: relative; }
+.timeline::before { content: ''; position: absolute; left: 110px; top: 0; bottom: 0; width: 1px; background: linear-gradient(180deg, rgba(201,169,98,0.4), rgba(201,169,98,0.1) 80%, transparent); }
+
+.tl-row { display: flex; gap: 0; align-items: flex-start; margin-bottom: 22px; position: relative; }
+.tl-date { width: 110px; padding-right: 28px; text-align: right; flex-shrink: 0; }
+.tl-month { font-size: 11px; font-weight: 600; color: rgba(201,169,98,0.8); letter-spacing: 0.05em; }
+.tl-year { font-size: 10px; color: rgba(255,255,255,0.25); letter-spacing: 0.05em; }
+.tl-dot { position: absolute; left: 104px; top: 6px; width: 13px; height: 13px; border-radius: 50%; border: 1.5px solid #C9A962; background: #080d18; z-index: 2; flex-shrink: 0; }
+.tl-dot.now { background: #C9A962; box-shadow: 0 0 10px rgba(201,169,98,0.4); }
+.tl-dot.done { background: #4ade80; border-color: #4ade80; }
+.tl-content { padding-left: 28px; flex: 1; }
+.tl-phase { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(201,169,98,0.55); margin-bottom: 4px; }
+.tl-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 4px; }
+.tl-items { font-size: 12px; color: rgba(255,255,255,0.38); line-height: 1.65; }
+
+/* ══════════════════════════════════════
+   SLIDE 7 — KEYWORD STRATEGY
+══════════════════════════════════════ */
+.s7-header { position: absolute; top: 58px; left: 72px; right: 72px; }
+.s7-body { position: absolute; top: 195px; left: 72px; right: 72px; display: flex; gap: 32px; }
+.s7-left { flex: 1.1; }
+.s7-right { flex: 0.9; }
+
+.kw-table { width: 100%; border-collapse: collapse; }
+.kw-table thead tr th { font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(201,169,98,0.5); padding: 8px 12px; text-align: left; border-bottom: 1px solid rgba(201,169,98,0.15); }
+.kw-table tbody tr td { font-size: 12px; color: rgba(255,255,255,0.55); padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.kw-table tbody tr:last-child td { border: none; }
+.kw-table tbody tr td:first-child { color: rgba(255,255,255,0.8); font-weight: 500; }
+.vol-badge { display: inline-block; font-size: 9px; padding: 2px 7px; border-radius: 2px; }
+.vol-high { background: rgba(74,222,128,0.12); color: #4ade80; }
+.vol-med { background: rgba(251,191,36,0.1); color: #fbbf24; }
+.vol-low { background: rgba(201,169,98,0.1); color: #C9A962; }
+
+.competitor-stack { display: flex; flex-direction: column; gap: 12px; }
+.comp-card { padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); }
+.comp-name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7); margin-bottom: 4px; }
+.comp-detail { font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.5; }
+.comp-weakness { font-size: 10px; color: rgba(201,169,98,0.6); margin-top: 5px; }
+
+/* ══════════════════════════════════════
+   SLIDE 8 — CLOSING
+══════════════════════════════════════ */
+.s8-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, #080d18 0%, #0d1628 60%, #080d18 100%);
+}
+.s8-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(201,169,98,0.07) 0%, transparent 70%); }
+.s8-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 120px; }
+.s8-icon { margin-bottom: 28px; }
+.s8-headline { font-family: 'Playfair Display', Georgia, serif; font-size: 48px; font-weight: 900; line-height: 1.15; margin-bottom: 8px; }
+.s8-headline em { font-style: normal; color: #C9A962; }
+.s8-sub { font-size: 14px; color: rgba(255,255,255,0.38); letter-spacing: 0.05em; margin-bottom: 40px; }
+.s8-divider { width: 50px; height: 1.5px; background: #C9A962; margin: 0 auto 40px; opacity: 0.5; }
+
+.s8-goals { display: flex; gap: 48px; justify-content: center; margin-bottom: 44px; }
+.s8-goal { text-align: center; }
+.s8-goal-num { font-family: 'Playfair Display', Georgia, serif; font-size: 36px; font-weight: 900; color: #C9A962; line-height: 1; }
+.s8-goal-label { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 6px; }
+
+.s8-url { font-size: 13px; letter-spacing: 0.2em; color: rgba(201,169,98,0.4); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="s1-bg"></div>
+  <div class="s1-glow"></div>
+  <div class="s1-glow2"></div>
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s1-content">
+    <div class="s1-year-badge">
+      <svg width="14" height="14" viewBox="0 0 36 36" fill="none"><polygon points="18,2 34,18 18,34 2,18" stroke="#C9A962" stroke-width="1" stroke-opacity="0.7"/><path d="M12 24V12L24 24V12" stroke="#C9A962" stroke-width="1.8" stroke-linecap="square"/></svg>
+      <span>NexAssist · 2026</span>
+    </div>
+    <div class="s1-brand">Nex<em>Assist</em></div>
+    <div class="s1-divider"></div>
+    <div class="s1-doc-title">SEO Growth Plan<br>& Phase Roadmap</div>
+    <div class="s1-doc-sub">Prepared March 2026 · Confidential</div>
+  </div>
+
+  <div class="s1-right">
+    <div class="s1-stat">
+      <div class="s1-stat-num">90</div>
+      <div class="s1-stat-label">Pages Live</div>
+    </div>
+    <div class="s1-stat-divider"></div>
+    <div class="s1-stat">
+      <div class="s1-stat-num">64</div>
+      <div class="s1-stat-label">City Pages</div>
+    </div>
+    <div class="s1-stat-divider"></div>
+    <div class="s1-stat">
+      <div class="s1-stat-num">9</div>
+      <div class="s1-stat-label">Service Pages</div>
+    </div>
+    <div class="s1-stat-divider"></div>
+    <div class="s1-stat">
+      <div class="s1-stat-num">756</div>
+      <div class="s1-stat-label">Pages by End of 2026</div>
+    </div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com · Los Angeles</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 2 — PHASE 1 COMPLETE
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s2-header">
+    <div class="slide-eyebrow">March 2026 — Completed</div>
+    <div class="slide-title">Phase 1: <em>Foundation Built</em></div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s2-body">
+    <div class="done-card">
+      <div class="done-card-count">9</div>
+      <div class="done-card-label">Service Pages</div>
+      <div class="done-card-title">9 Service Landing Pages</div>
+      <div class="done-card-detail">Exotic Car Rental · Chauffeur · Private Jets · Yacht Charter · Luxury Villas · Car Sales · Fine Watches · Designer Bags · Luxury Travel. Each with full SEO metadata, JSON-LD schema, and internal linking.</div>
+    </div>
+    <div class="done-card">
+      <div class="done-card-count">64</div>
+      <div class="done-card-label">City Pages</div>
+      <div class="done-card-title">64 City Landing Pages</div>
+      <div class="done-card-detail">42 LA County + 22 Orange County cities. Dynamic route with `generateStaticParams`. Each page: landmarks, FAQ, nearby city links, all service cross-links. Covers every major affluent city in SoCal.</div>
+    </div>
+    <div class="done-card">
+      <div class="done-card-label">Technical SEO</div>
+      <div class="done-card-title">Full Technical Stack</div>
+      <div class="done-card-detail">Sitemap (75 URLs) · robots.txt · LocalBusiness + Service + FAQ JSON-LD schema · Open Graph metadata · Google Search Console verified · Sitemap submitted and indexing.</div>
+    </div>
+    <div class="done-card">
+      <div class="done-card-label">Google Presence</div>
+      <div class="done-card-title">Google Business Profile</div>
+      <div class="done-card-detail">Verified ✓ · Car Rental Agency (primary) + Concierge Service (secondary) · 9 services with SEO descriptions · 9 product listings with photos · Logo + cover photo · 24/7 hours.</div>
+    </div>
+  </div>
+
+  <div class="s2-status">
+    <div class="s2-status-dot"></div>
+    <div class="s2-status-text"><strong>90 pages live on usenexassist.com</strong> — Search Console verified, sitemap submitted, Google Business Profile fully optimized. Indexing in progress.</div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">02 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 3 — PRE-PHASE 2 ACTIONS
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s3-header">
+    <div class="slide-eyebrow">March 2026 — Before Phase 2</div>
+    <div class="slide-title">Unlock <em>Local Rankings</em></div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s3-body">
+    <div class="s3-col">
+      <div class="checklist-group">
+        <div class="checklist-group-title">🔴 Critical — Do This Week</div>
+        <div class="check-item">
+          <div class="check-icon urgent">!</div>
+          <div class="check-text">
+            <div class="check-title">Get a Phone Number</div>
+            <div class="check-desc">Google ranks businesses with phone numbers higher. Google Voice is free — takes 5 minutes to set up. This is the #1 ranking factor missing.</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-icon urgent">!</div>
+          <div class="check-text">
+            <div class="check-title">First 10–20 Google Reviews</div>
+            <div class="check-desc">Every top competitor has 100–1,000 reviews. Even 10 five-star reviews will move NexAssist into the Maps Pack. Ask personally — conversion is high.</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-icon urgent">!</div>
+          <div class="check-text">
+            <div class="check-title">Set Up partners@usenexassist.com</div>
+            <div class="check-desc">Partner deck is ready to send. The email is referenced in the PDF — needs to be live before outreach begins.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="s3-col">
+      <div class="checklist-group">
+        <div class="checklist-group-title">🟡 Important — This Month</div>
+        <div class="check-item">
+          <div class="check-icon important">→</div>
+          <div class="check-text">
+            <div class="check-title">Send Partner Deck to 20–30 Companies</div>
+            <div class="check-desc">Exotic car companies, chauffeur services, yacht brokers. Use the PDF deck. Goal: 5 signed partners in 30 days.</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-icon important">→</div>
+          <div class="check-text">
+            <div class="check-title">Post Instagram Review Cards Daily</div>
+            <div class="check-desc">12 cards are ready. Post 1 per day. Consistent posting signals algorithm activity and builds social proof for new visitors.</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-icon important">→</div>
+          <div class="check-text">
+            <div class="check-title">Upload Additional GBP Photos</div>
+            <div class="check-desc">Lamborghini Huracán, Porsche GT3, Lamborghini Urus. More photos = better GBP completeness score.</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-icon important">→</div>
+          <div class="check-text">
+            <div class="check-title">Get Backlinks</div>
+            <div class="check-desc">Post in luxury Facebook groups, LA subreddits, Instagram bio link. Every quality backlink boosts domain authority.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s3-tip">
+    "The SEO foundation is built. <em>Reviews and a phone number</em> are the only two things standing between NexAssist and the Google Maps Pack."
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">03 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 4 — PHASE 2
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s4-header">
+    <div class="slide-eyebrow">April 2026 — 4 to 6 Weeks</div>
+    <div class="slide-title">Phase 2: <em>Service × City Pages</em></div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s4-body">
+    <div class="s4-left">
+      <p class="phase-intro">Build <strong>dedicated pages</strong> combining each service with the top 10 highest-value cities in LA and Orange County. These pages target the exact searches buyers use when they are ready to spend — not just browsing.</p>
+
+      <div class="cities-grid">
+        <div class="city-chip">Beverly Hills</div>
+        <div class="city-chip">Malibu</div>
+        <div class="city-chip">West Hollywood</div>
+        <div class="city-chip">Santa Monica</div>
+        <div class="city-chip">Hollywood Hills</div>
+        <div class="city-chip">Bel Air</div>
+        <div class="city-chip">Newport Beach</div>
+        <div class="city-chip">Irvine</div>
+        <div class="city-chip">Calabasas</div>
+        <div class="city-chip">Brentwood</div>
+      </div>
+
+      <div class="phase-result">
+        <div class="phase-result-num">90</div>
+        <div class="phase-result-label">New pages · 10 cities × 9 services</div>
+      </div>
+    </div>
+
+    <div class="s4-right">
+      <div class="services-list-title">Example pages that will be built:</div>
+      <div class="service-row">ferrari-rental-beverly-hills</div>
+      <div class="service-row">lamborghini-rental-malibu</div>
+      <div class="service-row">chauffeur-service-santa-monica</div>
+      <div class="service-row">private-jet-van-nuys</div>
+      <div class="service-row">luxury-villa-bel-air</div>
+      <div class="service-row">yacht-charter-newport-beach</div>
+      <div class="service-row">rolex-sourcing-beverly-hills</div>
+      <div class="service-row">hermes-bag-west-hollywood</div>
+      <div class="service-row">car-sales-calabasas</div>
+
+      <div style="margin-top: 20px; padding: 14px 16px; background: rgba(201,169,98,0.05); border: 1px solid rgba(201,169,98,0.15); font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.6;">
+        <span style="color: rgba(201,169,98,0.7); font-weight: 600;">Why this wins:</span> California Auto Rentals already ranks for these keywords. Phase 2 puts NexAssist directly on their keyword territory — with a premium concierge brand they can't compete with.
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">04 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 5 — PHASE 3
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s5-header">
+    <div class="slide-eyebrow">June – July 2026</div>
+    <div class="slide-title">Phase 3: <em>Full Market Domination</em></div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s5-body">
+    <div class="s5-left">
+      <div class="expansion-card">
+        <div class="exp-title">All 64 Cities × 9 Services</div>
+        <div class="exp-detail">Expand Phase 2 to every city in LA County and Orange County. Every affluent neighborhood in SoCal will have a NexAssist page targeting it directly.</div>
+        <div class="exp-badge">576 New Pages</div>
+      </div>
+      <div class="expansion-card">
+        <div class="exp-title">Per-Make Exotic Car Pages</div>
+        <div class="exp-detail">Dedicated landing pages per make: /ferrari-rental-los-angeles, /lamborghini-rental-los-angeles, /rolls-royce-los-angeles. Highest-intent exotic car keywords in LA.</div>
+        <div class="exp-badge">~20 Additional Pages</div>
+      </div>
+      <div class="expansion-card">
+        <div class="exp-title">Blog & Content SEO</div>
+        <div class="exp-detail">"Best exotic cars to rent in Beverly Hills", "How to charter a yacht in LA", "Hermès Birkin sourcing guide" — top-of-funnel content that captures research-phase buyers.</div>
+        <div class="exp-badge">12+ Articles / Quarter</div>
+      </div>
+    </div>
+
+    <div class="s5-right">
+      <div class="page-math">
+        <div class="math-line">
+          <div>
+            <div class="math-num">64</div>
+            <div class="math-label">Cities</div>
+          </div>
+          <div class="math-op">×</div>
+          <div>
+            <div class="math-num">9</div>
+            <div class="math-label">Services</div>
+          </div>
+        </div>
+        <div class="math-result">576</div>
+        <div class="math-result-label">Phase 3 Pages</div>
+      </div>
+
+      <div style="margin-top: 16px; padding: 18px; background: rgba(255,255,255,0.02); border: 1px solid rgba(201,169,98,0.1);">
+        <div style="font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(201,169,98,0.5); margin-bottom: 12px;">Total pages by end of 2026</div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="font-size: 12px; color: rgba(255,255,255,0.4);">Phase 1 (done)</span>
+          <span style="font-size: 12px; color: rgba(255,255,255,0.6);">90 pages</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="font-size: 12px; color: rgba(255,255,255,0.4);">Phase 2 (April)</span>
+          <span style="font-size: 12px; color: rgba(255,255,255,0.6);">+ 90 pages</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+          <span style="font-size: 12px; color: rgba(255,255,255,0.4);">Phase 3 (June–July)</span>
+          <span style="font-size: 12px; color: rgba(255,255,255,0.6);">+ 576 pages</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding-top: 10px; border-top: 1px solid rgba(201,169,98,0.15);">
+          <span style="font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7);">Total</span>
+          <span style="font-family: Georgia, serif; font-size: 20px; font-weight: 700; color: #C9A962;">756 pages</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">05 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 6 — TIMELINE
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s6-header">
+    <div class="slide-eyebrow">2026 Roadmap</div>
+    <div class="slide-title">Month-by-Month <em>Schedule</em></div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s6-body">
+    <div class="timeline">
+
+      <div class="tl-row">
+        <div class="tl-date"><div class="tl-month">Mar</div><div class="tl-year">2026</div></div>
+        <div class="tl-dot done"></div>
+        <div class="tl-content">
+          <div class="tl-phase">Phase 1 — Complete ✓</div>
+          <div class="tl-title">Foundation & Launch</div>
+          <div class="tl-items">90 pages live · GBP verified & loaded · Search Console active · 12 IG review cards ready · Partner deck created</div>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-date"><div class="tl-month">Mar</div><div class="tl-year">Week 2–3</div></div>
+        <div class="tl-dot now"></div>
+        <div class="tl-content">
+          <div class="tl-phase">Pre-Phase 2 — Now</div>
+          <div class="tl-title">Activate & Outreach</div>
+          <div class="tl-items">Get phone number · Set up partner email · Send deck to 20–30 companies · Post IG daily · Ask for first Google reviews</div>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-date"><div class="tl-month">Apr</div><div class="tl-year">2026</div></div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-phase">Phase 2 — 90 New Pages</div>
+          <div class="tl-title">Service × City Pages (Top 10 Cities)</div>
+          <div class="tl-items">Ferrari rental Beverly Hills · Lamborghini Malibu · Chauffeur Santa Monica · Private jet Van Nuys · Yacht Newport Beach · + 85 more</div>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-date"><div class="tl-month">May</div><div class="tl-year">2026</div></div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-phase">Growth — Partners & Reviews</div>
+          <div class="tl-title">Scale Partner Network · Check Search Console</div>
+          <div class="tl-items">Target 20+ Google reviews · 10+ signed partners · Review Performance data for which Phase 2 pages are ranking · Plan Phase 3 priority order</div>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-date"><div class="tl-month">Jun–Jul</div><div class="tl-year">2026</div></div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-phase">Phase 3 — 576 New Pages</div>
+          <div class="tl-title">Full Service × City Matrix</div>
+          <div class="tl-items">All 64 cities × 9 services · Per-make car pages · Content/blog SEO begins · 756 total pages · NexAssist becomes the dominant luxury concierge in Google for all of SoCal</div>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-date"><div class="tl-month">Q4</div><div class="tl-year">2026</div></div>
+        <div class="tl-dot"></div>
+        <div class="tl-content">
+          <div class="tl-phase">Expansion</div>
+          <div class="tl-title">New Markets — San Diego · Las Vegas · Miami</div>
+          <div class="tl-items">Replicate the same playbook in new cities · Proven model, faster execution · National luxury concierge brand</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">06 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 7 — KEYWORD STRATEGY
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s7-header">
+    <div class="slide-eyebrow">Keyword Intelligence</div>
+    <div class="slide-title">Target Keywords & <em>Competitive Gap</em></div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s7-body">
+    <div class="s7-left">
+      <table class="kw-table">
+        <thead>
+          <tr>
+            <th>Keyword</th>
+            <th>Volume</th>
+            <th>Phase</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>exotic car rental Los Angeles</td><td><span class="vol-badge vol-high">High</span></td><td>Phase 1</td><td style="color:#4ade80;">Live ✓</td></tr>
+          <tr><td>chauffeur service Los Angeles</td><td><span class="vol-badge vol-high">High</span></td><td>Phase 1</td><td style="color:#4ade80;">Live ✓</td></tr>
+          <tr><td>private jet charter Los Angeles</td><td><span class="vol-badge vol-high">High</span></td><td>Phase 1</td><td style="color:#4ade80;">Live ✓</td></tr>
+          <tr><td>luxury concierge Beverly Hills</td><td><span class="vol-badge vol-high">High</span></td><td>Phase 1</td><td style="color:#4ade80;">Live ✓</td></tr>
+          <tr><td>Ferrari rental Beverly Hills</td><td><span class="vol-badge vol-med">Med</span></td><td>Phase 2</td><td style="color:#fbbf24;">April 2026</td></tr>
+          <tr><td>Lamborghini rental Malibu</td><td><span class="vol-badge vol-med">Med</span></td><td>Phase 2</td><td style="color:#fbbf24;">April 2026</td></tr>
+          <tr><td>yacht charter Newport Beach</td><td><span class="vol-badge vol-med">Med</span></td><td>Phase 2</td><td style="color:#fbbf24;">April 2026</td></tr>
+          <tr><td>Hermès Birkin sourcing LA</td><td><span class="vol-badge vol-low">Low</span></td><td>Phase 2</td><td style="color:#fbbf24;">April 2026</td></tr>
+          <tr><td>Rolex Daytona Beverly Hills</td><td><span class="vol-badge vol-low">Low</span></td><td>Phase 3</td><td style="color:rgba(255,255,255,0.25);">Jun–Jul 2026</td></tr>
+          <tr><td>luxury villa rental Bel Air</td><td><span class="vol-badge vol-med">Med</span></td><td>Phase 3</td><td style="color:rgba(255,255,255,0.25);">Jun–Jul 2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="s7-right">
+      <div style="font-size: 9px; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(201,169,98,0.5); margin-bottom: 12px;">Key Competitors</div>
+      <div class="competitor-stack">
+        <div class="comp-card">
+          <div class="comp-name">LA Exotic Rentals</div>
+          <div class="comp-detail">⭐ 4.9 · 995 reviews · #1 Maps Pack · Strong review velocity</div>
+          <div class="comp-weakness">↗ Gap: Cars only. No concierge. No other services.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-name">California Auto Rentals</div>
+          <div class="comp-detail">⭐ 4.8 · 134 reviews · Make × city pages · Yoast SEO setup</div>
+          <div class="comp-weakness">↗ Gap: Cars only. Generic brand. No lifestyle angle.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-name">777 Exotics</div>
+          <div class="comp-detail">⭐ 4.5 · 173 reviews · Physical address · 24hr · Organic + maps</div>
+          <div class="comp-weakness">↗ Gap: Cars only. Lower rating. No concierge model.</div>
+        </div>
+        <div class="comp-card">
+          <div class="comp-name">Centurion Lifestyle</div>
+          <div class="comp-detail">Multi-city (LA + Miami). Organic rank. Established domain.</div>
+          <div class="comp-weakness">↗ Gap: No GBP optimization. No city page depth.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">07 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 8 — CLOSING
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="s8-bg"></div>
+  <div class="s8-glow"></div>
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s8-content">
+    <div class="s8-icon">
+      <svg width="54" height="54" viewBox="0 0 54 54" fill="none">
+        <polygon points="27,2 52,27 27,52 2,27" stroke="#C9A962" stroke-width="1" stroke-opacity="0.7"/>
+        <polygon points="27,10 46,27 27,44 8,27" stroke="#C9A962" stroke-width="0.5" stroke-opacity="0.25"/>
+        <path d="M19 37V17L35 37V17" stroke="#C9A962" stroke-width="2.5" stroke-linecap="square"/>
+      </svg>
+    </div>
+    <div class="s8-headline">The Goal by <em>End of 2026</em></div>
+    <div class="s8-sub">NexAssist is the #1 result in Google for luxury concierge in Los Angeles.</div>
+    <div class="s8-divider"></div>
+
+    <div class="s8-goals">
+      <div class="s8-goal">
+        <div class="s8-goal-num">756</div>
+        <div class="s8-goal-label">Total Pages Indexed</div>
+      </div>
+      <div class="s8-goal">
+        <div class="s8-goal-num">100+</div>
+        <div class="s8-goal-label">Google Reviews</div>
+      </div>
+      <div class="s8-goal">
+        <div class="s8-goal-num">50+</div>
+        <div class="s8-goal-label">Active Partners</div>
+      </div>
+      <div class="s8-goal">
+        <div class="s8-goal-num">#1</div>
+        <div class="s8-goal-label">LA Luxury Concierge</div>
+      </div>
+    </div>
+
+    <div class="s8-url">usenexassist.com · Los Angeles · Available 24/7</div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">08 / 08</div>
+</div>
+
+</body>
+</html>
