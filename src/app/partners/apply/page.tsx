@@ -23,6 +23,7 @@ export default function PartnerApply() {
     email: "",
     phone: "",
     website: "",
+    instagram: "",
     city: "",
     description: "",
   });
@@ -77,6 +78,7 @@ export default function PartnerApply() {
       email: form.email.toLowerCase().trim(),
       phone: form.phone.trim() || null,
       website: form.website.trim() || null,
+      instagram: form.instagram.trim() ? (form.instagram.trim().replace(/^@/, "")) : null,
       city: form.city.trim() || null,
       services,
       description: form.description.trim(),
@@ -255,6 +257,19 @@ export default function PartnerApply() {
                     placeholder="https://yourcompany.com"
                     className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/45 rounded-sm px-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none transition-colors"
                   />
+                </div>
+                <div>
+                  <label className="text-white/30 text-[9px] tracking-[0.3em] uppercase block mb-1.5">Instagram <span className="text-white/15 normal-case tracking-normal text-[9px]">— optional</span></label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/25 text-sm select-none">@</span>
+                    <input
+                      type="text"
+                      value={form.instagram}
+                      onChange={(e) => set("instagram", e.target.value.replace(/^@/, ""))}
+                      placeholder="yourhandle"
+                      className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/45 rounded-sm pl-8 pr-4 py-3 text-sm text-white placeholder-white/20 focus:outline-none transition-colors"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
