@@ -32,7 +32,7 @@ const cfg: ServiceLandingConfig = {
       name: "Sailing Yacht",
       sub: "50–120 ft · 6–14 guests",
       tags: ["Sunrise Sail", "Malibu Coast", "Weekend"],
-      img: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&q=80",
+      img: "/cars/sailing.jpg",
       color: "#34d399",
     },
     {
