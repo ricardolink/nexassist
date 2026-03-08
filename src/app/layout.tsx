@@ -189,6 +189,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`} style={{ scrollBehavior: "auto" }}>
       <head>
+        <meta name="google-site-verification" content="9zwsRRvqSm8Qvr07RGVLOVE8ch04lm1d8brIRrczGn8" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
