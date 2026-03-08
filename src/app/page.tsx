@@ -618,10 +618,7 @@ export default function Home() {
             <Link href="/terms" className="hover:text-[#C9A962] transition-colors">Terms</Link>
             <Link href="/contact" className="hover:text-[#C9A962] transition-colors">Contact</Link>
             <Link href="/faqs" className="hover:text-[#C9A962] transition-colors">FAQs</Link>
-            <Link href="/blog" className="hover:text-[#C9A962] transition-colors flex items-center gap-1.5">
-              Blog
-              <span className="text-[#C9A962]/35 text-[7px] tracking-[0.15em] normal-case">(soon)</span>
-            </Link>
+            <Link href="/blog" className="hover:text-[#C9A962] transition-colors">Blog</Link>
           </nav>
         </div>
       </footer>
