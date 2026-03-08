@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #080d18;
+  font-family: 'Inter', Arial, sans-serif;
+  color: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.slide {
+  width: 1122px;
+  height: 794px;
+  position: relative;
+  overflow: hidden;
+  background: #080d18;
+  page-break-after: always;
+  break-after: page;
+}
+
+/* ── SHARED ELEMENTS ── */
+.gold { color: #C9A962; }
+.accent-bar { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #C9A962, rgba(201,169,98,0.3) 60%, transparent); }
+.accent-left { position: absolute; top: 0; bottom: 0; left: 0; width: 3px; background: linear-gradient(180deg, #C9A962 0%, rgba(201,169,98,0.15) 60%, transparent); }
+.grid-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(201,169,98,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(201,169,98,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.c-tl { position: absolute; top: 22px; left: 22px; width: 32px; height: 32px; border-top: 1px solid rgba(201,169,98,0.4); border-left: 1px solid rgba(201,169,98,0.4); }
+.c-tr { position: absolute; top: 22px; right: 22px; width: 32px; height: 32px; border-top: 1px solid rgba(201,169,98,0.18); border-right: 1px solid rgba(201,169,98,0.18); }
+.c-bl { position: absolute; bottom: 22px; left: 22px; width: 32px; height: 32px; border-bottom: 1px solid rgba(201,169,98,0.18); border-left: 1px solid rgba(201,169,98,0.18); }
+.c-br { position: absolute; bottom: 22px; right: 22px; width: 32px; height: 32px; border-bottom: 1px solid rgba(201,169,98,0.18); border-right: 1px solid rgba(201,169,98,0.18); }
+
+.slide-num {
+  position: absolute; bottom: 36px; right: 60px;
+  font-size: 11px; letter-spacing: 0.3em; color: rgba(201,169,98,0.3);
+}
+.brand-mark {
+  position: absolute; bottom: 32px; left: 60px;
+  display: flex; align-items: center; gap: 8px;
+}
+.brand-mark svg { width: 22px; height: 22px; }
+.brand-mark span { font-size: 10px; letter-spacing: 0.35em; color: rgba(201,169,98,0.4); text-transform: uppercase; }
+
+/* ─────────────────────────────────────────────
+   SLIDE 1 — COVER
+───────────────────────────────────────────── */
+.s1-photo {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1592198084033-aade902d1aae?w=1200&q=80');
+  background-size: cover; background-position: center 40%;
+}
+.s1-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, rgba(8,13,24,0.96) 45%, rgba(8,13,24,0.55) 100%);
+}
+.s1-content { position: absolute; top: 0; left: 0; bottom: 0; width: 580px; display: flex; flex-direction: column; justify-content: center; padding: 0 72px; }
+.s1-eyebrow { font-size: 10px; letter-spacing: 0.6em; text-transform: uppercase; color: rgba(201,169,98,0.7); margin-bottom: 28px; display: flex; align-items: center; gap: 12px; }
+.s1-eyebrow::before { content: ''; display: block; width: 30px; height: 1px; background: #C9A962; opacity: 0.5; }
+.s1-logo-svg { width: 52px; height: 52px; margin-bottom: 20px; }
+.s1-brand { font-family: 'Playfair Display', Georgia, serif; font-size: 62px; font-weight: 900; line-height: 1; letter-spacing: 0.01em; }
+.s1-brand em { font-style: normal; color: #C9A962; }
+.s1-tagline { font-size: 13px; letter-spacing: 0.45em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin: 18px 0 40px; }
+.s1-divider { width: 48px; height: 1.5px; background: #C9A962; margin-bottom: 40px; opacity: 0.7; }
+.s1-title { font-family: 'Playfair Display', Georgia, serif; font-size: 28px; font-weight: 400; color: rgba(255,255,255,0.85); line-height: 1.3; }
+.s1-subtitle { font-size: 14px; color: rgba(255,255,255,0.4); margin-top: 12px; letter-spacing: 0.05em; line-height: 1.6; }
+
+.s1-stats {
+  position: absolute; right: 60px; bottom: 90px;
+  display: flex; flex-direction: column; gap: 28px; align-items: flex-end;
+}
+.s1-stat-num { font-family: 'Playfair Display', Georgia, serif; font-size: 38px; font-weight: 700; color: #C9A962; line-height: 1; }
+.s1-stat-label { font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-top: 4px; text-align: right; }
+
+/* ─────────────────────────────────────────────
+   SLIDE 2 — WHAT IS NEXASSIST
+───────────────────────────────────────────── */
+.s2-header { position: absolute; top: 60px; left: 72px; right: 72px; }
+.slide-eyebrow { font-size: 10px; letter-spacing: 0.55em; text-transform: uppercase; color: rgba(201,169,98,0.6); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+.slide-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: #C9A962; opacity: 0.5; }
+.slide-title { font-family: 'Playfair Display', Georgia, serif; font-size: 40px; font-weight: 700; line-height: 1.15; }
+.slide-title em { font-style: normal; color: #C9A962; }
+.slide-divider { width: 40px; height: 1.5px; background: #C9A962; margin-top: 18px; opacity: 0.6; }
+
+.s2-body { position: absolute; top: 210px; left: 72px; right: 72px; display: flex; gap: 40px; }
+.s2-left { flex: 1.2; }
+.s2-right { flex: 1; display: flex; flex-direction: column; gap: 18px; }
+
+.s2-paragraph { font-size: 16px; line-height: 1.75; color: rgba(255,255,255,0.6); margin-bottom: 24px; }
+.s2-paragraph strong { color: rgba(255,255,255,0.9); font-weight: 500; }
+
+.s2-quote {
+  border-left: 2px solid #C9A962;
+  padding-left: 24px; margin-top: 8px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 18px; font-style: italic; color: rgba(255,255,255,0.75);
+  line-height: 1.55;
+}
+
+.s2-pill {
+  background: rgba(201,169,98,0.07); border: 1px solid rgba(201,169,98,0.18);
+  padding: 18px 22px; display: flex; align-items: flex-start; gap: 16px;
+}
+.s2-pill-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.s2-pill-text { }
+.s2-pill-label { font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #C9A962; margin-bottom: 5px; }
+.s2-pill-value { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+/* ─────────────────────────────────────────────
+   SLIDE 3 — OUR CLIENTS
+───────────────────────────────────────────── */
+.s3-header { position: absolute; top: 60px; left: 72px; right: 72px; }
+.s3-photo {
+  position: absolute; right: 0; top: 0; bottom: 0; width: 400px;
+  background-image: url('https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80');
+  background-size: cover; background-position: center;
+}
+.s3-photo-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, #080d18 0%, rgba(8,13,24,0.3) 100%);
+}
+.s3-body { position: absolute; top: 200px; left: 72px; width: 620px; }
+.client-card {
+  display: flex; align-items: flex-start; gap: 18px;
+  padding: 20px 22px; margin-bottom: 14px;
+  border-left: 2px solid rgba(201,169,98,0.25);
+  background: rgba(255,255,255,0.02);
+}
+.client-card-icon { font-size: 20px; flex-shrink: 0; width: 28px; }
+.client-card-title { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 4px; letter-spacing: 0.03em; }
+.client-card-desc { font-size: 12.5px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+
+.s3-insight {
+  position: absolute; bottom: 70px; left: 72px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 17px; font-style: italic; color: rgba(255,255,255,0.5);
+  max-width: 560px; line-height: 1.55;
+  border-top: 1px solid rgba(201,169,98,0.15); padding-top: 18px;
+}
+.s3-insight em { font-style: normal; color: #C9A962; }
+
+/* ─────────────────────────────────────────────
+   SLIDE 4 — HOW IT WORKS
+───────────────────────────────────────────── */
+.s4-header { position: absolute; top: 60px; left: 72px; right: 72px; }
+.s4-steps { position: absolute; top: 210px; left: 72px; right: 72px; display: flex; gap: 0; }
+.step {
+  flex: 1; padding: 32px 28px; position: relative;
+  border-top: 2px solid rgba(201,169,98,0.12);
+}
+.step.active { border-top-color: #C9A962; background: rgba(201,169,98,0.04); }
+.step-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 52px; font-weight: 900; color: rgba(201,169,98,0.1);
+  line-height: 1; margin-bottom: 16px;
+}
+.step.active .step-num { color: rgba(201,169,98,0.25); }
+.step-icon { font-size: 26px; margin-bottom: 14px; }
+.step-title { font-size: 15px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 10px; letter-spacing: 0.02em; }
+.step-desc { font-size: 12.5px; color: rgba(255,255,255,0.4); line-height: 1.6; }
+
+.step-arrow {
+  position: absolute; right: -18px; top: 50%; transform: translateY(-50%);
+  font-size: 18px; color: rgba(201,169,98,0.3); z-index: 2;
+}
+
+.s4-note {
+  position: absolute; bottom: 68px; left: 72px; right: 72px;
+  background: rgba(201,169,98,0.06); border: 1px solid rgba(201,169,98,0.15);
+  padding: 16px 28px; display: flex; align-items: center; gap: 16px;
+}
+.s4-note-icon { font-size: 18px; color: #C9A962; flex-shrink: 0; }
+.s4-note-text { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+.s4-note-text strong { color: rgba(255,255,255,0.8); }
+
+/* ─────────────────────────────────────────────
+   SLIDE 5 — PARTNER BENEFITS
+───────────────────────────────────────────── */
+.s5-header { position: absolute; top: 60px; left: 72px; right: 72px; }
+.s5-grid { position: absolute; top: 200px; left: 72px; right: 72px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+.benefit-card {
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(201,169,98,0.12);
+  padding: 28px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.benefit-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, #C9A962, transparent);
+  opacity: 0.5;
+}
+.benefit-icon { font-size: 28px; margin-bottom: 14px; }
+.benefit-title { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.9); margin-bottom: 8px; letter-spacing: 0.02em; }
+.benefit-desc { font-size: 12.5px; color: rgba(255,255,255,0.4); line-height: 1.6; }
+
+.s5-cta-strip {
+  position: absolute; bottom: 60px; left: 72px; right: 72px;
+  background: rgba(201,169,98,0.08); border: 1px solid rgba(201,169,98,0.2);
+  padding: 18px 32px; display: flex; align-items: center; justify-content: space-between;
+}
+.s5-cta-text { font-size: 14px; color: rgba(255,255,255,0.6); }
+.s5-cta-text strong { color: #C9A962; font-weight: 600; }
+.s5-cta-badge {
+  font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase;
+  color: #C9A962; border: 1px solid rgba(201,169,98,0.35); padding: 8px 18px;
+}
+
+/* ─────────────────────────────────────────────
+   SLIDE 6 — SERVICE CATEGORIES
+───────────────────────────────────────────── */
+.s6-header { position: absolute; top: 60px; left: 72px; right: 72px; }
+.s6-grid { position: absolute; top: 200px; left: 72px; right: 72px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.service-card {
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(201,169,98,0.1);
+  padding: 22px 20px; display: flex; align-items: flex-start; gap: 14px;
+}
+.service-card.hot { border-color: rgba(201,169,98,0.3); background: rgba(201,169,98,0.05); }
+.service-card-icon { font-size: 22px; flex-shrink: 0; }
+.service-card-name { font-size: 13.5px; font-weight: 600; color: rgba(255,255,255,0.85); margin-bottom: 4px; }
+.service-card-detail { font-size: 11.5px; color: rgba(255,255,255,0.35); line-height: 1.45; }
+.hot-badge {
+  display: inline-block; font-size: 9px; letter-spacing: 0.3em;
+  background: rgba(201,169,98,0.15); color: #C9A962; padding: 2px 8px;
+  text-transform: uppercase; margin-top: 6px;
+}
+
+.s6-footer-note {
+  position: absolute; bottom: 65px; left: 72px; right: 72px;
+  font-size: 12px; color: rgba(255,255,255,0.3); letter-spacing: 0.05em;
+  border-top: 1px solid rgba(201,169,98,0.1); padding-top: 14px;
+}
+
+/* ─────────────────────────────────────────────
+   SLIDE 7 — THE OPPORTUNITY
+───────────────────────────────────────────── */
+.s7-header { position: absolute; top: 60px; left: 72px; right: 72px; }
+.s7-body { position: absolute; top: 190px; left: 72px; right: 72px; display: flex; gap: 40px; }
+.s7-left { flex: 1; }
+.s7-right { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+
+.stat-block {
+  border-left: 2px solid #C9A962; padding-left: 22px; margin-bottom: 28px;
+}
+.stat-block-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 48px; font-weight: 900; color: #C9A962; line-height: 1;
+}
+.stat-block-label { font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-top: 5px; }
+.stat-block-note { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 6px; line-height: 1.5; }
+
+.why-card {
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(201,169,98,0.1);
+  padding: 18px 20px;
+}
+.why-card-title { font-size: 13px; font-weight: 600; color: rgba(201,169,98,0.8); margin-bottom: 6px; letter-spacing: 0.02em; }
+.why-card-text { font-size: 12.5px; color: rgba(255,255,255,0.4); line-height: 1.55; }
+
+/* ─────────────────────────────────────────────
+   SLIDE 8 — JOIN THE NETWORK (CTA)
+───────────────────────────────────────────── */
+.s8-bg {
+  position: absolute; inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1580274455191-1c62238fa333?w=1200&q=80');
+  background-size: cover; background-position: center;
+}
+.s8-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(8,13,24,0.97) 50%, rgba(8,13,24,0.7) 100%);
+}
+.s8-content { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 100px; }
+.s8-eyebrow { font-size: 10px; letter-spacing: 0.6em; text-transform: uppercase; color: rgba(201,169,98,0.6); margin-bottom: 24px; }
+.s8-headline { font-family: 'Playfair Display', Georgia, serif; font-size: 52px; font-weight: 900; line-height: 1.15; margin-bottom: 10px; }
+.s8-headline em { font-style: normal; color: #C9A962; }
+.s8-sub { font-size: 15px; color: rgba(255,255,255,0.45); letter-spacing: 0.05em; margin-bottom: 44px; }
+.s8-divider { width: 50px; height: 1.5px; background: #C9A962; margin: 0 auto 44px; opacity: 0.6; }
+
+.s8-steps { display: flex; gap: 0; justify-content: center; margin-bottom: 48px; }
+.s8-step { width: 200px; padding: 0 20px; text-align: center; position: relative; }
+.s8-step:not(:last-child)::after { content: '→'; position: absolute; right: -8px; top: 14px; color: rgba(201,169,98,0.3); font-size: 16px; }
+.s8-step-num { font-family: 'Playfair Display', Georgia, serif; font-size: 32px; font-weight: 900; color: rgba(201,169,98,0.2); line-height: 1; margin-bottom: 10px; }
+.s8-step-label { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+.s8-contact { margin-top: 4px; }
+.s8-contact-email { font-size: 18px; letter-spacing: 0.12em; color: #C9A962; margin-bottom: 6px; }
+.s8-contact-url { font-size: 13px; letter-spacing: 0.2em; color: rgba(255,255,255,0.3); }
+.s8-contact-label { font-size: 10px; letter-spacing: 0.4em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="s1-photo"></div>
+  <div class="s1-overlay"></div>
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s1-content">
+    <div class="s1-eyebrow">Confidential · Partner Presentation</div>
+    <svg class="s1-logo-svg" viewBox="0 0 52 52" fill="none">
+      <polygon points="26,2 50,26 26,50 2,26" stroke="#C9A962" stroke-width="1.1" stroke-opacity="0.9"/>
+      <polygon points="26,10 44,26 26,42 8,26" stroke="#C9A962" stroke-width="0.5" stroke-opacity="0.3"/>
+      <path d="M18 36V16L34 36V16" stroke="#C9A962" stroke-width="2.2" stroke-linecap="square"/>
+    </svg>
+    <div class="s1-brand">Nex<em>Assist</em></div>
+    <div class="s1-tagline">Personal Luxury Concierge · Los Angeles</div>
+    <div class="s1-divider"></div>
+    <div class="s1-title">Partner Network<br>Opportunity Briefing</div>
+    <div class="s1-subtitle">Connecting high-net-worth clients with<br>LA's finest luxury service providers.</div>
+  </div>
+
+  <div class="s1-stats">
+    <div>
+      <div class="s1-stat-num">9</div>
+      <div class="s1-stat-label">Service Categories</div>
+    </div>
+    <div>
+      <div class="s1-stat-num">64</div>
+      <div class="s1-stat-label">LA &amp; OC Cities Served</div>
+    </div>
+    <div>
+      <div class="s1-stat-num">24/7</div>
+      <div class="s1-stat-label">Concierge Availability</div>
+    </div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 2 — WHAT IS NEXASSIST
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s2-header">
+    <div class="slide-eyebrow">Overview</div>
+    <div class="slide-title">What is <em>NexAssist?</em></div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s2-body">
+    <div class="s2-left">
+      <div class="s2-paragraph">
+        NexAssist is a <strong>personal luxury concierge platform</strong> serving high-net-worth individuals, executives, celebrities, and VIP visitors across Los Angeles and Orange County.
+      </div>
+      <div class="s2-paragraph">
+        Clients submit requests via our platform — from an exotic car for the weekend to a private jet by tonight — and we handle everything. We source, coordinate, and deliver through our <strong>vetted partner network</strong>.
+      </div>
+      <div class="s2-paragraph">
+        We are <strong>not a marketplace</strong>. We are a concierge. Every request is handled personally. Every partner is selected for quality. Every experience is curated.
+      </div>
+      <div class="s2-quote">
+        "The client never shops around.<br>They trust NexAssist to bring them the best."
+      </div>
+    </div>
+    <div class="s2-right">
+      <div class="s2-pill">
+        <div class="s2-pill-icon">📍</div>
+        <div class="s2-pill-text">
+          <div class="s2-pill-label">Coverage Area</div>
+          <div class="s2-pill-value">Los Angeles County · Orange County · 64 cities actively served and growing</div>
+        </div>
+      </div>
+      <div class="s2-pill">
+        <div class="s2-pill-icon">🕐</div>
+        <div class="s2-pill-text">
+          <div class="s2-pill-label">Availability</div>
+          <div class="s2-pill-value">24 hours a day, 7 days a week — because luxury doesn't keep business hours</div>
+        </div>
+      </div>
+      <div class="s2-pill">
+        <div class="s2-pill-icon">🔗</div>
+        <div class="s2-pill-text">
+          <div class="s2-pill-label">Partner Model</div>
+          <div class="s2-pill-value">Commission-based referrals. No upfront fees. No monthly costs. You pay only when you earn.</div>
+        </div>
+      </div>
+      <div class="s2-pill">
+        <div class="s2-pill-icon">🌐</div>
+        <div class="s2-pill-text">
+          <div class="s2-pill-label">Digital Presence</div>
+          <div class="s2-pill-value">Active SEO across 90+ web pages. Google Business Profile verified. Growing LA search visibility.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">02 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 3 — OUR CLIENTS
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="s3-photo"><div class="s3-photo-overlay"></div></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s3-header">
+    <div class="slide-eyebrow">The Audience</div>
+    <div class="slide-title">Who Are <em>Our Clients?</em></div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s3-body">
+    <div class="client-card">
+      <div class="client-card-icon">💼</div>
+      <div>
+        <div class="client-card-title">C-Suite Executives & Entrepreneurs</div>
+        <div class="client-card-desc">CEOs, founders, investors based in or visiting LA. Time-poor, quality-first. Need everything arranged at a moment's notice.</div>
+      </div>
+    </div>
+    <div class="client-card">
+      <div class="client-card-icon">🎬</div>
+      <div>
+        <div class="client-card-title">Entertainment & Sports Industry</div>
+        <div class="client-card-desc">Actors, athletes, musicians, agents. High-profile lifestyles with specific tastes and non-negotiable discretion requirements.</div>
+      </div>
+    </div>
+    <div class="client-card">
+      <div class="client-card-icon">✈️</div>
+      <div>
+        <div class="client-card-title">International VIP Visitors</div>
+        <div class="client-card-desc">Wealthy travelers arriving in LA from the Middle East, Europe, and Asia who want a trusted local concierge from day one.</div>
+      </div>
+    </div>
+    <div class="client-card">
+      <div class="client-card-icon">🎉</div>
+      <div>
+        <div class="client-card-title">Special Occasions & Events</div>
+        <div class="client-card-desc">Birthdays, anniversaries, proposals, corporate experiences. Clients with large budgets and high expectations for the moment.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s3-insight">
+    "Our clients don't compare prices. They compare <em>experiences</em>.<br>Your job is to deliver — ours is to send them to you."
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">03 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 4 — HOW IT WORKS
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s4-header">
+    <div class="slide-eyebrow">The Process</div>
+    <div class="slide-title">How the <em>Partner Network</em> Works</div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s4-steps">
+    <div class="step active">
+      <div class="step-num">01</div>
+      <div class="step-icon">📱</div>
+      <div class="step-title">Client Submits Request</div>
+      <div class="step-desc">A high-net-worth client submits a luxury service request through the NexAssist platform — specifying dates, preferences, and budget.</div>
+      <div class="step-arrow">→</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-icon">🔍</div>
+      <div class="step-title">NexAssist Contacts You</div>
+      <div class="step-desc">We reach out to our vetted partner network. You receive a qualified lead with full details — ready to quote and confirm.</div>
+      <div class="step-arrow">→</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-icon">✅</div>
+      <div class="step-title">You Confirm & Quote</div>
+      <div class="step-desc">You respond with availability and pricing. NexAssist presents your offer to the client. You set your own rates — always.</div>
+      <div class="step-arrow">→</div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-icon">💰</div>
+      <div class="step-title">Deal Closes, You Earn</div>
+      <div class="step-desc">Client confirms, you fulfill the service, we collect a small referral commission. No close — no cost. Simple as that.</div>
+    </div>
+  </div>
+
+  <div class="s4-note">
+    <div class="s4-note-icon">★</div>
+    <div class="s4-note-text"><strong>You are always in control of your pricing and availability.</strong> NexAssist never undercuts or commoditizes your service — we position every partner as the premium option.</div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">04 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 5 — PARTNER BENEFITS
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s5-header">
+    <div class="slide-eyebrow">Why Partner with Us</div>
+    <div class="slide-title">The <em>Benefits</em> of Joining</div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s5-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon">🎯</div>
+      <div class="benefit-title">Qualified, Ready-to-Buy Leads</div>
+      <div class="benefit-desc">Every lead we send has already made the decision to spend. These are not browsers — they are buyers with a specific request and a budget to match.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">💸</div>
+      <div class="benefit-title">Zero Upfront Cost</div>
+      <div class="benefit-desc">No joining fee. No monthly retainer. No subscription. You only pay a commission when a referral we send you successfully converts to a booking.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">📣</div>
+      <div class="benefit-title">Free Marketing & Visibility</div>
+      <div class="benefit-desc">Your services are promoted across NexAssist's website, Google Business Profile, and social media to a targeted luxury audience in LA — at no cost to you.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🤝</div>
+      <div class="benefit-title">Exclusive Client Relationships</div>
+      <div class="benefit-desc">Once a client experiences your service through NexAssist, repeat business is yours directly. We encourage long-term relationships — not dependency on us.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">⚡</div>
+      <div class="benefit-title">Fast & Simple Process</div>
+      <div class="benefit-desc">No complex onboarding. A short call to understand your inventory and rates, and you're live in the network. We handle client communication — you focus on the service.</div>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon">🏆</div>
+      <div class="benefit-title">Premium Brand Association</div>
+      <div class="benefit-desc">Being part of the NexAssist network signals quality. We only work with providers who meet our standards — which elevates every partner's brand by association.</div>
+    </div>
+  </div>
+
+  <div class="s5-cta-strip">
+    <div class="s5-cta-text">Limited partner slots available per service category. <strong>Early partners receive priority placement on all client requests.</strong></div>
+    <div class="s5-cta-badge">Apply Now</div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">05 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 6 — SERVICE CATEGORIES
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s6-header">
+    <div class="slide-eyebrow">Partner Opportunities</div>
+    <div class="slide-title">Service Categories <em>We're Building</em></div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s6-grid">
+    <div class="service-card hot">
+      <div class="service-card-icon">🏎️</div>
+      <div>
+        <div class="service-card-name">Exotic Car Rental</div>
+        <div class="service-card-detail">Ferrari, Lamborghini, Rolls-Royce, McLaren, Bentley, Porsche, AMG</div>
+        <div class="hot-badge">Highest Demand</div>
+      </div>
+    </div>
+    <div class="service-card hot">
+      <div class="service-card-icon">🎩</div>
+      <div>
+        <div class="service-card-name">Chauffeur Service</div>
+        <div class="service-card-detail">Escalade, Maybach, Sprinter. Airport runs, events, corporate</div>
+        <div class="hot-badge">Highest Demand</div>
+      </div>
+    </div>
+    <div class="service-card hot">
+      <div class="service-card-icon">✈️</div>
+      <div>
+        <div class="service-card-name">Private Jet Charter</div>
+        <div class="service-card-detail">Van Nuys · Burbank · LAX. Domestic &amp; international</div>
+        <div class="hot-badge">High Value</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-icon">⚓</div>
+      <div>
+        <div class="service-card-name">Yacht Charter</div>
+        <div class="service-card-detail">Marina del Rey, Newport Beach, Malibu. Day to extended charters</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-icon">🏡</div>
+      <div>
+        <div class="service-card-name">Luxury Villa Rental</div>
+        <div class="service-card-detail">Beverly Hills, Malibu, Bel Air, Hollywood Hills, OC</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-icon">🔑</div>
+      <div>
+        <div class="service-card-name">Exotic Car Sales</div>
+        <div class="service-card-detail">Off-market buys &amp; sells. Authenticated. Private network deals</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-icon">⌚</div>
+      <div>
+        <div class="service-card-name">Luxury Watch Sourcing</div>
+        <div class="service-card-detail">Rolex, Patek Philippe, AP, Richard Mille. Buying &amp; selling</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-icon">👜</div>
+      <div>
+        <div class="service-card-name">Designer Bag Sourcing</div>
+        <div class="service-card-detail">Hermès, Chanel, LV. Waitlist items sourced privately</div>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-card-icon">🌍</div>
+      <div>
+        <div class="service-card-name">Luxury Travel Planning</div>
+        <div class="service-card-detail">Hotels, itineraries, VIP events, F1 packages worldwide</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="s6-footer-note">
+    ★ Highlighted categories currently receiving the highest volume of client requests. Partner slots in these categories fill first.
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">06 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 7 — THE OPPORTUNITY
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s7-header">
+    <div class="slide-eyebrow">Market Context</div>
+    <div class="slide-title">The <em>LA Luxury Market</em> Opportunity</div>
+    <div class="slide-divider"></div>
+  </div>
+
+  <div class="s7-body">
+    <div class="s7-left">
+      <div class="stat-block">
+        <div class="stat-block-num">$127B+</div>
+        <div class="stat-block-label">LA Luxury Goods & Services Market</div>
+        <div class="stat-block-note">Los Angeles is the second-largest luxury market in the United States, with demand growing year over year.</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block-num">250K+</div>
+        <div class="stat-block-label">High-Net-Worth Individuals in LA</div>
+        <div class="stat-block-note">LA County is home to one of the highest concentrations of HNW and UHNW individuals in the world.</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-block-num">50M+</div>
+        <div class="stat-block-label">Tourists Visit LA Annually</div>
+        <div class="stat-block-note">A significant portion are international luxury travelers seeking curated experiences — with no local connections.</div>
+      </div>
+    </div>
+    <div class="s7-right">
+      <div class="why-card">
+        <div class="why-card-title">Why NexAssist — Why Now</div>
+        <div class="why-card-text">The luxury concierge space in LA is fragmented. Clients have money but no trusted single source for all their lifestyle needs. NexAssist is building that hub — and we're doing it now, while the space is wide open.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-title">Early Partner Advantage</div>
+        <div class="why-card-text">As NexAssist grows its client base and search rankings, demand for partner services will increase. Partners who join early are embedded in the platform — their reputation grows with ours.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-title">SEO-Driven Lead Flow</div>
+        <div class="why-card-text">90+ pages actively indexed by Google. Search terms like "exotic car rental Beverly Hills" and "chauffeur service Los Angeles" are driving organic traffic today — and it compounds monthly.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-card-title">No Competing With You</div>
+        <div class="why-card-text">NexAssist does not own vehicles, jets, or yachts. We are a pure concierge — our success depends entirely on our partners delivering exceptional experiences.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com</span>
+  </div>
+  <div class="slide-num">07 / 08</div>
+</div>
+
+
+<!-- ══════════════════════════════════════
+     SLIDE 8 — JOIN THE NETWORK
+══════════════════════════════════════ -->
+<div class="slide">
+  <div class="s8-bg"></div>
+  <div class="s8-overlay"></div>
+  <div class="grid-bg"></div>
+  <div class="accent-bar"></div>
+  <div class="accent-left"></div>
+  <div class="c-tl"></div><div class="c-tr"></div><div class="c-bl"></div><div class="c-br"></div>
+
+  <div class="s8-content">
+    <div class="s8-eyebrow">Ready to grow with us?</div>
+    <div class="s8-headline">Join the <em>NexAssist</em><br>Partner Network</div>
+    <div class="s8-sub">Qualified leads. Zero upfront cost. LA's luxury market — delivered to you.</div>
+    <div class="s8-divider"></div>
+
+    <div class="s8-steps">
+      <div class="s8-step">
+        <div class="s8-step-num">01</div>
+        <div class="s8-step-label">Reach out &amp;<br>introduce your business</div>
+      </div>
+      <div class="s8-step">
+        <div class="s8-step-num">02</div>
+        <div class="s8-step-label">Quick call to align<br>on rates &amp; availability</div>
+      </div>
+      <div class="s8-step">
+        <div class="s8-step-num">03</div>
+        <div class="s8-step-label">Go live in the<br>NexAssist network</div>
+      </div>
+      <div class="s8-step">
+        <div class="s8-step-num">04</div>
+        <div class="s8-step-label">Start receiving<br>qualified client leads</div>
+      </div>
+    </div>
+
+    <div class="s8-contact">
+      <div class="s8-contact-label">Get in touch</div>
+      <div class="s8-contact-email">partners@usenexassist.com</div>
+      <div class="s8-contact-url">usenexassist.com</div>
+    </div>
+  </div>
+
+  <div class="brand-mark">
+    <svg viewBox="0 0 22 22" fill="none"><polygon points="11,1 21,11 11,21 1,11" stroke="#C9A962" stroke-width="0.7" stroke-opacity="0.5"/></svg>
+    <span>usenexassist.com · Los Angeles · Available 24/7</span>
+  </div>
+  <div class="slide-num">08 / 08</div>
+</div>
+
+</body>
+</html>
