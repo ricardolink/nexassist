@@ -50,7 +50,7 @@ const cfg: ServiceLandingConfig = {
       color: "#a78bfa",
     },
     {
-      name: "BMW M",
+      name: "BMW",
       sub: "M8 Competition · XM · M5 CS",
       tags: ["Custom Order", "New", "CPO"],
       img: "/cars/bmw-x6m.png",
