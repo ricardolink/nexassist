@@ -12,6 +12,19 @@ const serviceTypes = [
   "Luxury Travel", "Other",
 ];
 
+const descriptionPlaceholders: Record<string, string> = {
+  "Exotic Car Rental":   "I need a Lamborghini Huracán delivered to Beverly Hills this Saturday for the weekend...",
+  "Chauffeur Services":  "I need a Cadillac Escalade with a professional driver for an airport pickup at LAX on Friday at 8pm...",
+  "Car Sales":           "I'm looking to buy a Ferrari SF90 Stradale — preferably Rosso Corsa, under 2,000 miles. Budget around $600K...",
+  "Private Jets":        "I need a private jet from Van Nuys to Miami for 4 passengers this Thursday evening, one way...",
+  "Luxury Villas":       "I'm looking for a Malibu beachfront villa for 8 guests for 3 nights starting July 4th, with a pool and full staff...",
+  "Superyachts":         "I'd like to charter a yacht for a sunset cruise to Catalina Island for 10 guests this Saturday. Looking for something 60ft+...",
+  "Fine Watches":        "I'm looking for a Rolex Daytona in Panda dial, stainless steel, unworn or like new. Budget up to $50K...",
+  "Designer Bags":       "I'm looking for a Hermès Birkin 30 in gold with gold hardware. Open to exotic leathers. Please let me know what's available...",
+  "Luxury Travel":       "I'd like to plan a 10-day trip to Italy — private jets, five-star hotels in Rome and Amalfi, private yacht day, and VIP restaurant reservations...",
+  "Other":               "Tell us what you're looking for and we'll make it happen...",
+};
+
 export default function RequestModal({
   onClose,
   onSuccess,
@@ -220,7 +233,7 @@ export default function RequestModal({
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="I need a Ferrari SF90 delivered to Beverly Hills for this weekend..."
+                placeholder={descriptionPlaceholders[selected] ?? "Tell us what you need and we'll make it happen..."}
                 required
                 rows={3}
                 className="w-full bg-white/3 border border-white/10 focus:border-[#C9A962]/40 rounded-sm px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none resize-none transition-colors"
