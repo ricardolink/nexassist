@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { CITIES } from "@/lib/cities";
+import { blogPosts } from "@/lib/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://usenexassist.com";
@@ -33,7 +34,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     })),
     ...cityPages,
-    { url: `${base}/my-requests`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${base}/partners/apply`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    // Blog
+    { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.8 },
+    ...blogPosts.map((post) => ({
+      url: `${base}/blog/${post.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+    // Footer pages
+    { url: `${base}/contact`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.6 },
+    { url: `${base}/faqs`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.65 },
+    { url: `${base}/privacy`, lastModified: now, changeFrequency: "yearly" as const, priority: 0.3 },
+    { url: `${base}/terms`, lastModified: now, changeFrequency: "yearly" as const, priority: 0.3 },
+    // Other
+    { url: `${base}/my-requests`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.5 },
+    { url: `${base}/partners/apply`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.6 },
   ];
 }
