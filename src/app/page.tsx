@@ -425,7 +425,7 @@ export default function Home() {
                   <div className="mt-3 flex items-center gap-3">
                     <button
                       onClick={(e) => { e.preventDefault(); e.stopPropagation(); openRequest(); }}
-                      className="relative z-30 flex items-center gap-1.5 text-[#C9A962]/0 group-hover:text-[#C9A962]/90 transition-all duration-300 text-[10px] tracking-[0.15em] uppercase bg-[#080d18]/60 group-hover:bg-[#C9A962]/12 border border-transparent group-hover:border-[#C9A962]/30 rounded-sm px-3 py-1.5"
+                      className="relative z-30 flex items-center gap-1.5 text-[#C9A962]/90 sm:text-[#C9A962]/0 group-hover:text-[#C9A962]/90 transition-all duration-300 text-[10px] tracking-[0.15em] uppercase bg-[#C9A962]/12 sm:bg-[#080d18]/60 group-hover:bg-[#C9A962]/12 border border-[#C9A962]/30 sm:border-transparent group-hover:border-[#C9A962]/30 rounded-sm px-3 py-1.5"
                     >
                       <span>Request</span>
                       <span className="transform group-hover:translate-x-1 transition-transform">→</span>
