@@ -391,9 +391,10 @@ export default function Home() {
           {/* Mobile: single column stacked */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 sm:gap-2">
             {services.map((s, i) => (
-              <div
+              <Link
+                href={s.href}
                 key={s.title}
-                className={`service-card relative overflow-hidden group text-left ${
+                className={`service-card relative overflow-hidden group text-left cursor-pointer ${
                   i === 0
                     ? "lg:col-span-2 h-[52vw] sm:h-[300px] lg:h-[360px]"
                     : i === 3
@@ -401,8 +402,6 @@ export default function Home() {
                     : "h-[52vw] sm:h-[240px] lg:h-[280px]"
                 }`}
               >
-                {/* Clickable area → SEO landing page */}
-                <Link href={s.href} className="absolute inset-0 z-10" aria-label={`Learn more about ${s.title}`} />
                 {/* Photo */}
                 <div
                   className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
@@ -432,7 +431,7 @@ export default function Home() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
