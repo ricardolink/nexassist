@@ -23,6 +23,9 @@ export async function generateMetadata({
   return {
     title: post.metaTitle,
     description: post.metaDescription,
+    alternates: {
+      canonical: `https://usenexassist.com/blog/${slug}`,
+    },
     openGraph: {
       title: post.metaTitle,
       description: post.metaDescription,

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 400px; height: 400px; overflow: hidden;
+    background: #080d18;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+
+  /* Outer gold ring */
+  .ring {
+    position: absolute; inset: 0;
+    border: 3px solid rgba(201,169,98,0.5);
+  }
+
+  /* Corner accents */
+  .corner {
+    position: absolute; width: 28px; height: 28px;
+  }
+  .corner.tl { top: 14px; left: 14px; border-top: 2px solid #C9A962; border-left: 2px solid #C9A962; }
+  .corner.tr { top: 14px; right: 14px; border-top: 2px solid #C9A962; border-right: 2px solid #C9A962; }
+  .corner.bl { bottom: 14px; left: 14px; border-bottom: 2px solid #C9A962; border-left: 2px solid #C9A962; }
+  .corner.br { bottom: 14px; right: 14px; border-bottom: 2px solid #C9A962; border-right: 2px solid #C9A962; }
+
+  /* Top gold bar */
+  .top-bar {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #C9A962 30%, #C9A962 70%, transparent);
+  }
+
+  .center {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 18px;
+    position: relative; z-index: 2;
+  }
+
+  /* Big diamond N */
+  .monogram {
+    position: relative;
+    width: 160px; height: 160px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .wordmark {
+    font-family: 'Georgia', serif;
+    font-size: 38px; font-weight: 700;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.9);
+  }
+  .wordmark span { color: #C9A962; }
+
+  .tagline {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px; letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.55);
+    text-align: center;
+  }
+
+  /* Subtle radial glow behind diamond */
+  .glow {
+    position: absolute;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,169,98,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .bottom-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #C9A962 30%, #C9A962 70%, transparent);
+  }
+</style>
+</head>
+<body>
+  <div class="top-bar"></div>
+  <div class="bottom-bar"></div>
+  <div class="ring"></div>
+  <div class="corner tl"></div>
+  <div class="corner tr"></div>
+  <div class="corner bl"></div>
+  <div class="corner br"></div>
+  <div class="glow"></div>
+
+  <div class="center">
+    <!-- Big diamond N SVG -->
+    <div class="monogram">
+      <svg width="160" height="160" viewBox="0 0 160 160" fill="none">
+        <!-- Outer diamond -->
+        <polygon points="80,4 156,80 80,156 4,80"
+          stroke="#C9A962" stroke-width="1.5" stroke-opacity="0.7" fill="none"/>
+        <!-- Inner diamond -->
+        <polygon points="80,18 142,80 80,142 18,80"
+          stroke="#C9A962" stroke-width="0.8" stroke-opacity="0.3" fill="none"/>
+        <!-- N letterform -->
+        <path d="M52 108V52L108 108V52"
+          stroke="#C9A962" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter"/>
+        <!-- Corner dots -->
+        <circle cx="80" cy="8" r="2.5" fill="#C9A962" opacity="0.8"/>
+        <circle cx="152" cy="80" r="2.5" fill="#C9A962" opacity="0.8"/>
+        <circle cx="80" cy="152" r="2.5" fill="#C9A962" opacity="0.8"/>
+        <circle cx="8" cy="80" r="2.5" fill="#C9A962" opacity="0.8"/>
+      </svg>
+    </div>
+
+    <div class="wordmark">Nex<span>Assist</span></div>
+    <div class="tagline">Luxury Concierge · Los Angeles</div>
+  </div>
+</body>
+</html>

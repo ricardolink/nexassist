@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #080d18; font-family: 'Georgia', serif; }
+
+  .bg {
+    position: absolute; inset: 0;
+    background-image: url('../public/cars/cullinan.jpg');
+    background-size: cover;
+    background-position: center 35%;
+  }
+
+  .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(8,13,24,0.92) 0%,
+      rgba(8,13,24,0.28) 28%,
+      rgba(8,13,24,0.10) 48%,
+      rgba(8,13,24,0.60) 67%,
+      rgba(8,13,24,0.97) 100%
+    );
+  }
+
+  .overlay-right {
+    position: absolute; inset: 0;
+    background: linear-gradient(to left,
+      rgba(8,13,24,0.5) 0%,
+      rgba(8,13,24,0.08) 50%,
+      transparent 100%
+    );
+  }
+
+  .top-bar {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #C9A962 30%, #C9A962 70%, transparent);
+  }
+
+  .logo {
+    position: absolute;
+    top: 42px; left: 56px;
+    display: flex; align-items: center; gap: 11px;
+  }
+  .brand {
+    font-family: 'Georgia', serif;
+    font-size: 24px; font-weight: 700;
+    color: rgba(255,255,255,0.8); letter-spacing: 0.04em;
+  }
+  .brand span { color: #C9A962; }
+
+  .badge {
+    position: absolute;
+    top: 48px; right: 56px;
+    font-family: 'Arial', sans-serif;
+    font-size: 10px; letter-spacing: 0.38em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.55);
+    border: 1px solid rgba(201,169,98,0.2);
+    padding: 7px 16px; border-radius: 2px;
+  }
+
+  .ghost-num {
+    position: absolute;
+    top: 90px; right: 40px;
+    font-size: 380px; font-weight: 700;
+    color: rgba(201,169,98,0.04);
+    line-height: 1; letter-spacing: -0.05em;
+    user-select: none;
+  }
+
+  .hero {
+    position: absolute;
+    top: 130px; left: 56px;
+  }
+  .eyebrow {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px; letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.6);
+    margin-bottom: 10px;
+  }
+  .headline {
+    font-size: 100px; font-weight: 700;
+    color: #fff; line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+
+  .bottom {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0 56px 48px;
+  }
+
+  .message {
+    font-family: 'Arial', sans-serif;
+    font-size: 22px; color: rgba(255,255,255,0.55);
+    line-height: 1.6; margin-bottom: 28px;
+    max-width: 740px;
+  }
+  .message strong { color: #fff; }
+  .message .gold { color: #C9A962; }
+
+  .pills {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .pill {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px; letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    border: 1px solid rgba(201,169,98,0.18);
+    padding: 8px 16px; border-radius: 2px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(201,169,98,0.5); }
+
+  .cta-row {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 14px;
+    background: #C9A962;
+    padding: 18px 40px; border-radius: 2px;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: #080d18;
+  }
+
+  .cta-url {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px; letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.22);
+  }
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="overlay-right"></div>
+  <div class="top-bar"></div>
+
+  <div class="logo">
+    <svg width="30" height="30" viewBox="0 0 36 36" fill="none">
+      <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="1" stroke-opacity="0.9"/>
+      <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.7" stroke-linecap="square"/>
+    </svg>
+    <div class="brand">Nex<span>Assist</span></div>
+  </div>
+
+  <div class="badge">Exotic Car Rental · LA</div>
+
+  <div class="ghost-num">R</div>
+
+  <div class="hero">
+    <div class="eyebrow">Weekend plans?</div>
+    <div class="headline">Drive some-<br>thing unforgettable.</div>
+  </div>
+
+  <div class="bottom">
+    <div class="message">
+      Ferrari · Lamborghini · <strong>Rolls-Royce</strong> · McLaren.<br>
+      All available in Los Angeles —<br>
+      delivered to you, on demand.<br>
+      <span class="gold">One request. No hassle. Just the car.</span>
+    </div>
+    <div class="pills">
+      <div class="pill"><div class="dot"></div>Ferrari</div>
+      <div class="pill"><div class="dot"></div>Lamborghini</div>
+      <div class="pill"><div class="dot"></div>Rolls-Royce</div>
+      <div class="pill"><div class="dot"></div>McLaren</div>
+      <div class="pill"><div class="dot"></div>Always Free</div>
+    </div>
+    <div class="cta-row">
+      <div class="cta-btn">
+        Book Your Car · It&rsquo;s Free
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#080d18" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="cta-url">USENEXASSIST.COM</div>
+    </div>
+  </div>
+</body>
+</html>

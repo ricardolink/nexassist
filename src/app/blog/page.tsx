@@ -5,6 +5,9 @@ import { blogPosts } from "@/lib/blog";
 export const metadata = {
   title: "The NexAssist Journal | Luxury Lifestyle & Exotic Cars Los Angeles",
   description: "Stories, guides, and inspiration from the world of luxury living in Los Angeles — exotic cars, private yachts, Malibu drives, and more.",
+  alternates: {
+    canonical: "https://usenexassist.com/blog",
+  },
 };
 
 const [featured, ...rest] = blogPosts;

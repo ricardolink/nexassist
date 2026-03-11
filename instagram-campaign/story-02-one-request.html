@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1920px; overflow: hidden; background: #080d18; font-family: 'Georgia', serif; }
+
+  /* Full bleed car photo — side angle, moody */
+  .bg {
+    position: absolute; inset: 0;
+    background-image: url('urus-alley.avif');
+    background-size: cover;
+    background-position: center 50%;
+  }
+
+  /* Cinematic overlay */
+  .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(8,13,24,0.97) 0%,
+      rgba(8,13,24,0.55) 20%,
+      rgba(8,13,24,0.08) 40%,
+      rgba(8,13,24,0.08) 58%,
+      rgba(8,13,24,0.75) 72%,
+      rgba(8,13,24,0.98) 100%
+    );
+  }
+
+  /* Plate blocker */
+  .plate-block {
+    position: absolute;
+    left: 50%;
+    top: 1228px;
+    transform: translateX(-50%);
+    width: 340px;
+    height: 90px;
+    background: #080d18;
+    z-index: 9;
+  }
+
+  /* Custom license plate overlay */
+  .plate {
+    position: absolute;
+    left: 50%;
+    top: 1240px;
+    transform: translateX(-50%);
+    width: 310px;
+    height: 66px;
+    background: #080d18;
+    border: 2px solid rgba(201,169,98,0.7);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8), 0 0 12px rgba(201,169,98,0.15);
+    z-index: 10;
+  }
+
+  .plate-logo-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
+    color: #C9A962;
+    text-transform: uppercase;
+  }
+
+  .plate-logo-text span { color: rgba(255,255,255,0.6); }
+
+  /* Subtle side vignette */
+  .vignette {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, rgba(8,13,24,0.4), transparent 30%, transparent 70%, rgba(8,13,24,0.4));
+  }
+
+  /* Gold glow at bottom */
+  .glow {
+    position: absolute;
+    width: 1000px; height: 500px;
+    bottom: 80px; left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse, rgba(201,169,98,0.1) 0%, transparent 65%);
+  }
+
+  /* Top bar */
+  .top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, transparent 0%, #C9A962 40%, #C9A962 60%, transparent 100%);
+  }
+
+  /* Logo top */
+  .logo-area {
+    position: absolute;
+    top: 72px; left: 72px; right: 72px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .logo-mark {
+    display: flex; align-items: center; gap: 12px;
+  }
+
+  .brand {
+    font-family: 'Georgia', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 0.04em;
+  }
+  .brand span { color: #C9A962; }
+
+  .concierge-badge {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.55);
+    border: 1px solid rgba(201,169,98,0.2);
+    padding: 8px 18px;
+    border-radius: 2px;
+  }
+
+  /* Big number / hero statement at top */
+  .hero-number {
+    position: absolute;
+    top: 200px; left: 72px;
+  }
+
+  .one {
+    font-size: 260px;
+    font-weight: 700;
+    color: rgba(201,169,98,0.08);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    user-select: none;
+  }
+
+  .one-label {
+    position: absolute;
+    top: 80px; left: 20px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+
+  .one-label .num-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.65);
+  }
+
+  .one-label .num-desc {
+    font-size: 52px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  /* Bottom content block */
+  .bottom {
+    position: absolute;
+    bottom: 190px; left: 72px; right: 72px;
+  }
+
+  .message {
+    font-family: 'Arial', sans-serif;
+    font-size: 27px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.65;
+    margin-bottom: 48px;
+    max-width: 900px;
+  }
+
+  .message strong { color: #fff; }
+  .message .gold { color: #C9A962; }
+
+  /* Service pills */
+  .pills {
+    display: flex; flex-wrap: wrap; gap: 14px;
+    margin-bottom: 52px;
+  }
+
+  .pill {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(201,169,98,0.18);
+    padding: 10px 22px;
+    border-radius: 2px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  .pill-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: rgba(201,169,98,0.5);
+  }
+
+  /* CTA button */
+  .cta-btn {
+    display: flex; align-items: center; justify-content: center; gap: 16px;
+    background: #C9A962;
+    padding: 28px 0;
+    width: 100%;
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+
+  .cta-btn span {
+    font-family: 'Arial', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #080d18;
+  }
+
+  .cta-url {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+</style>
+</head>
+<body>
+
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="vignette"></div>
+  <div class="glow"></div>
+  <div class="top-bar"></div>
+
+
+
+  <!-- Logo -->
+  <div class="logo-area">
+    <div class="logo-mark">
+      <svg width="34" height="34" viewBox="0 0 36 36" fill="none">
+        <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="0.9" stroke-opacity="0.85"/>
+        <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.6" stroke-linecap="square"/>
+      </svg>
+      <div class="brand">Nex<span>Assist</span></div>
+    </div>
+    <div class="concierge-badge">24/7 Concierge</div>
+  </div>
+
+  <!-- Hero number statement -->
+  <div class="hero-number">
+    <div class="one">1</div>
+    <div class="one-label">
+      <div class="num-text">Just</div>
+      <div class="num-desc">One<br>Request.</div>
+    </div>
+  </div>
+
+  <!-- Bottom Content -->
+  <div class="bottom">
+    <div class="message">
+      Tell us what you need.<br>
+      We handle <strong>everything else.</strong><br>
+      Your dream car, delivered to your door —<br>
+      <span class="gold">on the budget you choose.</span>
+    </div>
+
+    <div class="pills">
+      <div class="pill"><div class="pill-dot"></div>Exotic Cars</div>
+      <div class="pill"><div class="pill-dot"></div>Private Jets</div>
+      <div class="pill"><div class="pill-dot"></div>Yachts</div>
+      <div class="pill"><div class="pill-dot"></div>Villas</div>
+      <div class="pill"><div class="pill-dot"></div>Always Free</div>
+    </div>
+
+    <div class="cta-btn">
+      <span>Request Now · It's Free</span>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M4 10h12M11 5l5 5-5 5" stroke="#080d18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="cta-url">USENEXASSIST.COM</div>
+  </div>
+
+</body>
+</html>

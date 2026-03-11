@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 export const metadata = {
   title: "Privacy Policy | NexAssist",
   description: "NexAssist Privacy Policy — how we collect, use, and protect your information.",
+  alternates: { canonical: "https://usenexassist.com/privacy" },
 };
 
 export default function PrivacyPage() {

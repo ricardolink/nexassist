@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 export const metadata = {
   title: "Terms of Service | NexAssist",
   description: "NexAssist Terms of Service — the terms and conditions governing use of our luxury concierge service.",
+  alternates: { canonical: "https://usenexassist.com/terms" },
 };
 
 export default function TermsPage() {

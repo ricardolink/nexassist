@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1080px; overflow: hidden; background: #080d18; font-family: 'Georgia', serif; }
+
+  .bg {
+    position: absolute; inset: 0;
+    background-image: url('urus-front.jpg');
+    background-size: cover;
+    background-position: center 45%;
+  }
+
+  .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(8,13,24,0.88) 0%,
+      rgba(8,13,24,0.35) 25%,
+      rgba(8,13,24,0.15) 45%,
+      rgba(8,13,24,0.60) 65%,
+      rgba(8,13,24,0.97) 100%
+    );
+  }
+
+  /* Left dark gradient so text pops */
+  .overlay-left {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right,
+      rgba(8,13,24,0.65) 0%,
+      rgba(8,13,24,0.2) 50%,
+      transparent 100%
+    );
+  }
+
+  /* Top gold line */
+  .top-line {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #C9A962 35%, #C9A962 65%, transparent);
+  }
+
+  /* Logo */
+  .logo {
+    position: absolute;
+    top: 44px; left: 0; right: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+
+  .logo-row { display: flex; align-items: center; gap: 11px; }
+
+  .brand {
+    font-family: 'Georgia', serif;
+    font-size: 24px; font-weight: 700;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 0.04em;
+  }
+  .brand span { color: #C9A962; }
+
+  .tagline {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px; letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.55);
+  }
+
+  /* Main content — bottom half */
+  .content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0 64px 52px;
+  }
+
+  .eyebrow {
+    display: flex; align-items: center; gap: 14px;
+    font-family: 'Arial', sans-serif;
+    font-size: 11px; letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.65);
+    margin-bottom: 22px;
+  }
+  .eyebrow::before {
+    content: '';
+    display: block; width: 28px; height: 1px;
+    background: rgba(201,169,98,0.5);
+  }
+
+  .headline {
+    font-size: 62px; font-weight: 700;
+    color: #fff; line-height: 1.06;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+  }
+  .headline em {
+    font-style: normal;
+    color: rgba(255,255,255,0.32);
+    font-size: 54px;
+  }
+
+  .divider {
+    width: 40px; height: 1px;
+    background: rgba(201,169,98,0.4);
+    margin-bottom: 22px;
+  }
+
+  .solution {
+    font-family: 'Arial', sans-serif;
+    font-size: 20px; color: rgba(255,255,255,0.55);
+    line-height: 1.6; margin-bottom: 28px;
+    max-width: 700px;
+  }
+  .solution strong { color: #fff; }
+  .solution .gold { color: #C9A962; }
+
+  /* Bottom row */
+  .bottom-row {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 4px;
+  }
+
+  .free-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid rgba(201,169,98,0.3);
+    padding: 10px 20px; border-radius: 2px;
+    background: rgba(201,169,98,0.06);
+    font-family: 'Arial', sans-serif;
+    font-size: 11px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: #C9A962;
+  }
+
+  .cta-url {
+    font-family: 'Georgia', serif;
+    font-size: 20px; font-weight: 700;
+    color: #C9A962; letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="overlay-left"></div>
+  <div class="top-line"></div>
+
+  <!-- Logo -->
+  <div class="logo">
+    <div class="logo-row">
+      <svg width="30" height="30" viewBox="0 0 36 36" fill="none">
+        <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="1" stroke-opacity="0.9"/>
+        <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.7" stroke-linecap="square"/>
+      </svg>
+      <div class="brand">Nex<span>Assist</span></div>
+    </div>
+    <div class="tagline">Personal Concierge · 24/7</div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="eyebrow">Sound familiar?</div>
+    <div class="headline">
+      Tired of calling<br>every rental<br>company just to<br><em>hear "not available"?</em>
+    </div>
+    <div class="divider"></div>
+    <div class="solution">
+      <strong>NexAssist is your 24/7 personal concierge.</strong><br>
+      One request — we find the car you want,<br>
+      on <span class="gold">the budget you choose.</span> Let us do the work.
+    </div>
+    <div class="bottom-row">
+      <div class="free-badge">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
+          <path d="M2.5 7.5L5.5 10.5L11.5 4.5" stroke="#C9A962" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Completely Free · No Hidden Fees
+      </div>
+      <div class="cta-url">USENEXASSIST.COM</div>
+    </div>
+  </div>
+</body>
+</html>

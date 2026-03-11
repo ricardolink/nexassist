@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    width: 1500px; height: 500px; overflow: hidden;
+    background: #080d18; font-family: 'Arial', sans-serif;
+  }
+
+  /* Background photo */
+  .bg {
+    position: absolute; inset: 0;
+    background-image: url('../public/cars/maybach-s680.jpg');
+    background-size: cover;
+    background-position: center 40%;
+  }
+
+  /* Dark overlay */
+  .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right,
+      rgba(8,13,24,0.97) 0%,
+      rgba(8,13,24,0.82) 40%,
+      rgba(8,13,24,0.40) 65%,
+      rgba(8,13,24,0.15) 100%
+    );
+  }
+
+  /* Top + bottom gold bars */
+  .bar-top {
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(to right, #C9A962 0%, #C9A962 60%, transparent 100%);
+  }
+  .bar-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(to right, #C9A962 0%, rgba(201,169,98,0.3) 70%, transparent 100%);
+  }
+
+  /* Left content panel */
+  .content {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 720px;
+    padding: 48px 56px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+
+  /* Logo row */
+  .logo-row {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .brand {
+    font-family: 'Georgia', serif;
+    font-size: 28px; font-weight: 700;
+    color: rgba(255,255,255,0.9); letter-spacing: 0.04em;
+  }
+  .brand span { color: #C9A962; }
+
+  /* Middle: headline */
+  .headline-block { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+  .eyebrow {
+    font-size: 11px; letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.6);
+    margin-bottom: 10px;
+  }
+
+  .headline {
+    font-family: 'Georgia', serif;
+    font-size: 64px; font-weight: 700;
+    color: #fff; line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+  }
+  .headline .gold { color: #C9A962; }
+
+  .sub {
+    font-size: 16px; color: rgba(255,255,255,0.45);
+    letter-spacing: 0.02em; line-height: 1.5;
+    max-width: 560px;
+  }
+  .sub strong { color: rgba(255,255,255,0.75); }
+
+  /* Services row */
+  .services {
+    display: flex; gap: 10px; flex-wrap: wrap;
+  }
+  .svc {
+    font-size: 10px; letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    border: 1px solid rgba(201,169,98,0.2);
+    padding: 7px 14px; border-radius: 2px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(201,169,98,0.6); }
+
+  /* Right side: URL + CTA */
+  .right-panel {
+    position: absolute;
+    right: 52px; bottom: 48px;
+    text-align: right;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 14px;
+  }
+
+  .url {
+    font-size: 13px; letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.5);
+  }
+
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: #C9A962;
+    padding: 15px 32px; border-radius: 2px;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: #080d18;
+  }
+
+  /* Vertical gold line separator */
+  .vline {
+    position: absolute;
+    top: 40px; bottom: 40px;
+    left: 720px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(201,169,98,0.25) 30%, rgba(201,169,98,0.25) 70%, transparent);
+  }
+
+  /* Ghost "N" watermark */
+  .ghost {
+    position: absolute;
+    top: -20px; right: 200px;
+    font-family: 'Georgia', serif;
+    font-size: 560px; font-weight: 700;
+    color: rgba(201,169,98,0.025);
+    line-height: 1; letter-spacing: -0.05em;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="overlay"></div>
+  <div class="bar-top"></div>
+  <div class="bar-bottom"></div>
+  <div class="ghost">N</div>
+  <div class="vline"></div>
+
+  <div class="content">
+    <!-- Logo -->
+    <div class="logo-row">
+      <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+        <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="1" stroke-opacity="0.9"/>
+        <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.7" stroke-linecap="square"/>
+      </svg>
+      <div class="brand">Nex<span>Assist</span></div>
+    </div>
+
+    <!-- Headline -->
+    <div class="headline-block">
+      <div class="eyebrow">Los Angeles · Luxury Concierge</div>
+      <div class="headline">One request.<br><span class="gold">Every luxury.</span></div>
+      <div class="sub">
+        <strong>Exotic cars, private jets, yachts, luxury villas,</strong><br>
+        designer bags & fine watches — all on demand.<br>
+        No fees. No hassle. Just luxury delivered.
+      </div>
+    </div>
+
+    <!-- Services -->
+    <div class="services">
+      <div class="svc"><div class="dot"></div>Exotic Cars</div>
+      <div class="svc"><div class="dot"></div>Private Jets</div>
+      <div class="svc"><div class="dot"></div>Yachts</div>
+      <div class="svc"><div class="dot"></div>Luxury Villas</div>
+      <div class="svc"><div class="dot"></div>Designer Bags</div>
+      <div class="svc"><div class="dot"></div>Fine Watches</div>
+      <div class="svc"><div class="dot"></div>Chauffeur</div>
+      <div class="svc"><div class="dot"></div>Always Free</div>
+    </div>
+  </div>
+
+  <!-- Right panel -->
+  <div class="right-panel">
+    <div class="url">USENEXASSIST.COM</div>
+    <div class="cta-btn">
+      Request Now · It's Free
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        <path d="M3 8h10M9 4l4 4-4 4" stroke="#080d18" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>
