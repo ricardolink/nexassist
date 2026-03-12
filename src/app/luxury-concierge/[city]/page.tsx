@@ -19,7 +19,7 @@ const SERVICES = [
     href: "/chauffeur-service-los-angeles",
     badge: "On Demand",
     desc: "Escalade · Maybach · Airport Transfers",
-    photo: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1612825173281-9a193378527e?w=900&q=80",
   },
   {
     label: "Private Jets",
@@ -68,7 +68,7 @@ const SERVICES = [
     href: "/luxury-travel-los-angeles",
     badge: "Worldwide",
     desc: "Bespoke itineraries · 5-star · Worldwide",
-    photo: "https://images.unsplash.com/photo-1540541338537-1220e2be1afe?w=900&q=80",
+    photo: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=900&q=80",
   },
 ];
 
