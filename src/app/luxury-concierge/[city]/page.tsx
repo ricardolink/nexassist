@@ -19,7 +19,7 @@ const SERVICES = [
     href: "/chauffeur-service-los-angeles",
     badge: "On Demand",
     desc: "Escalade · Maybach · Airport Transfers",
-    photo: "https://images.unsplash.com/photo-1612825173281-9a193378527e?w=900&q=80",
+    photo: "/cars/escalade.png",
   },
   {
     label: "Private Jets",
