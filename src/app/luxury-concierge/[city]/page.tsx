@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
@@ -18,8 +18,9 @@ const SERVICES = [
   { label: "Luxury Travel",      href: "/luxury-travel-los-angeles",        icon: "🌍", desc: "Bespoke itineraries · 5-star · Worldwide" },
 ];
 
-export default function CityPage({ params }: { params: { city: string } }) {
-  const city = CITY_MAP[params.city];
+export default function CityPage({ params }: { params: Promise<{ city: string }> }) {
+  const { city: citySlug } = use(params);
+  const city = CITY_MAP[citySlug];
   if (!city) notFound();
 
   const [showRequest, setShowRequest] = useState(false);
