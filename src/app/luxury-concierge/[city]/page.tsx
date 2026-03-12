@@ -7,15 +7,69 @@ import RequestModal from "@/components/RequestModal";
 import { CITIES, CITY_MAP } from "@/lib/cities";
 
 const SERVICES = [
-  { label: "Exotic Car Rental",  href: "/exotic-car-rental-los-angeles",   icon: "🏎️", desc: "Ferrari · Lamborghini · Rolls-Royce · McLaren" },
-  { label: "Chauffeur Service",  href: "/chauffeur-service-los-angeles",    icon: "🎩", desc: "Escalade · Maybach · Airport Transfers" },
-  { label: "Private Jets",       href: "/private-jet-charter-los-angeles",  icon: "✈️", desc: "Same-day charter · Any aircraft · Worldwide" },
-  { label: "Yacht Charter",      href: "/yacht-charter-los-angeles",        icon: "⚓", desc: "Day charters · Superyachts · Pacific voyages" },
-  { label: "Luxury Villas",      href: "/luxury-villa-rental-los-angeles",  icon: "🏡", desc: "Beachfront · Beverly Hills · Staffed estates" },
-  { label: "Car Sales",          href: "/car-sales-los-angeles",            icon: "🔑", desc: "Buy or sell · Private network · Any make" },
-  { label: "Fine Watches",       href: "/luxury-watches-los-angeles",       icon: "⌚", desc: "Rolex · Patek · AP · Richard Mille" },
-  { label: "Designer Bags",      href: "/designer-bags-los-angeles",        icon: "👜", desc: "Hermès Birkin · Chanel · Louis Vuitton" },
-  { label: "Luxury Travel",      href: "/luxury-travel-los-angeles",        icon: "🌍", desc: "Bespoke itineraries · 5-star · Worldwide" },
+  {
+    label: "Exotic Car Rental",
+    href: "/exotic-car-rental-los-angeles",
+    badge: "Fleet",
+    desc: "Ferrari · Lamborghini · Rolls-Royce · McLaren",
+    photo: "https://images.unsplash.com/photo-1621135802920-133df287f89c?w=900&q=80",
+  },
+  {
+    label: "Chauffeur Service",
+    href: "/chauffeur-service-los-angeles",
+    badge: "On Demand",
+    desc: "Escalade · Maybach · Airport Transfers",
+    photo: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=900&q=80",
+  },
+  {
+    label: "Private Jets",
+    href: "/private-jet-charter-los-angeles",
+    badge: "Charter",
+    desc: "Same-day charter · Any aircraft · Worldwide",
+    photo: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=900&q=80",
+  },
+  {
+    label: "Yacht Charter",
+    href: "/yacht-charter-los-angeles",
+    badge: "Pacific",
+    desc: "Day charters · Superyachts · Pacific voyages",
+    photo: "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=900&q=80",
+  },
+  {
+    label: "Luxury Villas",
+    href: "/luxury-villa-rental-los-angeles",
+    badge: "Estates",
+    desc: "Beachfront · Beverly Hills · Staffed estates",
+    photo: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80",
+  },
+  {
+    label: "Car Sales",
+    href: "/car-sales-los-angeles",
+    badge: "Private Network",
+    desc: "Buy or sell · Private network · Any make",
+    photo: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=900&q=80",
+  },
+  {
+    label: "Fine Watches",
+    href: "/luxury-watches-los-angeles",
+    badge: "Horology",
+    desc: "Rolex · Patek Philippe · AP · Richard Mille",
+    photo: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=900&q=80",
+  },
+  {
+    label: "Designer Bags",
+    href: "/designer-bags-los-angeles",
+    badge: "Couture",
+    desc: "Hermès Birkin · Chanel · Louis Vuitton",
+    photo: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=900&q=80",
+  },
+  {
+    label: "Luxury Travel",
+    href: "/luxury-travel-los-angeles",
+    badge: "Worldwide",
+    desc: "Bespoke itineraries · 5-star · Worldwide",
+    photo: "https://images.unsplash.com/photo-1540541338537-1220e2be1afe?w=900&q=80",
+  },
 ];
 
 export default function CityPage({ params }: { params: Promise<{ city: string }> }) {
@@ -99,48 +153,88 @@ export default function CityPage({ params }: { params: Promise<{ city: string }>
       </section>
 
       {/* ── Services Grid ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-20">
-        <div className="text-center mb-10">
-          <p className="text-[#C9A962] text-[9px] tracking-[0.45em] uppercase mb-3">Every Service</p>
-          <h2 className="font-playfair text-3xl sm:text-4xl font-bold text-white mb-3">
-            What NexAssist Provides in {city.name}
-          </h2>
-          <p className="text-white/35 text-sm max-w-lg mx-auto">
-            One concierge. Every luxury category. Available 24/7 throughout {city.name} and {city.county}.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {SERVICES.map((s) => (
-            <Link
-              key={s.href}
-              href={s.href}
-              className="group bg-[#0c1222] border border-white/8 hover:border-[#C9A962]/30 rounded-sm p-6 transition-all hover:bg-[#C9A962]/4"
-            >
-              <div className="flex items-start gap-4">
-                <span className="text-2xl shrink-0">{s.icon}</span>
-                <div>
-                  <h3 className="font-playfair text-lg font-bold text-white group-hover:text-[#C9A962] transition-colors mb-1">{s.label}</h3>
-                  <p className="text-white/35 text-xs leading-relaxed">{s.desc}</p>
-                  <p className="text-[#C9A962]/50 group-hover:text-[#C9A962] text-[10px] tracking-[0.15em] uppercase mt-3 transition-colors">
-                    Available in {city.name} →
-                  </p>
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-[#060911]" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C9A962]/18 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C9A962]/10 to-transparent" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+          {/* Header */}
+          <div className="text-center mb-14">
+            <p className="text-[#C9A962] text-[9px] tracking-[0.55em] uppercase mb-4">Every Category</p>
+            <h2 className="font-playfair text-4xl sm:text-5xl font-bold text-white mb-5 leading-tight">
+              What NexAssist<br />Provides in <span className="text-[#C9A962]">{city.name}</span>
+            </h2>
+            <p className="text-white/30 text-sm max-w-md mx-auto leading-relaxed">
+              One concierge. Every luxury category. Available 24/7 throughout {city.name} and {city.county}.
+            </p>
+            <div className="w-10 h-px bg-[#C9A962]/35 mx-auto mt-6" />
+          </div>
+
+          {/* Photo Card Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {SERVICES.map((s) => (
+              <Link
+                key={s.href}
+                href={s.href}
+                className="group relative h-[340px] overflow-hidden rounded-sm block"
+              >
+                {/* Photo */}
+                <div
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out will-change-transform group-hover:scale-[1.07]"
+                  style={{ backgroundImage: `url(${s.photo})` }}
+                />
+                {/* Gradient overlays */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#060911] via-[#060911]/55 to-[#060911]/10 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#060911]/40 via-transparent to-transparent" />
+                {/* Hover gold border */}
+                <div className="absolute inset-0 border border-transparent group-hover:border-[#C9A962]/28 transition-colors duration-500 rounded-sm pointer-events-none" />
+
+                {/* Top: badge */}
+                <div className="absolute top-4 left-4 right-4 flex items-start justify-between">
+                  <span className="text-[9px] tracking-[0.38em] uppercase text-[#C9A962]/75 bg-[#060911]/65 backdrop-blur-sm border border-[#C9A962]/18 px-3 py-1.5 rounded-sm">
+                    {s.badge}
+                  </span>
+                  {/* Arrow appears on hover */}
+                  <div className="w-7 h-7 rounded-full border border-white/15 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 group-hover:translate-x-0 bg-[#060911]/50 backdrop-blur-sm">
+                    <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                      <path d="M2 9l7-7M9 9V2H2" stroke="#C9A962" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-          {/* Request anything card */}
-          <div
-            onClick={() => setShowRequest(true)}
-            className="group bg-[#C9A962]/6 border border-[#C9A962]/20 hover:border-[#C9A962]/50 rounded-sm p-6 transition-all cursor-pointer hover:bg-[#C9A962]/10"
-          >
-            <div className="flex items-start gap-4">
-              <span className="text-2xl shrink-0">✦</span>
-              <div>
-                <h3 className="font-playfair text-lg font-bold text-[#C9A962] mb-1">Custom Request</h3>
-                <p className="text-white/35 text-xs leading-relaxed">Something else in mind? Your concierge handles any luxury request — just ask.</p>
-                <p className="text-[#C9A962]/70 group-hover:text-[#C9A962] text-[10px] tracking-[0.15em] uppercase mt-3 transition-colors">
-                  Request anything →
+
+                {/* Bottom: content */}
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <h3 className="font-playfair text-xl font-bold text-white mb-1.5 leading-tight">{s.label}</h3>
+                  <p className="text-white/38 text-[12px] leading-relaxed mb-4">{s.desc}</p>
+                  <div className="flex items-center gap-2.5 text-[#C9A962]/55 group-hover:text-[#C9A962] transition-colors duration-400">
+                    <div className="h-px bg-current transition-all duration-400 w-4 group-hover:w-7" />
+                    <span className="text-[10px] tracking-[0.22em] uppercase">In {city.name}</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+
+            {/* Custom Request card */}
+            <div
+              onClick={() => setShowRequest(true)}
+              className="group relative h-[340px] overflow-hidden rounded-sm cursor-pointer bg-[#0b1020] border border-[#C9A962]/10 hover:border-[#C9A962]/30 transition-all duration-500 flex flex-col items-center justify-center p-8 text-center"
+            >
+              {/* Subtle radial glow */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(201,169,98,0.05)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative z-10">
+                <div className="w-14 h-14 rounded-full border border-[#C9A962]/18 group-hover:border-[#C9A962]/45 flex items-center justify-center mx-auto mb-5 transition-colors duration-400">
+                  <span className="text-[#C9A962]/60 group-hover:text-[#C9A962] text-2xl transition-colors duration-400">✦</span>
+                </div>
+                <h3 className="font-playfair text-xl font-bold text-white mb-2">Custom Request</h3>
+                <p className="text-white/30 text-sm leading-relaxed mb-6 max-w-[210px] mx-auto">
+                  Something else in mind? Your concierge handles any luxury request in {city.name}.
                 </p>
+                <div className="flex items-center justify-center gap-2.5 text-[#C9A962]/50 group-hover:text-[#C9A962] transition-colors duration-400">
+                  <div className="h-px bg-current w-4 group-hover:w-6 transition-all duration-400" />
+                  <span className="text-[10px] tracking-[0.25em] uppercase">Ask Your Concierge</span>
+                  <div className="h-px bg-current w-4 group-hover:w-6 transition-all duration-400" />
+                </div>
               </div>
             </div>
           </div>
@@ -236,13 +330,11 @@ export default function CityPage({ params }: { params: Promise<{ city: string }>
             {SERVICES.map((s) => (
               <Link key={s.href} href={s.href}
                 className="flex flex-col items-center gap-2 border border-white/8 hover:border-[#C9A962]/30 bg-[#0c1222] hover:bg-[#C9A962]/5 rounded-sm px-3 py-4 transition-all group text-center">
-                <span className="text-xl">{s.icon}</span>
                 <span className="text-white/50 group-hover:text-white/80 text-[10px] tracking-[0.1em] leading-snug transition-colors">{s.label}</span>
               </Link>
             ))}
             <Link href="/" className="flex flex-col items-center gap-2 border border-[#C9A962]/15 hover:border-[#C9A962]/40 bg-[#C9A962]/5 rounded-sm px-3 py-4 transition-all group text-center">
-              <span className="text-xl">✦</span>
-              <span className="text-[#C9A962]/60 group-hover:text-[#C9A962] text-[10px] tracking-[0.1em] leading-snug transition-colors">All Services</span>
+              <span className="text-[#C9A962]/60 group-hover:text-[#C9A962] text-[10px] tracking-[0.1em] leading-snug transition-colors">✦ All Services</span>
             </Link>
           </div>
         </div>
