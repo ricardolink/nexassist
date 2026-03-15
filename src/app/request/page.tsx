@@ -103,7 +103,21 @@ export default function RequestPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080d18] text-white">
+    <div className="min-h-screen bg-[#080d18] text-white relative">
+
+      {/* Background image */}
+      <div
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/cars/huracan.jpg')" }}
+      />
+      {/* Dark overlay — heavy top + bottom, lighter middle */}
+      <div className="fixed inset-0 bg-gradient-to-b from-[#080d18]/95 via-[#080d18]/70 to-[#080d18]/97" />
+      {/* Right vignette */}
+      <div className="fixed inset-0 bg-gradient-to-l from-[#080d18]/60 via-transparent to-transparent" />
+
+      {/* All content sits above the background */}
+      <div className="relative z-10">
+
       {/* Top gold bar */}
       <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-[#C9A962] to-transparent" />
 
@@ -307,6 +321,7 @@ export default function RequestPage() {
           </p>
         </form>
       </main>
+      </div>{/* end z-10 wrapper */}
     </div>
   );
 }

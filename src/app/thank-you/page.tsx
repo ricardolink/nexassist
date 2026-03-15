@@ -8,7 +8,11 @@ export const metadata: Metadata = {
 
 export default function ThankYouPage() {
   return (
-    <div className="min-h-screen bg-[#080d18] text-white flex flex-col">
+    <div className="min-h-screen bg-[#080d18] text-white flex flex-col relative">
+      {/* Background */}
+      <div className="fixed inset-0 bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/cars/huracan.jpg')" }} />
+      <div className="fixed inset-0 bg-gradient-to-b from-[#080d18]/95 via-[#080d18]/75 to-[#080d18]/97" />
+      <div className="relative z-10 flex flex-col flex-1">
       {/* Top gold bar */}
       <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-[#C9A962] to-transparent" />
 
@@ -69,6 +73,7 @@ export default function ThankYouPage() {
 
       {/* Bottom gold bar */}
       <div className="h-[3px] w-full bg-gradient-to-r from-transparent via-[#C9A962] to-transparent" />
+      </div>{/* end z-10 */}
     </div>
   );
 }
