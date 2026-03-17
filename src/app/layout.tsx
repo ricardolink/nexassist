@@ -143,43 +143,6 @@ const jsonLd = {
         "description": "Exotic car rental starting rates in Los Angeles",
       },
     },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How do I rent an exotic car in Los Angeles?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Simply send a message to NexAssist with your desired car, date, and location. Your personal concierge will arrange delivery anywhere in Los Angeles — Beverly Hills, Malibu, Hollywood, or anywhere in the LA area."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What exotic cars can I rent in Los Angeles?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Through NexAssist you can rent Ferrari, Lamborghini, Rolls-Royce, McLaren, Bentley, Porsche, and more exotic and luxury vehicles in Los Angeles."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does NexAssist deliver exotic cars in Beverly Hills and Malibu?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. NexAssist delivers exotic car rentals to Beverly Hills, Malibu, West Hollywood, Santa Monica, and all areas across Los Angeles and Orange County."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How fast can I get an exotic car delivered?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "NexAssist operates 24/7. Same-day exotic car delivery is available throughout Los Angeles, often within a few hours of your request."
-          }
-        },
-      ]
-    }
   ]
 };
 

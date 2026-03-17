@@ -107,6 +107,86 @@ const cfg: ServiceLandingConfig = {
   ctaNote: "Available 24/7 · Beverly Hills · Malibu · Hollywood · All of LA",
 };
 
+function LongFormContent() {
+  return (
+    <section className="bg-[#080808] text-white/70 py-20 px-6">
+      <div className="max-w-4xl mx-auto space-y-14">
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Exotic Car Rental in Los Angeles — The Complete Guide</h2>
+          <p className="mb-4 leading-relaxed">Los Angeles is one of the few cities in the world where renting an exotic car isn&apos;t just a luxury — it&apos;s a rite of passage. From the winding curves of Mulholland Drive to the Pacific Coast Highway at sunset, LA was built for driving. Whether you&apos;re visiting for a weekend, hosting a client, or simply want to experience what it feels like to pilot a Ferrari through Beverly Hills, NexAssist makes it effortless.</p>
+          <p className="mb-4 leading-relaxed">Unlike traditional car rental agencies, NexAssist is a personal concierge service. You don&apos;t browse a website and pick from whatever&apos;s in stock. You tell us what you want — the car, the date, the location — and your dedicated concierge sources it, handles all the paperwork, and delivers it directly to you. No rental counter. No waiting. No surprises.</p>
+          <p className="leading-relaxed">Our network spans the full range of exotic and luxury vehicles available in Los Angeles, from everyday supercars like the Porsche 911 Turbo S and Lamborghini Huracán to one-of-a-kind machines like the Bugatti Chiron or Koenigsegg Agera. Whatever you have in mind, we can get it.</p>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Most Popular Exotic Cars to Rent in Los Angeles</h2>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-[#C9A962] text-lg font-semibold mb-2">Ferrari Rental Los Angeles</h3>
+              <p className="leading-relaxed">The Ferrari Roma, 296 GTB, and SF90 Stradale are consistently our most requested vehicles in LA. There&apos;s nothing quite like the sound of a Ferrari V8 echoing through the canyons above Malibu or cruising down Rodeo Drive. Same-day Ferrari rentals are available throughout Beverly Hills, West Hollywood, and the greater LA area.</p>
+            </div>
+            <div>
+              <h3 className="text-[#C9A962] text-lg font-semibold mb-2">Lamborghini Rental Los Angeles</h3>
+              <p className="leading-relaxed">The Lamborghini Huracán EVO and Urus Performante are two of the most-photographed cars in Los Angeles — and for good reason. Whether you want the raw excitement of the Huracán on an open highway or the commanding presence of the Urus through Beverly Hills, NexAssist delivers both to your door.</p>
+            </div>
+            <div>
+              <h3 className="text-[#C9A962] text-lg font-semibold mb-2">Rolls-Royce Rental Los Angeles</h3>
+              <p className="leading-relaxed">For those who prefer to arrive rather than drive, the Rolls-Royce Ghost and Cullinan represent the pinnacle of automotive luxury. Our Rolls-Royce rentals in Los Angeles are popular for weddings, red carpet events, business meetings, and airport arrivals. Complete confidentiality guaranteed.</p>
+            </div>
+            <div>
+              <h3 className="text-[#C9A962] text-lg font-semibold mb-2">McLaren Rental Los Angeles</h3>
+              <p className="leading-relaxed">The McLaren 720S and 765LT are engineering masterpieces that reward the driver at every speed. McLaren rentals in LA are a favorite among automotive enthusiasts who want a track-capable supercar with real-world usability. Available for day rentals, track days, and weekend getaways.</p>
+            </div>
+            <div>
+              <h3 className="text-[#C9A962] text-lg font-semibold mb-2">Bentley Rental Los Angeles</h3>
+              <p className="leading-relaxed">The Bentley Continental GT and Bentayga strike the perfect balance between sporting performance and grand touring comfort. Whether you&apos;re heading up the coast to Santa Barbara or need the most refined SUV in Los Angeles, the Bentley delivers every time.</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Best Drives for an Exotic Car in Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">Renting an exotic car in LA is only half the experience. Knowing where to drive it makes all the difference. Here are the routes our clients love most:</p>
+          <ul className="space-y-3 list-none">
+            <li><span className="text-[#C9A962] font-semibold">Mulholland Drive</span> — The classic LA canyon run. The winding road between the Hollywood Hills and the Santa Monica Mountains is one of the most exhilarating drives in Southern California.</li>
+            <li><span className="text-[#C9A962] font-semibold">Pacific Coast Highway (PCH)</span> — Malibu to Santa Barbara along the Pacific Ocean. Best in the morning with a Ferrari or open-top Bentley. Spectacular year-round.</li>
+            <li><span className="text-[#C9A962] font-semibold">Rodeo Drive, Beverly Hills</span> — For those who want to see and be seen. Cruise Rodeo Drive in a Lamborghini or Rolls-Royce and you&apos;re part of LA&apos;s iconic luxury landscape.</li>
+            <li><span className="text-[#C9A962] font-semibold">Angeles Crest Highway</span> — For the serious driver. The 66-mile mountain road through the San Gabriel Mountains is a real-world test of any supercar&apos;s capabilities.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Exotic Car Rentals for Special Events in Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">NexAssist handles exotic car logistics for some of LA&apos;s biggest events and productions. Our event clients include:</p>
+          <ul className="space-y-2 list-disc list-inside">
+            <li><strong className="text-white">Music video productions</strong> — We&apos;ve sourced fleets of Ferraris, Lamborghinis, and custom vehicles for music video shoots across Los Angeles.</li>
+            <li><strong className="text-white">Weddings and proposals</strong> — Arrive in a Rolls-Royce Phantom or Bentley Flying Spur. We coordinate timing, decor, and the full arrival experience.</li>
+            <li><strong className="text-white">Corporate events and client entertainment</strong> — Impress clients with a day driving experience or arrange a fleet for a corporate event in Beverly Hills.</li>
+            <li><strong className="text-white">Brand activations and photoshoots</strong> — We source and position vehicles for commercial shoots, brand campaigns, and influencer content throughout LA.</li>
+            <li><strong className="text-white">Red carpet and premieres</strong> — Hollywood premieres, award shows, and film festivals. Arrive in a vehicle that commands attention.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Why Choose NexAssist for Exotic Car Rentals in Los Angeles?</h2>
+          <p className="mb-4 leading-relaxed">There are several companies offering exotic car rentals in Los Angeles. Here&apos;s what makes NexAssist different:</p>
+          <p className="mb-4 leading-relaxed"><strong className="text-white">One contact, total concierge.</strong> You don&apos;t deal with multiple companies or navigate complex rental agreements. One message to your NexAssist concierge handles everything — sourcing, delivery, paperwork, and any special requests. It&apos;s genuinely effortless.</p>
+          <p className="mb-4 leading-relaxed"><strong className="text-white">Access to vehicles that aren&apos;t publicly listed.</strong> Our partner network includes private collectors and exclusive dealers who don&apos;t advertise their inventory. If you want something rare — a specific color Ferrari, a one-off Bugatti, a Koenigsegg — we can often source it when nobody else can.</p>
+          <p className="mb-4 leading-relaxed"><strong className="text-white">Total discretion.</strong> We understand that privacy matters. Our clients include entertainment industry professionals, business executives, and high-net-worth individuals who require complete confidentiality. Your rental details are never shared.</p>
+          <p className="leading-relaxed"><strong className="text-white">Available 24/7 across all of Los Angeles.</strong> Whether you need a Ferrari in Beverly Hills at 7 AM or a Lamborghini delivered to your Malibu rental at midnight, we operate around the clock across every neighborhood in greater Los Angeles.</p>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
 export default function Page() {
-  return <ServiceLandingPage cfg={cfg} />;
+  return (
+    <>
+      <ServiceLandingPage cfg={cfg} />
+      <LongFormContent />
+    </>
+  );
 }

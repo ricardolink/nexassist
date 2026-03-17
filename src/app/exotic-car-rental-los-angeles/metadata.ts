@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Exotic Car Rental Los Angeles | Ferrari · Lamborghini · Rolls-Royce | NexAssist",
+  title: { absolute: "Exotic Car Rental Los Angeles | Ferrari · Lamborghini · Rolls-Royce | NexAssist" },
   description:
     "Rent a Ferrari, Lamborghini, Rolls-Royce, McLaren, or Bentley in Los Angeles with same-day delivery. NexAssist is your 24/7 personal concierge for exotic car rentals in Beverly Hills, Malibu, Hollywood & all of LA.",
   keywords: [

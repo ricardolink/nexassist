@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C9A962;
+    --gold-dim: rgba(201,169,98,0.15);
+    --gold-line: rgba(201,169,98,0.3);
+    --dark: #080d18;
+    --dark2: #0e1425;
+    --dark3: #141b2e;
+    --white: #ffffff;
+    --off-white: rgba(255,255,255,0.85);
+    --muted: rgba(255,255,255,0.45);
+    --dim: rgba(255,255,255,0.2);
+  }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    width: 794px; /* A4 */
+    font-size: 13px;
+  }
+
+  /* ── PAGE ─────────────────────────────────────────────── */
+  .page {
+    padding: 0;
+    background: var(--dark);
+    min-height: 1123px;
+    position: relative;
+    page-break-after: always;
+  }
+
+  /* Gold accent lines */
+  .top-bar {
+    height: 3px;
+    background: linear-gradient(to right, transparent, var(--gold) 20%, var(--gold) 80%, transparent);
+  }
+  .bottom-bar {
+    height: 3px;
+    background: linear-gradient(to right, transparent, var(--gold) 20%, var(--gold) 80%, transparent);
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+  }
+
+  /* ── COVER ────────────────────────────────────────────── */
+  .cover {
+    position: relative;
+    min-height: 1123px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .cover-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('../public/cars/huracan.jpg');
+    background-size: cover;
+    background-position: center 40%;
+    filter: brightness(0.22) saturate(0.6);
+  }
+
+  .cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(8,13,24,0.4) 0%,
+      rgba(8,13,24,0.1) 35%,
+      rgba(8,13,24,0.7) 65%,
+      rgba(8,13,24,0.98) 100%
+    );
+  }
+
+  .cover-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0 60px 60px;
+  }
+
+  .cover-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 36px 0 0;
+    margin-bottom: auto;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.03em;
+  }
+  .logo-text span { color: var(--gold); }
+
+  .doc-label {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.55);
+    border: 1px solid rgba(201,169,98,0.2);
+    padding: 6px 14px;
+  }
+
+  .cover-hero {
+    margin-top: auto;
+    padding-top: 320px;
+  }
+
+  .cover-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.75;
+    margin-bottom: 18px;
+  }
+
+  .cover-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 54px;
+    font-weight: 700;
+    line-height: 1.0;
+    color: var(--white);
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+  }
+  .cover-title .gold { color: var(--gold); }
+
+  .cover-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+    max-width: 480px;
+    margin-top: 18px;
+    font-weight: 300;
+  }
+
+  .cover-divider {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+    margin: 24px 0;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 40px;
+    margin-top: 40px;
+  }
+  .meta-item {}
+  .meta-label {
+    font-size: 8px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    margin-bottom: 4px;
+  }
+  .meta-value {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+  }
+
+  /* ── INNER PAGES ──────────────────────────────────────── */
+  .inner {
+    padding: 52px 60px 70px;
+    position: relative;
+    min-height: 1123px;
+  }
+
+  .inner-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(201,169,98,0.15);
+    margin-bottom: 44px;
+  }
+
+  .inner-logo {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .inner-logo-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px; font-weight: 700;
+    color: rgba(255,255,255,0.6);
+  }
+  .inner-logo-text span { color: rgba(201,169,98,0.7); }
+  .page-title-small {
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+  }
+
+  /* Section heading */
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+  .section-title .gold { color: var(--gold); }
+  .section-body {
+    font-size: 13px;
+    color: rgba(255,255,255,0.48);
+    line-height: 1.75;
+    max-width: 580px;
+    font-weight: 300;
+  }
+  .section-divider {
+    width: 36px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.4;
+    margin: 20px 0 32px;
+  }
+
+  /* ── PRICING TIERS ────────────────────────────────────── */
+  .tiers {
+    display: flex;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .tier {
+    flex: 1;
+    background: rgba(14,20,37,0.9);
+    border: 1px solid rgba(201,169,98,0.12);
+    padding: 28px 24px;
+    position: relative;
+  }
+
+  .tier.featured {
+    border-color: rgba(201,169,98,0.45);
+    background: rgba(201,169,98,0.05);
+  }
+
+  .tier-badge {
+    position: absolute;
+    top: -1px; left: 50%; transform: translateX(-50%);
+    background: var(--gold);
+    color: var(--dark);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 4px 14px;
+  }
+
+  .tier-name {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 12px;
+  }
+
+  .tier-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .tier-price.gold { color: var(--gold); }
+
+  .tier-period {
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+    margin-bottom: 22px;
+  }
+
+  .tier-divider {
+    height: 1px;
+    background: rgba(201,169,98,0.12);
+    margin-bottom: 20px;
+  }
+
+  .tier-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .tier-features li {
+    font-size: 11.5px;
+    color: rgba(255,255,255,0.55);
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    line-height: 1.4;
+  }
+  .tier-features li .check {
+    color: var(--gold);
+    opacity: 0.8;
+    font-size: 11px;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+
+  .tier-cta {
+    margin-top: 22px;
+    width: 100%;
+    padding: 11px;
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border: 1px solid rgba(201,169,98,0.25);
+    color: rgba(255,255,255,0.4);
+  }
+  .tier-cta.gold-btn {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--dark);
+  }
+
+  /* ── LEAD VALUE TABLE ─────────────────────────────────── */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+  }
+  .table th {
+    font-size: 8.5px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(201,169,98,0.15);
+    font-weight: 500;
+  }
+  .table td {
+    padding: 13px 16px;
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.6);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    vertical-align: middle;
+  }
+  .table tr:last-child td { border-bottom: none; }
+  .table td.cat { color: rgba(255,255,255,0.85); font-weight: 500; }
+  .table td.val { color: var(--gold); font-family: 'Playfair Display', serif; }
+  .table tr:hover td { background: rgba(201,169,98,0.03); }
+
+  /* ── TIMELINE ─────────────────────────────────────────── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 8px;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 20px;
+    bottom: 20px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), rgba(201,169,98,0.1));
+    opacity: 0.35;
+  }
+
+  .tl-item {
+    display: flex;
+    gap: 22px;
+    padding: 18px 0;
+    position: relative;
+  }
+
+  .tl-dot {
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(201,169,98,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    background: var(--dark);
+  }
+  .tl-dot.active {
+    border-color: var(--gold);
+    background: rgba(201,169,98,0.08);
+  }
+  .tl-dot span {
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    color: rgba(201,169,98,0.6);
+    font-weight: 600;
+  }
+  .tl-dot.active span { color: var(--gold); }
+
+  .tl-content { padding-top: 6px; flex: 1; }
+  .tl-phase {
+    font-size: 8.5px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.65;
+    margin-bottom: 5px;
+  }
+  .tl-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .tl-body {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.65;
+    font-weight: 300;
+    max-width: 540px;
+  }
+  .tl-tag {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,169,98,0.25);
+    padding: 3px 10px;
+  }
+
+  /* ── CALLOUT BOX ──────────────────────────────────────── */
+  .callout {
+    background: rgba(201,169,98,0.06);
+    border: 1px solid rgba(201,169,98,0.25);
+    border-left: 3px solid var(--gold);
+    padding: 20px 24px;
+    margin-top: 28px;
+  }
+  .callout-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 15px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .callout-body {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  /* ── FOOTER ───────────────────────────────────────────── */
+  .footer {
+    position: absolute;
+    bottom: 28px;
+    left: 60px; right: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 16px;
+  }
+  .footer-left {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.18);
+  }
+  .footer-right {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(201,169,98,0.35);
+  }
+
+  /* ── GRID STATS ───────────────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: rgba(201,169,98,0.1);
+    border: 1px solid rgba(201,169,98,0.1);
+    margin-top: 32px;
+  }
+  .stat-cell {
+    background: var(--dark);
+    padding: 22px 20px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    line-height: 1.4;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- PAGE 1 — COVER                                         -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="top-bar"></div>
+  <div class="cover-bg"></div>
+  <div class="cover-overlay"></div>
+  <div class="cover-content">
+
+    <div class="cover-nav">
+      <div class="logo">
+        <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+          <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="1" stroke-opacity="0.9"/>
+          <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.7" stroke-linecap="square"/>
+        </svg>
+        <div class="logo-text">Nex<span>Assist</span></div>
+      </div>
+      <div class="doc-label">Partner Program · 2026</div>
+    </div>
+
+    <div class="cover-hero">
+      <div class="cover-eyebrow">Exclusive Partner Program</div>
+      <div class="cover-title">
+        Connect with<br>
+        clients who are<br>
+        <span class="gold">ready to buy.</span>
+      </div>
+      <div class="cover-divider"></div>
+      <div class="cover-sub">
+        NexAssist delivers pre-qualified, high-net-worth leads directly to luxury service providers across Los Angeles and beyond. This document outlines our partner tiers, subscription model, and go-to-market timeline.
+      </div>
+      <div class="cover-meta">
+        <div class="meta-item">
+          <div class="meta-label">Platform</div>
+          <div class="meta-value">usenexassist.com</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Market</div>
+          <div class="meta-value">Los Angeles · Expanding</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Document</div>
+          <div class="meta-value">Confidential · 2026</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="bottom-bar"></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- PAGE 2 — WHY PARTNER                                   -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="inner">
+
+    <div class="inner-header">
+      <div class="inner-logo">
+        <svg width="20" height="20" viewBox="0 0 36 36" fill="none">
+          <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="1" stroke-opacity="0.7"/>
+          <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.7" stroke-linecap="square"/>
+        </svg>
+        <div class="inner-logo-text">Nex<span>Assist</span></div>
+      </div>
+      <div class="page-title-small">Partner Program · Why Partner With Us</div>
+    </div>
+
+    <div class="section-label">The Opportunity</div>
+    <div class="section-title">Not just leads.<br><span class="gold">Buyers.</span></div>
+    <div class="section-body">
+      NexAssist clients don't browse — they request. When a client submits a request through our platform, they are ready to transact. As a partner, you receive that intent directly, with full context on what they need, when they need it, and their budget.
+    </div>
+    <div class="section-divider"></div>
+
+    <div class="stats-grid">
+      <div class="stat-cell">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Concierge<br>Availability</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">&lt; 5min</div>
+        <div class="stat-label">Average Response<br>Time to Client</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">$$$</div>
+        <div class="stat-label">High-Net-Worth<br>Client Base</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 40px;">
+      <div class="section-label">Lead Value by Category</div>
+      <div class="section-title" style="font-size: 22px;">What our leads are worth to you</div>
+    </div>
+
+    <table class="table" style="margin-top: 18px;">
+      <thead>
+        <tr>
+          <th>Service Category</th>
+          <th>Avg. Booking Value</th>
+          <th>Est. Lead Value</th>
+          <th>ROI at $499/mo (1 close)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="cat">Exotic Car Rental</td>
+          <td>$800 – $3,000</td>
+          <td class="val">$80 – $400</td>
+          <td style="color:rgba(255,255,255,0.4)">~2x – 6x</td>
+        </tr>
+        <tr>
+          <td class="cat">Chauffeur Services</td>
+          <td>$300 – $1,200</td>
+          <td class="val">$30 – $120</td>
+          <td style="color:rgba(255,255,255,0.4)">~1x – 3x</td>
+        </tr>
+        <tr>
+          <td class="cat">Private Jets</td>
+          <td>$15,000 – $80,000</td>
+          <td class="val">$1,500 – $8,000</td>
+          <td style="color:rgba(255,255,255,0.4)">~30x – 160x</td>
+        </tr>
+        <tr>
+          <td class="cat">Superyachts</td>
+          <td>$20,000 – $200,000</td>
+          <td class="val">$2,000 – $20,000</td>
+          <td style="color:rgba(255,255,255,0.4)">~40x – 400x</td>
+        </tr>
+        <tr>
+          <td class="cat">Luxury Villas</td>
+          <td>$5,000 – $50,000</td>
+          <td class="val">$500 – $5,000</td>
+          <td style="color:rgba(255,255,255,0.4)">~10x – 100x</td>
+        </tr>
+        <tr>
+          <td class="cat">Fine Watches</td>
+          <td>$5,000 – $100,000</td>
+          <td class="val">$250 – $5,000</td>
+          <td style="color:rgba(255,255,255,0.4)">~5x – 100x</td>
+        </tr>
+        <tr>
+          <td class="cat">Designer Bags</td>
+          <td>$1,000 – $50,000</td>
+          <td class="val">$100 – $5,000</td>
+          <td style="color:rgba(255,255,255,0.4)">~2x – 100x</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout" style="margin-top:24px;">
+      <div class="callout-title">The bottom line</div>
+      <div class="callout-body">A private jet company that closes just <strong style="color:rgba(255,255,255,0.75)">one NexAssist lead per month</strong> at an average charter of $30,000 generates a return of over <strong style="color:rgba(255,255,255,0.75)">60x</strong> on their $499 subscription. The math works at every tier.</div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-left">NexAssist · Confidential · 2026</div>
+      <div class="footer-right">usenexassist.com</div>
+    </div>
+
+  </div>
+  <div class="bottom-bar"></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- PAGE 3 — PRICING TIERS                                 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="inner">
+
+    <div class="inner-header">
+      <div class="inner-logo">
+        <svg width="20" height="20" viewBox="0 0 36 36" fill="none">
+          <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="1" stroke-opacity="0.7"/>
+          <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.7" stroke-linecap="square"/>
+        </svg>
+        <div class="inner-logo-text">Nex<span>Assist</span></div>
+      </div>
+      <div class="page-title-small">Partner Program · Subscription Tiers</div>
+    </div>
+
+    <div class="section-label">Subscription Plans</div>
+    <div class="section-title">Partner <span class="gold">tiers.</span></div>
+    <div class="section-body">Choose the plan that fits your business. All plans include access to the NexAssist partner network, verified badge, and direct lead delivery. Cancel anytime.</div>
+    <div class="section-divider"></div>
+
+    <div class="tiers">
+
+      <!-- STARTER -->
+      <div class="tier">
+        <div class="tier-name">Starter</div>
+        <div class="tier-price">$199</div>
+        <div class="tier-period">per month</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-features">
+          <li><span class="check">◆</span>1 service category</li>
+          <li><span class="check">◆</span>Standard lead delivery</li>
+          <li><span class="check">◆</span>Partner verified badge</li>
+          <li><span class="check">◆</span>Basic listing on platform</li>
+          <li><span class="check">◆</span>Los Angeles coverage</li>
+          <li><span class="check">◆</span>Cancel anytime</li>
+        </ul>
+        <div class="tier-cta">Get Started</div>
+      </div>
+
+      <!-- PRO (FEATURED) -->
+      <div class="tier featured">
+        <div class="tier-badge">Most Popular</div>
+        <div class="tier-name">Pro</div>
+        <div class="tier-price gold">$499</div>
+        <div class="tier-period">per month</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-features">
+          <li><span class="check">◆</span>Up to 3 service categories</li>
+          <li><span class="check">◆</span>Priority lead delivery</li>
+          <li><span class="check">◆</span>Featured placement on platform</li>
+          <li><span class="check">◆</span>Partner verified badge</li>
+          <li><span class="check">◆</span>Monthly performance report</li>
+          <li><span class="check">◆</span>SoCal + Nevada coverage</li>
+          <li><span class="check">◆</span>Dedicated partner contact</li>
+          <li><span class="check">◆</span>Cancel anytime</li>
+        </ul>
+        <div class="tier-cta gold-btn">Apply Now</div>
+      </div>
+
+      <!-- ELITE -->
+      <div class="tier">
+        <div class="tier-name">Elite</div>
+        <div class="tier-price">$999</div>
+        <div class="tier-period">per month</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-features">
+          <li><span class="check">◆</span>All service categories</li>
+          <li><span class="check">◆</span>First-look on every request</li>
+          <li><span class="check">◆</span>Top placement — always</li>
+          <li><span class="check">◆</span>Dedicated account manager</li>
+          <li><span class="check">◆</span>Full analytics dashboard</li>
+          <li><span class="check">◆</span>National coverage</li>
+          <li><span class="check">◆</span>Co-branded promotions</li>
+          <li><span class="check">◆</span>Cancel anytime</li>
+        </ul>
+        <div class="tier-cta">Contact Us</div>
+      </div>
+
+    </div>
+
+    <div class="callout" style="margin-top: 30px;">
+      <div class="callout-title">Phase 2 — Success Fee (Launching Q3 2026)</div>
+      <div class="callout-body">Once volume is established, a <strong style="color:rgba(255,255,255,0.75)">5% success fee</strong> will be added on verified closed bookings above $5,000. Partners on the Elite tier receive a reduced rate of <strong style="color:rgba(255,255,255,0.75)">3%</strong>. Early partners who join during the free launch phase are locked in at 0% success fee for their first 12 months.</div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-left">NexAssist · Confidential · 2026</div>
+      <div class="footer-right">usenexassist.com</div>
+    </div>
+
+  </div>
+  <div class="bottom-bar"></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- PAGE 4 — LAUNCH TIMELINE                               -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="inner">
+
+    <div class="inner-header">
+      <div class="inner-logo">
+        <svg width="20" height="20" viewBox="0 0 36 36" fill="none">
+          <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="1" stroke-opacity="0.7"/>
+          <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.7" stroke-linecap="square"/>
+        </svg>
+        <div class="inner-logo-text">Nex<span>Assist</span></div>
+      </div>
+      <div class="page-title-small">Partner Program · Go-To-Market Timeline</div>
+    </div>
+
+    <div class="section-label">The Plan</div>
+    <div class="section-title">From launch to <span class="gold">revenue.</span></div>
+    <div class="section-body">A phased approach — build the supply side first, demonstrate value, then monetize. This protects partner relationships and ensures NexAssist delivers real ROI before charging.</div>
+    <div class="section-divider"></div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot active">
+          <span>01</span>
+        </div>
+        <div class="tl-content">
+          <div class="tl-phase">Phase 1 · Now — Month 3</div>
+          <div class="tl-title">Free Partner Onboarding</div>
+          <div class="tl-body">
+            Onboard the first 10–20 partners completely free. No subscription, no fees. Focus on filling all 9 service categories in LA. Partners get listed, receive all incoming leads, and experience the platform at zero cost. Goal: build trust and prove the lead quality before asking for a dollar.
+          </div>
+          <div class="tl-tag">Target: 15 partners · $0 MRR</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span>02</span>
+        </div>
+        <div class="tl-content">
+          <div class="tl-phase">Phase 2 · Month 3 — Month 6</div>
+          <div class="tl-title">Soft Launch Pricing</div>
+          <div class="tl-body">
+            Once real leads are flowing (minimum 20–30 client requests/month), approach existing free partners with a founder rate. Offer a permanent discount of 30–40% off standard pricing as a thank-you for being early. New partners onboard at full price. This creates urgency and rewards loyalty.
+          </div>
+          <div class="tl-tag">Target: 20 partners · $4K–$8K MRR</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span>03</span>
+        </div>
+        <div class="tl-content">
+          <div class="tl-phase">Phase 3 · Month 6 — Month 12</div>
+          <div class="tl-title">Full Monetization</div>
+          <div class="tl-body">
+            Standard pricing active for all new partners. Expand beyond LA — Orange County, Las Vegas, Miami, New York. Introduce the 5% success fee for Pro and Elite tiers. Begin co-branded marketing with top partners (featured in NexAssist campaigns and social media). Launch partner dashboard with analytics.
+          </div>
+          <div class="tl-tag">Target: 50 partners · $20K–$40K MRR</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot">
+          <span>04</span>
+        </div>
+        <div class="tl-content">
+          <div class="tl-phase">Phase 4 · Year 2+</div>
+          <div class="tl-title">Scale & Enterprise</div>
+          <div class="tl-body">
+            Introduce enterprise/custom plans for national providers (private jet operators, luxury hotel chains, concierge travel agencies). Add white-label options. Build API for direct integration into partner booking systems. Explore international expansion — Dubai, London, Marbella.
+          </div>
+          <div class="tl-tag">Target: 200+ partners · $100K+ MRR</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      <div class="footer-left">NexAssist · Confidential · 2026</div>
+      <div class="footer-right">usenexassist.com</div>
+    </div>
+
+  </div>
+  <div class="bottom-bar"></div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- PAGE 5 — CTA / CLOSING                                 -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="page cover" style="page-break-after: avoid;">
+  <div class="top-bar"></div>
+  <div class="cover-bg" style="background-position: center 55%; filter: brightness(0.18) saturate(0.5);"></div>
+  <div class="cover-overlay"></div>
+  <div class="cover-content" style="justify-content: center; align-items: center; text-align: center; padding: 60px;">
+
+    <svg width="44" height="44" viewBox="0 0 36 36" fill="none" style="margin-bottom: 28px;">
+      <polygon points="18,1.5 34.5,18 18,34.5 1.5,18" stroke="#C9A962" stroke-width="1" stroke-opacity="0.9"/>
+      <path d="M12 24.5V11.5L24 24.5V11.5" stroke="#C9A962" stroke-width="1.7" stroke-linecap="square"/>
+    </svg>
+
+    <div style="font-size:9px; letter-spacing:0.45em; text-transform:uppercase; color:var(--gold); opacity:0.7; margin-bottom:16px;">
+      Join the Partner Network
+    </div>
+
+    <div style="font-family:'Playfair Display',serif; font-size:44px; font-weight:700; line-height:1.05; letter-spacing:-0.02em; margin-bottom:20px;">
+      Ready to connect<br>with clients who<br><span style="color:var(--gold);">are ready to buy?</span>
+    </div>
+
+    <div style="width:40px; height:1px; background:var(--gold); opacity:0.4; margin: 0 auto 24px;"></div>
+
+    <div style="font-size:14px; color:rgba(255,255,255,0.4); max-width:420px; line-height:1.7; font-weight:300; margin-bottom:48px;">
+      Apply to become a NexAssist partner today. Founding partners onboard free for the first 3 months — no subscription, no fees, no commitment.
+    </div>
+
+    <div style="display:flex; flex-direction:column; align-items:center; gap:14px;">
+      <div style="background:var(--gold); color:var(--dark); font-size:10px; letter-spacing:0.3em; text-transform:uppercase; font-weight:700; padding:16px 48px;">
+        Apply at usenexassist.com/partners/apply
+      </div>
+      <div style="font-size:10px; letter-spacing:0.25em; text-transform:uppercase; color:rgba(255,255,255,0.2);">
+        Vetted · Discreet · Exclusive
+      </div>
+    </div>
+
+  </div>
+  <div class="bottom-bar"></div>
+</div>
+
+</body>
+</html>

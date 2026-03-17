@@ -89,7 +89,7 @@ export default function ServiceLandingPage({ cfg }: { cfg: ServiceLandingConfig 
         <div className="relative z-10 text-center px-5 max-w-4xl mx-auto pt-24">
           <p className="text-[#C9A962] text-[9px] tracking-[0.55em] uppercase mb-5">{cfg.badge}</p>
           <h1 className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
-            {cfg.heroTitle}<br />
+            {cfg.heroTitle} <br />
             <span className="text-[#C9A962]">{cfg.heroTitleGold}</span>
           </h1>
           <p className="text-white/55 text-lg sm:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">{cfg.heroSubtitle}</p>
