@@ -110,10 +110,10 @@ export default function GoogleReviewsSection({ serviceName }: Props) {
             </div>
             <div>
               <div className="flex items-center gap-2 mb-0.5">
-                <span className="text-white font-bold text-xl leading-none">4.8</span>
+                <span className="text-white font-bold text-xl leading-none">5.0</span>
                 <StarRow />
               </div>
-              <p className="text-white/40 text-xs">139 Google reviews</p>
+              <p className="text-white/40 text-xs">Google reviews</p>
             </div>
           </div>
         </div>
