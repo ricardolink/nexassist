@@ -4,34 +4,37 @@ interface Props {
   serviceName?: string;
 }
 
+const GOOGLE_PROFILE_URL =
+  "https://www.google.com/maps/place/NexAssist/data=!4m2!3m1!1s0x0:0x348b81302a38412a";
+
 const REVIEWS = [
   {
-    name: "Ricardo RJ",
-    initial: "R",
-    date: "3 years ago",
+    name: "Brewify Coffee",
+    initial: "B",
+    date: "a week ago",
     isLocalGuide: false,
-    text: "Quick and easy! Best experience with an exotic ever! I highly recommend them!",
+    text: "Great customer service, fast response, they got me with the best quote matching my budget. Not paying a membership to have a concierge 24/7 on your hands it’s a life changing!! Highly recommended and thanks!!",
   },
   {
-    name: "Mallory Paris",
-    initial: "M",
-    date: "1 year ago",
+    name: "Isabelle Hallock",
+    initial: "I",
+    date: "a week ago",
     isLocalGuide: false,
-    text: "Amazing service, great prices! Every time in LA, this is the place to be.",
+    text: "Got a nice villa in Malibu! 10 out of 10 experience. Thank you NexAssist team!!",
   },
   {
-    name: "Emil Avetyan",
-    initial: "E",
-    date: "2 years ago",
+    name: "Bruxo Na Gringa",
+    initial: "B",
+    date: "5 days ago",
     isLocalGuide: false,
-    text: "Great customer service and very friendly and helpful people. Will definitely return.",
+    text: "Best concierge service in LA, amazing team. Thanks to the NexAssist concierge team",
   },
   {
-    name: "Tracy Adams",
+    name: "Tor Rey",
     initial: "T",
-    date: "1 month ago",
-    isLocalGuide: true,
-    text: "All I can say is wow, what an experience! Rick was great throughout the entire process.",
+    date: "6 days ago",
+    isLocalGuide: false,
+    text: "I loved the idea of having a concierge right in the palm of my hand 24/7 for anything I need! Our weekend with the Maybach was amazing, and the chauffeur service we requested from LAX to our hotel made everything even smoother. Thank you NexAssist !! Best concierge service!",
   },
 ];
 
@@ -41,8 +44,8 @@ const aggregateRatingSchema = {
   "name": "NexAssist",
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "reviewCount": "139",
+    "ratingValue": "5.0",
+    "reviewCount": "4",
     "bestRating": "5",
     "worstRating": "1",
   },
@@ -163,12 +166,12 @@ export default function GoogleReviewsSection({ serviceName }: Props) {
         {/* CTA */}
         <div className="mt-10 text-center">
           <a
-            href="https://www.google.com/search?q=NexAssist+Los+Angeles+reviews"
+          href={GOOGLE_PROFILE_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-[#C9A962]/70 hover:text-[#C9A962] text-sm transition-colors"
           >
-            See all 139 reviews on Google
+            See all reviews on Google
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
