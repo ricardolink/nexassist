@@ -95,6 +95,41 @@ const cfg: ServiceLandingConfig = {
   ctaNote: "Ferrari · Lamborghini · Rolls-Royce · Porsche · AMG · BMW M",
 };
 
+function LongFormContent() {
+  return (
+    <section className="bg-[#080808] text-white/70 py-20 px-6">
+      <div className="max-w-4xl mx-auto space-y-14">
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Buying &amp; Selling Exotic Cars in Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">Los Angeles has one of the most active exotic and collector car markets in the world. The combination of wealth concentration, year-round driving weather, and a culture that genuinely values extraordinary cars creates a market where the right vehicle finds the right buyer — if you know how to reach them. NexAssist operates a private car market for buyers and sellers of exceptional vehicles in Los Angeles.</p>
+          <p className="mb-4 leading-relaxed">For buyers: we source vehicles that are not publicly listed, provide honest condition assessments, and handle all the logistics of inspection, transportation, and title transfer. For sellers: we connect your vehicle with qualified buyers who are actively searching for your specific car, manage the transaction with discretion, and ensure you receive fair market value without the friction of public listing platforms.</p>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Most Traded Exotic Cars in the Los Angeles Private Market</h2>
+          <div className="space-y-5">
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Ferrari</h3><p className="leading-relaxed">Ferrari is consistently the most traded exotic car brand in our Los Angeles network. The 488 GTB, 488 Pista, Roma, SF90 Stradale, and F8 Tributo are our most frequently handled models. Limited Icona series and special projects are sourced on request. California-title Ferraris with documented service history command significant premiums.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Porsche</h3><p className="leading-relaxed">The Porsche 911 GT3, GT3 RS, and Turbo S are among the most liquid exotic cars in the private market — they sell quickly at any price point because demand consistently exceeds supply. Porsche GT cars with original ownership in California and complete documentation are among the easiest vehicles to sell at a premium. We source and sell GT2 RS, 918 Spyder, and Carrera GT at the top of the collector segment.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Lamborghini</h3><p className="leading-relaxed">The Huracán STO, Performante, and Urus Performante are our most frequently traded Lamborghinis. Limited Superveloce and Squadra Corse models are particularly sought by our collector clients. The Revuelto — Lamborghini&apos;s new hybrid V12 — is generating significant pre-owned market activity as first delivery owners begin to trade.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Ultra-Rare &amp; Collector</h3><p className="leading-relaxed">NexAssist has sourced and transacted Bugatti Chiron and Divo, Koenigsegg Agera and Regera, Pagani Huayra, and McLaren P1 for Los Angeles clients. These transactions require relationships, discretion, and access to a buyer pool that exists outside any public platform. If you are buying or selling at this level, NexAssist is the right partner.</p></div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Off-Market Car Buying in Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">The best exotic cars in Los Angeles often never appear for sale publicly. A Ferrari 250 GTO does not get listed on a car website. A low-mileage 918 Spyder with a known ownership history sells before anyone hears it is available. Access to these opportunities requires being in the right network at the right time.</p>
+          <p className="leading-relaxed">NexAssist maintains ongoing relationships with private collectors, estate executors, and specialist dealers throughout Los Angeles, Southern California, and nationally. When an exceptional vehicle becomes available privately, our clients have the first opportunity. If you have cash ready and know what you want, tell your concierge — we will find it.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Page() {
-  return <ServiceLandingPage cfg={cfg} />;
+  return (
+    <>
+      <ServiceLandingPage cfg={cfg} />
+      <LongFormContent />
+    </>
+  );
 }

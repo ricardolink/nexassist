@@ -95,6 +95,41 @@ const cfg: ServiceLandingConfig = {
   ctaNote: "Available 24/7 · Based in Los Angeles · Worldwide Reach",
 };
 
+function LongFormContent() {
+  return (
+    <section className="bg-[#080808] text-white/70 py-20 px-6">
+      <div className="max-w-4xl mx-auto space-y-14">
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Bespoke Luxury Travel from Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">The difference between a luxury trip and a truly extraordinary one is the depth of the details. The suite that was not available until someone called in a favour. The private guide who takes you somewhere the other guests never see. The dinner reservation at the restaurant that says it has been booked for three months — until the right person asks. NexAssist operates in that gap between what is publicly available and what is actually possible.</p>
+          <p className="mb-4 leading-relaxed">From Los Angeles, the world is genuinely accessible. A private jet to Cabo San Lucas takes two hours. The Maldives is 20 hours by private or commercial air, with a seaplane transfer to a private island that might as well be another planet. East Africa by private charter puts you at a remote camp in Botswana where the only guests are your group. NexAssist designs these experiences end-to-end — private jet, accommodation, transfers, guides, restaurants, and every detail in between.</p>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Most Popular Luxury Travel Destinations from Los Angeles</h2>
+          <div className="space-y-5">
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Maldives</h3><p className="leading-relaxed">The Maldives remains the definitive luxury escape. Overwater villas, bioluminescent lagoons, and house reef diving unlike anywhere on earth. NexAssist sources exclusive-use villa arrangements at Soneva Jani, Velaa Private Island, Cheval Blanc Randheli, and other properties that match your specific definition of perfection. Private seaplane transfers from Malé coordinated as part of the itinerary.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Amalfi Coast &amp; Positano</h3><p className="leading-relaxed">Southern Italy in summer is one of the great pleasures of being alive. NexAssist arranges villa rentals above Positano with private boats, dinner at Le Sirenuse, day trips to Capri, and sunset aperitivo on terraces that justify every superlative ever written about the Amalfi Coast.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">St. Barts</h3><p className="leading-relaxed">The Caribbean&apos;s most sophisticated island. December through April, St. Barts fills with a genuinely global crowd of people who have seen everywhere else and keep coming back. NexAssist sources villa rentals, yacht charters for inter-island day trips, and restaurant reservations at Eden Rock and Le Sereno for the peak season when nothing is available without the right connection.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">East Africa Safari</h3><p className="leading-relaxed">A private safari in Kenya&apos;s Masai Mara, Tanzania&apos;s Serengeti, or Botswana&apos;s Okavango Delta is a transformative experience. NexAssist arranges private bush planes between camps, exclusive-use tented camps that accommodate only your group, and expert naturalist guides who make the difference between a good safari and an exceptional one.</p></div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">End-to-End Luxury Travel — What NexAssist Handles</h2>
+          <p className="mb-4 leading-relaxed">NexAssist manages the complete travel experience from Los Angeles. Your concierge coordinates private jet charter from Van Nuys or LAX, five-star hotel and villa reservations with VIP status and room upgrades, private car and boat transfers at the destination, restaurant reservations at sold-out tables, private guides and exclusive experiences, and the return journey home. One contact. Total coverage.</p>
+          <p className="leading-relaxed">We also handle the inevitable — delays, changed plans, a better option that appears mid-trip. Your concierge is available 24/7 throughout the journey. If something changes, we adapt. That&apos;s the difference between a travel agent and a personal concierge.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Page() {
-  return <ServiceLandingPage cfg={cfg} />;
+  return (
+    <>
+      <ServiceLandingPage cfg={cfg} />
+      <LongFormContent />
+    </>
+  );
 }

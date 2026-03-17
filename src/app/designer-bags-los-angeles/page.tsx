@@ -91,6 +91,41 @@ const cfg: ServiceLandingConfig = {
   ctaNote: "Los Angeles · Beverly Hills · Worldwide Sourcing",
 };
 
+function LongFormContent() {
+  return (
+    <section className="bg-[#080808] text-white/70 py-20 px-6">
+      <div className="max-w-4xl mx-auto space-y-14">
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Designer Bag Sourcing in Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">The most coveted designer bags in the world are not sitting on a shelf waiting for you. A Hermès Birkin in a specific color and leather requires a relationship — or access to the private market where these pieces actually trade. A limited Chanel release sells out before it reaches the floor. A Louis Vuitton collaboration disappears in hours. If you want these pieces in Los Angeles, you need someone who moves in the right circles.</p>
+          <p className="leading-relaxed">NexAssist sources designer bags through a private network of authenticated dealers, estate sellers, and direct collectors in Los Angeles and globally. Send your concierge the specification — bag, size, color, leather, hardware — and we do the searching. Every piece fully authenticated before it reaches you.</p>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Most Requested Designer Bags in Los Angeles</h2>
+          <div className="space-y-5">
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Hermès Birkin &amp; Kelly</h3><p className="leading-relaxed">The Birkin remains the most recognizable luxury accessory in the world and the most actively traded piece in our Los Angeles network. We source Birkin 25, 30, 35, and 40 in all standard leathers — Togo, Epsom, Clemence, Swift — as well as exotic skins including Porosus Crocodile, Nilo Crocodile, and Ostrich. The Kelly 25, 28, and 32 are equally in demand, particularly in Sellier construction. Special order and Horseshoe pieces sourced on request.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Chanel</h3><p className="leading-relaxed">The Chanel Classic Flap in black caviar with gold or silver hardware is the definitive wardrobe piece. We source current season and vintage Classic Flaps, the Boy Bag in all sizes, the Chanel 19, and seasonal limited editions. Chanel&apos;s regular price increases have made authenticated pre-owned pieces an increasingly intelligent acquisition.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Louis Vuitton</h3><p className="leading-relaxed">Louis Vuitton limited releases — Virgil Abloh-era collaborations, artist editions, and seasonal runway pieces — are highly sought in our Los Angeles network. Core Monogram Canvas and Damier pieces are readily available. We also source the most coveted LV hard cases and trunks for collectors.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Bottega Veneta &amp; Others</h3><p className="leading-relaxed">Bottega Veneta Intrecciato in the Jodie, Cassette, and Arco silhouettes are consistently in demand among our LA clients. We also source Celine Box and Luggage pieces, Dior Saddle Bags, Saint Laurent Loulou, and Balenciaga City and Hourglass in all colorways.</p></div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Designer Bags as Investments — The Los Angeles Market</h2>
+          <p className="mb-4 leading-relaxed">The secondary market for luxury bags has outperformed many traditional asset classes over the past decade. Hermès Birkin and Kelly bags have shown consistent appreciation of 10–15% annually. Patek Philippe — the watchmaking equivalent — tells the same story. Limited edition Chanel pieces often double in value within two years of release.</p>
+          <p className="leading-relaxed">NexAssist clients increasingly approach designer bag acquisition with an investment lens. Your concierge provides honest market guidance — which pieces have the strongest appreciation history, which are oversupplied in the current market, and which represent genuine opportunity. Buying the right piece matters as much as buying the right brand.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Page() {
-  return <ServiceLandingPage cfg={cfg} />;
+  return (
+    <>
+      <ServiceLandingPage cfg={cfg} />
+      <LongFormContent />
+    </>
+  );
 }

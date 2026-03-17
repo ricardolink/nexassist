@@ -95,6 +95,58 @@ const cfg: ServiceLandingConfig = {
   ctaNote: "Available 24/7 · LAX · Beverly Hills · Malibu · All of LA",
 };
 
+function LongFormContent() {
+  return (
+    <section className="bg-[#080808] text-white/70 py-20 px-6">
+      <div className="max-w-4xl mx-auto space-y-14">
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Professional Chauffeur Service in Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">Los Angeles is a city defined by its relationship with vehicles — but navigating it well requires more than a great car. It requires a professional driver who knows the city intimately, can adapt to traffic in real time, and delivers an experience that matches the quality of every other part of your day. NexAssist provides professional chauffeur service across all of Los Angeles, from Beverly Hills and Bel Air to Downtown, Santa Monica, and Orange County.</p>
+          <p className="mb-4 leading-relaxed">Unlike rideshare apps and standard black car services, NexAssist is a personal concierge service. Your chauffeur is sourced specifically for your requirements — professional, discrete, and briefed on your schedule. One message is all it takes. Your concierge handles everything.</p>
+          <p className="leading-relaxed">Whether you need a single airport transfer or a full-time driver for a week-long visit to Los Angeles, we have the vehicle and the professional to match.</p>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Airport Transfers — LAX, Burbank & Van Nuys</h2>
+          <p className="mb-4 leading-relaxed">Airport transfers are the most common chauffeur request in Los Angeles, and the standard matters. NexAssist arranges professional airport transfers from all major LA-area airports:</p>
+          <ul className="space-y-3 list-none">
+            <li><span className="text-[#C9A962] font-semibold">LAX (Los Angeles International)</span> — Our most-requested transfer. Your driver monitors your flight in real time, adjusts for delays, and has your vehicle ready at the terminal the moment you land. No waiting, no circling. Escalade, S-Class, or Rolls-Royce Ghost.</li>
+            <li><span className="text-[#C9A962] font-semibold">Van Nuys (VNY)</span> — The preferred arrival point for private jet passengers in LA. We coordinate directly with FBO staff and have your vehicle on the tarmac when the stairs come down.</li>
+            <li><span className="text-[#C9A962] font-semibold">Burbank (BUR)</span> — A faster, more relaxed alternative to LAX for passengers arriving from domestic destinations. We serve all terminals.</li>
+            <li><span className="text-[#C9A962] font-semibold">Long Beach (LGB)</span> — Compact, efficient, and increasingly popular for business travelers. NexAssist covers all Long Beach Airport arrivals and departures.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Our Chauffeur Fleet in Los Angeles</h2>
+          <div className="space-y-5">
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Cadillac Escalade</h3><p className="leading-relaxed">The most popular chauffeur vehicle in Los Angeles. The Escalade delivers commanding presence, exceptional comfort, and enough space for luggage after long flights. Available in standard and extended wheelbase configurations. Preferred for airport transfers, executive travel, and group transportation.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Rolls-Royce Ghost &amp; Phantom</h3><p className="leading-relaxed">The definitive choice for red carpet arrivals, high-profile meetings, and occasions where arrival matters as much as destination. The Rolls-Royce Ghost and Phantom offer a level of refinement that no other vehicle matches. Popular for film premieres, award shows, and luxury hotel transfers in Beverly Hills.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Mercedes-Benz Maybach S-Class</h3><p className="leading-relaxed">The Maybach S-Class redefines what a rear seat can be. Reclining massaging seats, panoramic roof, dedicated rear entertainment — for the passenger who expects the absolute best in ground transportation in Los Angeles.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Mercedes Sprinter (Group Transport)</h3><p className="leading-relaxed">For groups of 8–14, the executive Sprinter van provides a private lounge on wheels. Popular for corporate groups, wedding parties, and multi-stop itineraries across Los Angeles and Orange County.</p></div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Chauffeur Service for Corporate &amp; Events in Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">NexAssist is the preferred chauffeur service for corporate clients, production companies, and event coordinators across Los Angeles. Our corporate clients rely on us for:</p>
+          <ul className="space-y-2 list-disc list-inside">
+            <li><strong className="text-white">Executive roadshows</strong> — Multi-stop business schedules managed by your personal concierge. Your driver knows the schedule and the client.</li>
+            <li><strong className="text-white">Film and TV productions</strong> — On-set vehicle coordination, talent transportation, and production logistics managed with precision.</li>
+            <li><strong className="text-white">Conference and incentive travel</strong> — Groups of any size transferred between venues, hotels, and airports across the LA area.</li>
+            <li><strong className="text-white">VIP client entertainment</strong> — Impress your most important clients with a Rolls-Royce or Maybach from hotel to restaurant to venue.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Page() {
-  return <ServiceLandingPage cfg={cfg} />;
+  return (
+    <>
+      <ServiceLandingPage cfg={cfg} />
+      <LongFormContent />
+    </>
+  );
 }

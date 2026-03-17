@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import RequestModal from "@/components/RequestModal";
+import GoogleReviewsSection from "@/components/GoogleReviewsSection";
 
 const ALL_SERVICES = [
   { label: "Exotic Car Rental",   href: "/exotic-car-rental-los-angeles",   icon: "🏎️" },
@@ -224,6 +225,9 @@ export default function ServiceLandingPage({ cfg }: { cfg: ServiceLandingConfig 
           </div>
         </div>
       </section>
+
+      {/* ── Google Reviews ── */}
+      <GoogleReviewsSection serviceName={cfg.serviceType} />
 
       {/* ── FAQ ── */}
       <section className="bg-[#0a0f1e] py-20 px-4 sm:px-6">

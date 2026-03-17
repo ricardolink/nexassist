@@ -95,6 +95,48 @@ const cfg: ServiceLandingConfig = {
   ctaNote: "Available 24/7 · Van Nuys · Burbank · LAX · International",
 };
 
+function LongFormContent() {
+  return (
+    <section className="bg-[#080808] text-white/70 py-20 px-6">
+      <div className="max-w-4xl mx-auto space-y-14">
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Private Jet Charter from Los Angeles — How It Works</h2>
+          <p className="mb-4 leading-relaxed">Los Angeles is one of the most active private aviation markets in the world. Van Nuys Airport (VNY) — just 25 minutes from Beverly Hills — is the busiest private jet airport in the United States by operations. NexAssist arranges private jet charters from Van Nuys, Santa Monica, Burbank, Long Beach, and LAX for international departures.</p>
+          <p className="mb-4 leading-relaxed">The process is straightforward. Send your concierge a message: where, when, how many passengers. Within hours you have aircraft options and pricing. NexAssist handles the rest — booking, ground transportation to the FBO, catering preferences, and any special requests. You arrive, clear private security in minutes, and board. No terminals, no queues, no schedule compromises.</p>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Most Popular Private Jet Routes from Los Angeles</h2>
+          <div className="space-y-5">
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Los Angeles to Las Vegas</h3><p className="leading-relaxed">The most popular private jet route in America. 45 minutes door-to-FBO from Van Nuys. NexAssist arranges same-day charter on this route regularly — often with only a few hours notice. Light jets (Citation CJ3, Phenom 300) are perfectly suited. Hotel suite coordination and table reservations included on request.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Los Angeles to New York</h3><p className="leading-relaxed">Coast-to-coast in approximately 5 hours. Super-midsize jets (Challenger 350, Citation X) handle this route comfortably for groups of 6–9. For larger groups or maximum comfort, large cabin jets offer full stand-up cabins, separate sleeping areas, and galley service. Teterboro (TEB) or White Plains (HPN) for Manhattan access.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Los Angeles to Miami</h3><p className="leading-relaxed">Approximately 4.5 hours non-stop. A large cabin jet makes this route feel like a private flying club — plenty of space for meetings, rest, and meals. Opa-locka Executive Airport for South Beach access; Fort Lauderdale for the Broward area.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Los Angeles to Cabo San Lucas</h3><p className="leading-relaxed">Just 2 hours from Van Nuys to Los Cabos International. A midsize jet handles this comfortably. NexAssist coordinates villa transfers, yacht charters, and resort arrivals on both ends. A weekend in Cabo has never been easier to arrange.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">International — London, Tokyo, Dubai, Paris</h3><p className="leading-relaxed">Ultra-long-range aircraft like the Gulfstream G700, G650, or Bombardier Global 7500 connect Los Angeles to Europe, Asia, and the Middle East non-stop. Business jet terminals at LAX handle international departures with dedicated customs facilities. NexAssist manages international charters with the same ease as domestic routes.</p></div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Empty Leg Flights from Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">An empty leg is a repositioning flight — the aircraft needs to fly from Point A to Point B with no passengers, so it is offered at a steep discount. Empty legs from Van Nuys and other LA airports are frequently available and can save 50–75% off standard charter rates.</p>
+          <p className="leading-relaxed">The catch: empty leg availability is real-time and can change quickly. NexAssist monitors the market continuously and will alert you when relevant empty legs appear on routes you travel regularly. If your schedule has flexibility, empty legs are one of the best ways to access private aviation at a fraction of the cost.</p>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Private Jet vs First Class — Why Charter Wins</h2>
+          <p className="mb-4 leading-relaxed">The comparison between first class and private aviation is straightforward when you account for the full picture. In first class, you depart when the airline decides, from the terminal they assign, and land at the hub they serve. In a private jet from Van Nuys, you depart when you want, skip security entirely, and land at the airport closest to your actual destination.</p>
+          <p className="leading-relaxed">For a group of 4 traveling LA to New York, the per-person cost of a super-midsize charter often approaches or matches business class on a legacy carrier — with a completely private cabin, custom catering, pets welcome, and zero schedule inflexibility. NexAssist will give you the honest comparison for your specific route.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Page() {
-  return <ServiceLandingPage cfg={cfg} />;
+  return (
+    <>
+      <ServiceLandingPage cfg={cfg} />
+      <LongFormContent />
+    </>
+  );
 }

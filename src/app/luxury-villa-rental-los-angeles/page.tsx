@@ -95,6 +95,41 @@ const cfg: ServiceLandingConfig = {
   ctaNote: "Malibu · Beverly Hills · Hollywood Hills · Bel Air · Newport Beach",
 };
 
+function LongFormContent() {
+  return (
+    <section className="bg-[#080808] text-white/70 py-20 px-6">
+      <div className="max-w-4xl mx-auto space-y-14">
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Luxury Villa Rentals in Los Angeles — The NexAssist Approach</h2>
+          <p className="mb-4 leading-relaxed">Los Angeles has some of the most extraordinary private estates in the world. Malibu beachfront compounds with direct Pacific access. Beverly Hills mansions on gated acres above Sunset Boulevard. Hollywood Hills retreats with panoramic views from downtown to the ocean. The challenge is not finding luxury real estate — it is accessing the right properties, at the right time, with the right experience from arrival to departure.</p>
+          <p className="leading-relaxed">NexAssist curates luxury villa rentals across Los Angeles for short-term stays, extended visits, film productions, and private events. Our network includes properties that are never publicly listed — accessible only through the right relationships.</p>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Best Neighborhoods for Luxury Villa Rentals in Los Angeles</h2>
+          <div className="space-y-5">
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Malibu Beachfront</h3><p className="leading-relaxed">The most sought-after villa rental addresses in Los Angeles. Malibu Colony, Broad Beach, and Carbon Beach (known locally as Billionaires&apos; Beach) offer private beachfront estates with direct sand access, ocean-facing infinity pools, and the kind of privacy that only a locked gate and a mile of beach can provide. Malibu villa rentals range from weekend getaways to month-long stays.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Beverly Hills &amp; Bel Air</h3><p className="leading-relaxed">For proximity to the city combined with maximum privacy, Beverly Hills and Bel Air estates are unmatched. Gated driveways, mature hedgerows, and multi-acre lots create genuine seclusion within minutes of Rodeo Drive and the best restaurants in Los Angeles. Many estates include full staff, multiple guest houses, and entertainment facilities.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Hollywood Hills</h3><p className="leading-relaxed">The Hollywood Hills deliver the quintessential Los Angeles experience — canyon architecture, infinity pools that seem to float over the city, and views that stretch from the Hollywood Sign to the Pacific on clear days. Homes in Laurel Canyon, Nichols Canyon, and the Bird Streets offer dramatic design and genuine privacy.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Pacific Palisades &amp; Brentwood</h3><p className="leading-relaxed">For families and longer stays, Pacific Palisades and Brentwood offer large estates in a quieter, more residential setting — while remaining close to the beach, the Westside&apos;s best schools, and the city. Many Palisades properties have ocean views, large yards, and full guest accommodations.</p></div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Villa Rentals for Productions &amp; Events in Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">NexAssist regularly sources estates in Los Angeles for commercial productions, music videos, editorial shoots, and private events. Our relationships with property owners in Beverly Hills, Holmby Hills, and Malibu give us access to architecturally significant homes that production companies and event planners seek year-round.</p>
+          <p className="leading-relaxed">For private events — intimate dinners for 12, pool parties for 80, wedding receptions, and corporate retreats — your concierge coordinates the venue, catering, staffing, and all logistics so the host can simply enjoy the evening.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Page() {
-  return <ServiceLandingPage cfg={cfg} />;
+  return (
+    <>
+      <ServiceLandingPage cfg={cfg} />
+      <LongFormContent />
+    </>
+  );
 }

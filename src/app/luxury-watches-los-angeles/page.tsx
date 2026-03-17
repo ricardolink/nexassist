@@ -91,6 +91,41 @@ const cfg: ServiceLandingConfig = {
   ctaNote: "Los Angeles · Beverly Hills · Private & Discreet",
 };
 
+function LongFormContent() {
+  return (
+    <section className="bg-[#080808] text-white/70 py-20 px-6">
+      <div className="max-w-4xl mx-auto space-y-14">
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Luxury Watch Sourcing in Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">Los Angeles has one of the most active luxury watch markets in the world. From the boutiques of Beverly Hills to private collectors in Bel Air, exceptional timepieces change hands in this city every day. The challenge is not the demand — it is access. The Rolex Daytona you want is not sitting in a display case waiting for you. The Patek Philippe Nautilus 5711 you have been searching for requires relationships that most buyers do not have.</p>
+          <p className="leading-relaxed">NexAssist operates a private watch sourcing service in Los Angeles. One message to your concierge and we begin searching our network of vetted private dealers, collectors, and authorized relationships to locate the exact reference you want — authenticated, documented, and delivered to you.</p>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Most Requested Luxury Watch Brands in Los Angeles</h2>
+          <div className="space-y-5">
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Rolex</h3><p className="leading-relaxed">Rolex is the most requested brand in our Los Angeles watch network. The Daytona in stainless steel (116500LN), the GMT-Master II in two-tone and full steel (126710BLNR), and the Day-Date in platinum and yellow gold are our most-sourced references. We locate both new and pre-owned examples, all authenticated to NexAssist standards.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Patek Philippe</h3><p className="leading-relaxed">The Nautilus 5711 remains the most coveted sports watch in the world despite its official discontinuation. We source Nautilus references through our private network, as well as the Aquanaut 5167, Grand Complication pocket watches, and annual calendar models. Patek Philippe is a cornerstone of our Los Angeles watch market presence.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Audemars Piguet</h3><p className="leading-relaxed">The Royal Oak 15202 and 15500 are icons. We source AP Royal Oak in stainless steel, two-tone, and precious metals, as well as Royal Oak Offshore references and limited editions. Audemars Piguet is particularly popular among our entertainment and sports industry clients in Los Angeles.</p></div>
+            <div><h3 className="text-[#C9A962] text-lg font-semibold mb-2">Richard Mille</h3><p className="leading-relaxed">Richard Mille occupies a unique position in the watch world — technically radical, visually distinctive, and priced at a level that places it beyond most retail contexts. We regularly source RM 11-03, RM 27 series, RM 69, and collaboration models. If you are looking for a specific Richard Mille reference in Los Angeles, NexAssist is the right call.</p></div>
+          </div>
+        </div>
+
+        <div>
+          <h2 className="text-white text-2xl sm:text-3xl font-bold mb-5">Selling a Luxury Watch in Los Angeles</h2>
+          <p className="mb-4 leading-relaxed">NexAssist operates a discreet private market for watch sales and consignment in Los Angeles. Whether you are looking to sell a single reference or a collection, we provide an honest market valuation, source qualified buyers from our network, and manage the transaction with complete discretion.</p>
+          <p className="leading-relaxed">Our watch sales clients value privacy above all. There are no public listings, no third-party platforms, and no unsolicited inquiries. Your collection is presented selectively to vetted buyers who are actively seeking your specific references.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Page() {
-  return <ServiceLandingPage cfg={cfg} />;
+  return (
+    <>
+      <ServiceLandingPage cfg={cfg} />
+      <LongFormContent />
+    </>
+  );
 }
