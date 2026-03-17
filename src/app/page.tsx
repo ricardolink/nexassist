@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import RequestModalComponent from "@/components/RequestModal";
+import GoogleReviewsSection from "@/components/GoogleReviewsSection";
 import { type SavedRequest } from "@/lib/requests";
 
 /* ─────────────────────────────────────────
@@ -596,6 +597,8 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      <GoogleReviewsSection />
 
       {/* ─────────── FOOTER ─────────── */}
       <footer className="border-t border-[#C9A962]/10 py-10 sm:py-12 px-5 sm:px-8">
