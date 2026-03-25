@@ -182,10 +182,10 @@ body {
   100% { transform: translateX(0); }
 }
 .animate-marquee-right {
-  animation: marquee-right 30s linear infinite;
+  animation: marquee-right 60s linear infinite;
 }
 .animate-marquee-left {
-  animation: marquee-left 30s linear infinite;
+  animation: marquee-left 60s linear infinite;
 }
 .animate-marquee-right:hover,
 .animate-marquee-left:hover {
