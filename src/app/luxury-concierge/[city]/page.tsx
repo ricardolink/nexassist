@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import RequestModal from "@/components/RequestModal";
 import { CITIES, CITY_MAP } from "@/lib/cities";
+import { CITY_CONTENT } from "@/lib/city-content";
 
 const SERVICES = [
   {
@@ -77,6 +78,8 @@ export default function CityPage({ params }: { params: Promise<{ city: string }>
   const city = CITY_MAP[citySlug];
   if (!city) notFound();
 
+  const content = CITY_CONTENT[citySlug] ?? null;
+
   const [showRequest, setShowRequest] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -84,26 +87,29 @@ export default function CityPage({ params }: { params: Promise<{ city: string }>
     .map((s) => CITY_MAP[s])
     .filter(Boolean);
 
+  const nearestAirport = city.county === "Orange County" ? "John Wayne Airport (SNA)" : citySlug === "burbank" || citySlug === "studio-city" || citySlug === "sherman-oaks" || citySlug === "glendale" ? "Burbank Airport (BUR)" : citySlug === "calabasas" || citySlug === "hidden-hills" || citySlug === "westlake-village" || citySlug === "woodland-hills" || citySlug === "encino" || citySlug === "agoura-hills" ? "Van Nuys Airport (VNY)" : "LAX or Van Nuys (VNY)";
+  const spotlightCar = content?.spotlightService?.label?.includes("Yacht") ? "a yacht charter" : content?.spotlightService?.label?.includes("Jet") ? "a private jet charter" : content?.spotlightService?.label?.includes("Chauffeur") ? "a chauffeured Maybach or Escalade" : "a Ferrari, Lamborghini, or Rolls-Royce";
+
   const faqs = [
     {
       q: `Does NexAssist serve ${city.name}?`,
-      a: `Yes. NexAssist provides full luxury concierge services throughout ${city.name} and all of ${city.county}. Whether you need an exotic car, private jet, yacht, luxury villa, or any other premium service — your personal concierge handles everything.`,
+      a: `Yes — NexAssist provides full-service luxury concierge throughout ${city.name} and all of ${city.county}. Whether you need an exotic car, private jet, yacht charter, luxury villa, or anything else, your personal concierge handles everything from sourcing to same-day delivery. We have established service protocols specifically for ${city.name}, including ${city.landmarks[0]} and the surrounding area.`,
+    },
+    {
+      q: `What is the most popular NexAssist service in ${city.name}?`,
+      a: content ? `In ${city.name}, our most frequently requested service is ${content.spotlightService.label}. ${content.spotlightService.reason} Of course, every category is available — just send one message to your concierge.` : `NexAssist offers exotic car rental, chauffeur service, private jet charter, yacht charter, luxury villas, designer bags, fine watches, and luxury travel in ${city.name}. One concierge handles all of it.`,
     },
     {
       q: `What exotic cars can I rent in ${city.name}?`,
-      a: `Through NexAssist you can rent Ferrari, Lamborghini, Rolls-Royce, McLaren, Bentley, Porsche, BMW M-Series, Mercedes-AMG, and more in ${city.name}. Same-day delivery available.`,
+      a: `Through NexAssist in ${city.name} you can rent Ferrari (Roma, SF90, Portofino), Lamborghini (Huracán EVO, Urus, Revuelto), Rolls-Royce (Ghost, Cullinan, Spectre), McLaren (720S, Artura, GT), Bentley (Continental GT, Bentayga, Flying Spur), Porsche (911 Turbo S, GT3, Cayenne), Mercedes-AMG, BMW M-Series, and more. Same-day delivery available throughout ${city.name}.`,
     },
     {
-      q: `Can I get a chauffeur in ${city.name}?`,
-      a: `Yes. NexAssist arranges professional chauffeur service in ${city.name} 24/7 — airport transfers to ${city.county === "Orange County" ? "John Wayne (SNA)" : "LAX or Burbank"}, corporate travel, events, and city-wide transport in Cadillac Escalade, Rolls-Royce, or Mercedes-Maybach.`,
+      q: `How do I request NexAssist service in ${city.name}?`,
+      a: `Send one message — via our website, WhatsApp (+1 213-312-5175), or the request form. Tell your concierge what you need, when, and where in ${city.name}. They'll handle sourcing, logistics, and delivery. No membership required. Most ${city.name} requests are confirmed the same day.`,
     },
     {
-      q: `How quickly can NexAssist arrange a service in ${city.name}?`,
-      a: `Most requests in ${city.name} are confirmed the same day. Send one message to your personal concierge — they'll handle sourcing, logistics, and delivery directly to you.`,
-    },
-    {
-      q: `Can NexAssist source a luxury villa or estate near ${city.name}?`,
-      a: `Yes. We source private estates, luxury villas, and off-market properties throughout ${city.name} and the surrounding ${city.county} area — staffed and ready for short or extended stays.`,
+      q: `Does NexAssist arrange airport transfers from ${city.name}?`,
+      a: `Yes. NexAssist arranges professional airport transfers from ${city.name} to ${nearestAirport} and all Southern California airports, 24/7. We send a Cadillac Escalade, Rolls-Royce, or Mercedes-Maybach — your concierge confirms the vehicle, timing, and any meet-and-greet details.`,
     },
   ];
 
@@ -151,6 +157,55 @@ export default function CityPage({ params }: { params: Promise<{ city: string }>
           ))}
         </div>
       </section>
+
+      {/* ── Unique City Content ── */}
+      {content && (
+        <section className="max-w-4xl mx-auto px-4 sm:px-6 py-14">
+          {/* Intro */}
+          <div className="mb-10">
+            <p className="text-white/25 text-[9px] tracking-[0.4em] uppercase mb-3">About This Area</p>
+            <p className="text-white/65 text-base sm:text-lg leading-relaxed font-playfair italic mb-4">{content.intro}</p>
+            <p className="text-white/45 text-sm leading-relaxed">{content.highlight}</p>
+          </div>
+
+          {/* Two-column: Popular Requests + Delivery Note */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-10">
+            <div className="border border-white/8 rounded-sm p-6 bg-[#0b1020]">
+              <p className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase mb-4">Popular Requests in {city.name}</p>
+              <ul className="space-y-3">
+                {content.popularRequests.map((req, i) => (
+                  <li key={i} className="flex items-start gap-3 text-white/50 text-sm leading-relaxed">
+                    <div className="w-1 h-1 rounded-full bg-[#C9A962]/50 mt-2 shrink-0" />
+                    {req}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="space-y-4">
+              <div className="border border-white/8 rounded-sm p-5 bg-[#0b1020]">
+                <p className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase mb-3">Delivery in {city.name}</p>
+                <p className="text-white/45 text-sm leading-relaxed">{content.deliveryNote}</p>
+              </div>
+              <div className="border border-[#C9A962]/12 rounded-sm p-5 bg-[#C9A962]/3">
+                <p className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase mb-2">Insider Tip</p>
+                <p className="text-white/50 text-sm leading-relaxed italic">{content.insiderTip}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Spotlight Service */}
+          <div className="border border-[#C9A962]/15 rounded-sm p-6 bg-[#080d18] flex items-start gap-5">
+            <div className="w-10 h-10 rounded-full border border-[#C9A962]/25 flex items-center justify-center shrink-0 mt-0.5">
+              <span className="text-[#C9A962] text-sm">★</span>
+            </div>
+            <div>
+              <p className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase mb-1">Most Requested in {city.name}</p>
+              <p className="text-white font-semibold text-base mb-1">{content.spotlightService.label}</p>
+              <p className="text-white/40 text-sm leading-relaxed">{content.spotlightService.reason}</p>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Services Grid ── */}
       <section className="relative py-20 overflow-hidden">
