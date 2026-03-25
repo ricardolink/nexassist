@@ -188,7 +188,7 @@ export default function Navbar({ onRequestClick }: { onRequestClick?: () => void
       {/* Mobile menu */}
       <div
         className={`md:hidden overflow-hidden transition-all duration-400 ${
-          open ? "max-h-72" : "max-h-0"
+          open ? "max-h-[600px]" : "max-h-0"
         }`}
       >
         <div className="bg-[#080d18]/98 border-t border-[#C9A962]/10 px-5 py-6 flex flex-col gap-4">
