@@ -312,21 +312,19 @@ export default function Home() {
             </a>
           </div>
 
-          {/* Social proof */}
-          <div className="mt-8 sm:mt-12 flex items-center gap-4 fade-up-delay-3">
-            <div className="flex -space-x-2">
-              {["A", "B", "C", "D"].map((n) => (
-                <div
-                  key={n}
-                  className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br from-[#C9A962]/30 to-[#C9A962]/10 border border-[#C9A962]/25 flex items-center justify-center"
-                >
-                  <span className="text-[#C9A962] text-[7px] sm:text-[8px] font-bold">{n}</span>
-                </div>
-              ))}
-            </div>
-            <p className="text-white/25 text-[10px] tracking-wide">
-              <span className="text-white/50 font-medium">200+ members</span> live differently
-            </p>
+          {/* Trust pills */}
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center gap-3 fade-up-delay-3">
+            {[
+              { icon: "✦", label: "No membership fees" },
+              { icon: "⚡", label: "Same-day delivery" },
+              { icon: "🔒", label: "100% confidential" },
+              { icon: "✓", label: "Free to use" },
+            ].map((pill) => (
+              <div key={pill.label} className="flex items-center gap-1.5 border border-white/8 rounded-full px-3 py-1 bg-white/[0.03]">
+                <span className="text-[#C9A962] text-[9px]">{pill.icon}</span>
+                <span className="text-white/40 text-[9px] tracking-wide">{pill.label}</span>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -334,6 +332,51 @@ export default function Home() {
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-20">
           <span className="text-white text-[8px] tracking-[0.4em] uppercase">Scroll</span>
           <div className="w-px h-8 bg-gradient-to-b from-white to-transparent" />
+        </div>
+      </section>
+
+      {/* ─────────── FLEET STRIP ─────────── */}
+      <section className="border-y border-white/6 bg-[#060911] overflow-hidden">
+        <div className="flex gap-0">
+          {[
+            { label: "Ferrari", sub: "Roma · SF90 · Portofino", img: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?w=800&q=80" },
+            { label: "Lamborghini", sub: "Urus · Huracán · Revuelto", img: "/cars/huracan.jpg" },
+            { label: "Rolls-Royce", sub: "Ghost · Cullinan · Spectre", img: "https://images.unsplash.com/photo-1631295868223-63265b40d9e4?w=800&q=80" },
+            { label: "McLaren", sub: "720S · Artura · GT", img: "/cars/mclaren.png" },
+            { label: "Bentley", sub: "Continental GT · Bentayga", img: "/cars/bentley.jpg" },
+            { label: "Mercedes-AMG", sub: "G63 · Maybach · GLE63", img: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80" },
+          ].map((car) => (
+            <button
+              key={car.label}
+              onClick={() => openRequest({ serviceType: "Exotic Car Rental" })}
+              className="group relative flex-1 min-w-[160px] h-[200px] sm:h-[240px] overflow-hidden border-r border-white/5 last:border-r-0 cursor-pointer"
+            >
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                style={{ backgroundImage: `url(${car.img})` }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent" />
+              <div className="absolute inset-0 bg-[#C9A962]/0 group-hover:bg-[#C9A962]/5 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <p className="font-playfair text-white text-sm font-bold leading-tight mb-0.5 group-hover:text-[#C9A962] transition-colors">{car.label}</p>
+                <p className="text-white/35 text-[9px] tracking-wide">{car.sub}</p>
+              </div>
+              <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="w-6 h-6 rounded-full border border-[#C9A962]/50 flex items-center justify-center bg-[#060911]/70">
+                  <span className="text-[#C9A962] text-[8px]">→</span>
+                </div>
+              </div>
+            </button>
+          ))}
+        </div>
+        <div className="px-5 py-3 flex items-center justify-between border-t border-white/5">
+          <p className="text-white/20 text-[9px] tracking-[0.3em] uppercase">Delivered to your door · Beverly Hills · Malibu · Newport Beach · All of LA & OC</p>
+          <button
+            onClick={() => openRequest()}
+            className="text-[#C9A962]/60 hover:text-[#C9A962] text-[9px] tracking-[0.25em] uppercase transition-colors"
+          >
+            Request any car →
+          </button>
         </div>
       </section>
 
@@ -486,50 +529,6 @@ export default function Home() {
               Submit Your Request →
             </button>
           </div>
-        </div>
-      </section>
-
-      {/* ─────────── APP STORE ─────────── */}
-      <section className="py-16 sm:py-24 px-5 sm:px-8 border-t border-[#C9A962]/08">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-3 mb-5">
-            <div className="w-5 h-px bg-[#C9A962]/40" />
-            <span className="text-[#C9A962] text-[9px] tracking-[0.4em] uppercase">Coming Soon</span>
-            <div className="w-5 h-px bg-[#C9A962]/40" />
-          </div>
-          <h2 className="font-playfair text-2xl sm:text-4xl font-bold text-white mb-3">
-            The NexAssist App
-          </h2>
-          <p className="text-white/30 text-sm mb-10 max-w-sm mx-auto leading-relaxed">
-            Your personal assistant in your pocket. Request anything, from anywhere, anytime.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            {/* App Store badge */}
-            <div className="flex items-center gap-3.5 border border-[#C9A962]/20 hover:border-[#C9A962]/45 rounded-sm px-5 py-3.5 transition-all duration-300 cursor-not-allowed group min-w-[180px]">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 text-white/60 group-hover:text-white/80 transition-colors flex-shrink-0">
-                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11"/>
-              </svg>
-              <div className="text-left">
-                <p className="text-white/30 text-[8px] tracking-[0.2em] uppercase">Soon on</p>
-                <p className="text-white/70 text-sm font-semibold group-hover:text-white transition-colors tracking-wide">App Store</p>
-              </div>
-            </div>
-
-            {/* Google Play badge */}
-            <div className="flex items-center gap-3.5 border border-[#C9A962]/20 hover:border-[#C9A962]/45 rounded-sm px-5 py-3.5 transition-all duration-300 cursor-not-allowed group min-w-[180px]">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7 text-white/60 group-hover:text-white/80 transition-colors flex-shrink-0">
-                <path d="M3.18 23.76a2 2 0 0 0 2.17-.4l.08-.06 12.09-6.98-2.64-2.65zm17.12-10.2L17.76 12l-2.93 2.92 2.93 2.93 2.55-1.47a1.43 1.43 0 0 0 0-2.82zM3.03.85a1.43 1.43 0 0 0-.53 1.12v19.95a1.43 1.43 0 0 0 .53 1.13L3.15 23 14.84 11.3v-.27zm10.42 13.47L3.03.85z"/>
-              </svg>
-              <div className="text-left">
-                <p className="text-white/30 text-[8px] tracking-[0.2em] uppercase">Soon on</p>
-                <p className="text-white/70 text-sm font-semibold group-hover:text-white transition-colors tracking-wide">Google Play</p>
-              </div>
-            </div>
-          </div>
-          <p className="mt-6 text-white/18 text-[9px] tracking-[0.25em] uppercase">
-            iOS & Android · Coming soon
-          </p>
         </div>
       </section>
 

@@ -1,15 +1,39 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+
+const NAV_SERVICES = [
+  { label: "Exotic Car Rental", href: "/exotic-car-rental-los-angeles", icon: "🏎" },
+  { label: "Chauffeur Service", href: "/chauffeur-service-los-angeles", icon: "🚘" },
+  { label: "Private Jet Charter", href: "/private-jet-charter-los-angeles", icon: "✈️" },
+  { label: "Yacht Charter", href: "/yacht-charter-los-angeles", icon: "⛵" },
+  { label: "Luxury Villas", href: "/luxury-villa-rental-los-angeles", icon: "🏡" },
+  { label: "Fine Watches", href: "/luxury-watches-los-angeles", icon: "⌚" },
+  { label: "Designer Bags", href: "/designer-bags-los-angeles", icon: "👜" },
+  { label: "Luxury Travel", href: "/luxury-travel-los-angeles", icon: "🌍" },
+  { label: "Car Sales", href: "/car-sales-los-angeles", icon: "🔑" },
+];
 
 export default function Navbar({ onRequestClick }: { onRequestClick?: () => void }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const servicesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
+        setServicesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
   return (
@@ -65,7 +89,58 @@ export default function Navbar({ onRequestClick }: { onRequestClick?: () => void
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-10">
           <div className="flex items-center gap-7 text-[10px] tracking-[0.2em] uppercase text-white/50">
-            <Link href="#services" className="hover:text-[#C9A962] transition-colors">Services</Link>
+
+            {/* Services dropdown */}
+            <div ref={servicesRef} className="relative">
+              <button
+                onMouseEnter={() => setServicesOpen(true)}
+                onClick={() => setServicesOpen(!servicesOpen)}
+                className="flex items-center gap-1 hover:text-[#C9A962] transition-colors"
+              >
+                Services
+                <svg
+                  className={`w-2.5 h-2.5 transition-transform duration-200 ${servicesOpen ? "rotate-180" : ""}`}
+                  viewBox="0 0 10 6" fill="none"
+                >
+                  <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+                </svg>
+              </button>
+
+              {servicesOpen && (
+                <div
+                  onMouseLeave={() => setServicesOpen(false)}
+                  className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[420px] bg-[#080d18] border border-[#C9A962]/15 rounded-sm shadow-[0_20px_60px_rgba(0,0,0,0.7)] z-50 overflow-hidden"
+                >
+                  <div className="h-px w-full bg-gradient-to-r from-transparent via-[#C9A962]/50 to-transparent" />
+                  <div className="grid grid-cols-3 gap-0">
+                    {NAV_SERVICES.map((s) => (
+                      <Link
+                        key={s.href}
+                        href={s.href}
+                        onClick={() => setServicesOpen(false)}
+                        className="flex flex-col items-start gap-1 px-4 py-3.5 hover:bg-[#C9A962]/5 border-b border-r border-white/5 last:border-r-0 transition-colors group"
+                      >
+                        <span className="text-base">{s.icon}</span>
+                        <span className="text-white/60 group-hover:text-[#C9A962] text-[9px] tracking-[0.1em] leading-snug transition-colors normal-case font-normal">{s.label}</span>
+                      </Link>
+                    ))}
+                    <Link
+                      href="/blog"
+                      onClick={() => setServicesOpen(false)}
+                      className="flex flex-col items-start gap-1 px-4 py-3.5 hover:bg-[#C9A962]/5 border-b border-white/5 transition-colors group"
+                    >
+                      <span className="text-base">📖</span>
+                      <span className="text-white/60 group-hover:text-[#C9A962] text-[9px] tracking-[0.1em] leading-snug transition-colors normal-case font-normal">Blog & Guides</span>
+                    </Link>
+                  </div>
+                  <div className="px-4 py-3 bg-[#060911] flex items-center justify-between">
+                    <p className="text-white/20 text-[8px] tracking-[0.2em] uppercase">All services available 24/7 · No membership required</p>
+                    <span className="text-[#C9A962]/40 text-[8px] tracking-wider">✦</span>
+                  </div>
+                </div>
+              )}
+            </div>
+
             <Link href="#how-it-works" className="hover:text-[#C9A962] transition-colors">How It Works</Link>
             <Link href="/my-requests" className="hover:text-[#C9A962] transition-colors">My Requests</Link>
             <Link href="/partners/apply" className="hover:text-[#C9A962] transition-colors">Partners</Link>
@@ -116,12 +191,30 @@ export default function Navbar({ onRequestClick }: { onRequestClick?: () => void
           open ? "max-h-72" : "max-h-0"
         }`}
       >
-        <div className="bg-[#080d18]/98 border-t border-[#C9A962]/10 px-5 py-6 flex flex-col gap-5">
+        <div className="bg-[#080d18]/98 border-t border-[#C9A962]/10 px-5 py-6 flex flex-col gap-4">
+          {/* Mobile service grid */}
+          <div>
+            <p className="text-[8px] tracking-[0.35em] uppercase text-[#C9A962]/40 mb-3">Services</p>
+            <div className="grid grid-cols-3 gap-2">
+              {NAV_SERVICES.map((s) => (
+                <Link
+                  key={s.href}
+                  href={s.href}
+                  onClick={() => setOpen(false)}
+                  className="flex flex-col items-center gap-1 border border-white/8 rounded-sm p-2 hover:border-[#C9A962]/30 transition-colors"
+                >
+                  <span className="text-lg">{s.icon}</span>
+                  <span className="text-white/40 text-[7px] tracking-wide text-center leading-tight">{s.label}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div className="h-px bg-white/6" />
           {[
-            { href: "#services", label: "Services" },
             { href: "#how-it-works", label: "How It Works" },
             { href: "/my-requests", label: "My Requests" },
             { href: "/partners/apply", label: "Partners" },
+            { href: "/blog", label: "Blog" },
             { href: "/login", label: "Sign In" },
           ].map(({ href, label }) => (
             <Link
