@@ -335,49 +335,91 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─────────── FLEET STRIP ─────────── */}
-      <section className="border-y border-white/6 bg-[#060911] overflow-hidden">
-        <div className="flex gap-0">
-          {[
-            { label: "Ferrari", sub: "Roma · SF90 · Portofino", img: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?w=800&q=80" },
-            { label: "Lamborghini", sub: "Urus · Huracán · Revuelto", img: "/cars/huracan.jpg" },
-            { label: "Rolls-Royce", sub: "Ghost · Cullinan · Spectre", img: "https://images.unsplash.com/photo-1631295868223-63265b40d9e4?w=800&q=80" },
-            { label: "McLaren", sub: "720S · Artura · GT", img: "/cars/mclaren.png" },
-            { label: "Bentley", sub: "Continental GT · Bentayga", img: "/cars/bentley.jpg" },
-            { label: "Mercedes-AMG", sub: "G63 · Maybach · GLE63", img: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800&q=80" },
-          ].map((car) => (
-            <button
-              key={car.label}
-              onClick={() => openRequest({ serviceType: "Exotic Car Rental" })}
-              className="group relative flex-1 min-w-[160px] h-[200px] sm:h-[240px] overflow-hidden border-r border-white/5 last:border-r-0 cursor-pointer"
-            >
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                style={{ backgroundImage: `url(${car.img})` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#060911]/95 via-[#060911]/40 to-transparent" />
-              <div className="absolute inset-0 bg-[#C9A962]/0 group-hover:bg-[#C9A962]/5 transition-all duration-500" />
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <p className="font-playfair text-white text-sm font-bold leading-tight mb-0.5 group-hover:text-[#C9A962] transition-colors">{car.label}</p>
-                <p className="text-white/35 text-[9px] tracking-wide">{car.sub}</p>
-              </div>
-              <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="w-6 h-6 rounded-full border border-[#C9A962]/50 flex items-center justify-center bg-[#060911]/70">
-                  <span className="text-[#C9A962] text-[8px]">→</span>
+      {/* ─────────── BRAND MARQUEE ─────────── */}
+      <section className="border-y border-white/6 bg-[#060911] overflow-hidden py-5 select-none">
+
+        {/* Row 1 — scrolls right */}
+        <div className="relative overflow-hidden mb-3">
+          <div className="flex gap-0 w-max animate-marquee-right">
+            {[
+              { name: "Ferrari", category: "Exotic Cars" },
+              { name: "Lamborghini", category: "Exotic Cars" },
+              { name: "Rolls-Royce", category: "Exotic Cars" },
+              { name: "Bentley", category: "Exotic Cars" },
+              { name: "McLaren", category: "Exotic Cars" },
+              { name: "Porsche", category: "Exotic Cars" },
+              { name: "Mercedes-Maybach", category: "Chauffeur" },
+              { name: "Cadillac Escalade", category: "Chauffeur" },
+              { name: "Gulfstream", category: "Private Jets" },
+              { name: "Bombardier Global", category: "Private Jets" },
+              { name: "Sunseeker", category: "Yachts" },
+              { name: "Azimut", category: "Yachts" },
+              // duplicate for seamless loop
+              { name: "Ferrari", category: "Exotic Cars" },
+              { name: "Lamborghini", category: "Exotic Cars" },
+              { name: "Rolls-Royce", category: "Exotic Cars" },
+              { name: "Bentley", category: "Exotic Cars" },
+              { name: "McLaren", category: "Exotic Cars" },
+              { name: "Porsche", category: "Exotic Cars" },
+              { name: "Mercedes-Maybach", category: "Chauffeur" },
+              { name: "Cadillac Escalade", category: "Chauffeur" },
+              { name: "Gulfstream", category: "Private Jets" },
+              { name: "Bombardier Global", category: "Private Jets" },
+              { name: "Sunseeker", category: "Yachts" },
+              { name: "Azimut", category: "Yachts" },
+            ].map((brand, i) => (
+              <div key={i} className="flex items-center gap-4 px-6 border-r border-white/5">
+                <div className="flex flex-col">
+                  <span className="text-white/70 font-playfair text-sm font-semibold whitespace-nowrap tracking-wide">{brand.name}</span>
+                  <span className="text-[#C9A962]/40 text-[7px] tracking-[0.3em] uppercase whitespace-nowrap">{brand.category}</span>
                 </div>
+                <span className="text-[#C9A962]/20 text-xs">✦</span>
               </div>
-            </button>
-          ))}
+            ))}
+          </div>
         </div>
-        <div className="px-5 py-3 flex items-center justify-between border-t border-white/5">
-          <p className="text-white/20 text-[9px] tracking-[0.3em] uppercase">Delivered to your door · Beverly Hills · Malibu · Newport Beach · All of LA & OC</p>
-          <button
-            onClick={() => openRequest()}
-            className="text-[#C9A962]/60 hover:text-[#C9A962] text-[9px] tracking-[0.25em] uppercase transition-colors"
-          >
-            Request any car →
-          </button>
+
+        {/* Row 2 — scrolls left */}
+        <div className="relative overflow-hidden">
+          <div className="flex gap-0 w-max animate-marquee-left">
+            {[
+              { name: "Hermès", category: "Designer Bags" },
+              { name: "Chanel", category: "Designer Bags" },
+              { name: "Louis Vuitton", category: "Designer Bags" },
+              { name: "Rolex", category: "Fine Watches" },
+              { name: "Patek Philippe", category: "Fine Watches" },
+              { name: "Audemars Piguet", category: "Fine Watches" },
+              { name: "Richard Mille", category: "Fine Watches" },
+              { name: "Four Seasons", category: "Luxury Villas" },
+              { name: "Ritz-Carlton", category: "Luxury Villas" },
+              { name: "Aman Resorts", category: "Luxury Travel" },
+              { name: "NetJets", category: "Private Jets" },
+              { name: "VistaJet", category: "Private Jets" },
+              // duplicate for seamless loop
+              { name: "Hermès", category: "Designer Bags" },
+              { name: "Chanel", category: "Designer Bags" },
+              { name: "Louis Vuitton", category: "Designer Bags" },
+              { name: "Rolex", category: "Fine Watches" },
+              { name: "Patek Philippe", category: "Fine Watches" },
+              { name: "Audemars Piguet", category: "Fine Watches" },
+              { name: "Richard Mille", category: "Fine Watches" },
+              { name: "Four Seasons", category: "Luxury Villas" },
+              { name: "Ritz-Carlton", category: "Luxury Villas" },
+              { name: "Aman Resorts", category: "Luxury Travel" },
+              { name: "NetJets", category: "Private Jets" },
+              { name: "VistaJet", category: "Private Jets" },
+            ].map((brand, i) => (
+              <div key={i} className="flex items-center gap-4 px-6 border-r border-white/5">
+                <div className="flex flex-col">
+                  <span className="text-white/70 font-playfair text-sm font-semibold whitespace-nowrap tracking-wide">{brand.name}</span>
+                  <span className="text-[#C9A962]/40 text-[7px] tracking-[0.3em] uppercase whitespace-nowrap">{brand.category}</span>
+                </div>
+                <span className="text-[#C9A962]/20 text-xs">✦</span>
+              </div>
+            ))}
+          </div>
         </div>
+
       </section>
 
       {/* ─────────── STATEMENT ─────────── */}
