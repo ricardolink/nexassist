@@ -6,5 +6,10 @@ Disallow: /admin
 Disallow: /api/
 Disallow: /dashboard
 Disallow: /partners/dashboard
+Disallow: /opengraph-image
+Disallow: /login
+Disallow: /signup
+Disallow: /my-requests
+Disallow: /thank-you
 
 Sitemap: https://usenexassist.com/sitemap.xml
